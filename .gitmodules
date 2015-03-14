@@ -1,0 +1,3 @@
+[submodule "src/lib/catch"]
+	path = src/lib/catch
+	url = git@github.com:philsquared/Catch.git
