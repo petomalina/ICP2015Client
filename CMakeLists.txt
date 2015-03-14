@@ -1,7 +1,13 @@
 cmake_minimum_required(VERSION 3.1)
 project(ICP2015Client)
 
+SET (CMAKE_CXX_FLAGS "-fPIC") # qt thingy
+
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+
+include_directories(
+    /home/gelidus/SOFTWARE/Qt5.2.0/5.2.0/gcc_64/include
+)
 
 set(SOURCE_FILES
 
