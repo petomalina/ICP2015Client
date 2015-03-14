@@ -5,9 +5,21 @@
 #ifndef _ICP2015CLIENT_CLIENT_H_
 #define _ICP2015CLIENT_CLIENT_H_
 
+enum class ReturnCode: int {
+	OK = 0,
+	ERROR_INIT,
+	ERROR_CONNECT
+};
 
 class Client {
 
+public:
+	Client();
+
+	~Client();
+
+public:
+	ReturnCode run();
 };
 
 

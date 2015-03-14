@@ -3,3 +3,19 @@
 //
 
 #include "Client.h"
+
+
+Client::Client()
+{
+
+}
+
+Client::~Client()
+{
+
+}
+
+ReturnCode Client::run()
+{
+	return ReturnCode::OK;
+}
