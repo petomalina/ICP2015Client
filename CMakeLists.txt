@@ -6,4 +6,4 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 set(SOURCE_FILES
     main.cpp)
 
-add_executable(ICP2015Client ${SOURCE_FILES})
+add_executable(ICP2015Client ${SOURCE_FILES} src/controllers/NewCppClass.cpp src/controllers/NewCppClass.h)
