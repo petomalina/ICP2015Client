@@ -1,11 +1,13 @@
 #include "src/Client.h"
 
-#include <QtCore/QtCore>
+#include <QtGui/QGuiApplication>
+//#include <QtGui/QSurface>
 
 int main (int argc, char *argv[])
 {
-	QCoreApplication application{argc, argv};
+	QGuiApplication application{argc, argv};
+
 	Client client{};
 
-	return static_cast<int>(client.run());
+	return application.exec();
 }
