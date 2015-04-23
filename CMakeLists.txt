@@ -23,3 +23,8 @@ set(SOURCE_FILES
 )
 
 add_executable(ICP2015Client ${SOURCE_FILES} src/Client.cpp src/Client.h)
+target_link_libraries(ICP2015Client
+    /home/gelidus/SOFTWARE/Qt5.2.0/5.2.0/gcc_64/lib/libQt5Core.so
+    /home/gelidus/SOFTWARE/Qt5.2.0/5.2.0/gcc_64/lib/libQt5Network.so
+    /home/gelidus/SOFTWARE/Qt5.2.0/5.2.0/gcc_64/lib/libQt5OpenGL.so
+)
