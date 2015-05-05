@@ -5,6 +5,7 @@
 #include <QtWidgets/QGraphicsView>
 #include <QtWidgets/QGraphicsScene>
 #include <QtWidgets/QPushButton>
+#include <QtCore/QObject>
 
 #include "IView.h"
 #include "gui/LabyrinthItem.h"
@@ -20,6 +21,11 @@ protected:
 	QGraphicsScene *menuScene, *gameScene;
 
 	int size;
+
+	// menu elements
+	std::vector<QWidget*> menuElements;
+
+	// game elements
 
 public:
 	GUIView(int size);
