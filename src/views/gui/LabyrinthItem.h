@@ -5,9 +5,13 @@
 #ifndef ICP2015CLIENT_LABYRINTHITEM_H
 #define ICP2015CLIENT_LABYRINTHITEM_H
 
+#include <QtWidgets/QGraphicsPixmapItem>
 
-class LabyrinthItem {
+class LabyrinthItem: public QGraphicsPixmapItem {
 
+public:
+	LabyrinthItem(QPixmap pixmap);
+	~LabyrinthItem();
 };
 
 

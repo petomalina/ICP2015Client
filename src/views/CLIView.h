@@ -5,9 +5,12 @@
 #ifndef ICP2015CLIENT_CLIVIEW_H
 #define ICP2015CLIENT_CLIVIEW_H
 
+#include "IView.h"
 
-class CLIView {
+class CLIView: public IView {
 
+public:
+	void show();
 };
 
 

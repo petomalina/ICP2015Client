@@ -4,9 +4,10 @@
 
 #include "GUIView.h"
 
-GUIView::GUIView(QGraphicsScene *scene)
+GUIView::GUIView()
 {
-	this->view = new QGraphicsView{scene};
+	this->scene = new QGraphicsScene{};
+	this->view = new QGraphicsView{this->scene};
 }
 
 GUIView::~GUIView()

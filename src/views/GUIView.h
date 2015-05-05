@@ -5,17 +5,21 @@
 #include <QtWidgets/QGraphicsView>
 #include <QtWidgets/QGraphicsScene>
 
+#include "IView.h"
+#include "gui/LabyrinthItem.h"
+
 #ifndef ICP2015CLIENT_GUIVIEW_H
 #define ICP2015CLIENT_GUIVIEW_H
 
 
-class GUIView {
+class GUIView: public IView {
 
 protected:
 	QGraphicsView *view;
+	QGraphicsScene *scene;
 
 public:
-	GUIView(QGraphicsScene *scene);
+	GUIView();
 	~GUIView();
 
 public:

@@ -3,3 +3,8 @@
 //
 
 #include "CLIView.h"
+
+void CLIView::show()
+{
+
+}
