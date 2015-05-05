@@ -36,6 +36,8 @@ set(SOURCE_FILES
     src/models/Card.cpp
     src/models/CardPackGenerator.h
     src/models/CardPackGenerator.cpp
+    src/models/Player.h
+    src/models/Player.cpp
 )
 
 add_executable(ICP2015Client ${SOURCE_FILES})
