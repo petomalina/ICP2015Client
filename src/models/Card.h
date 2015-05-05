@@ -8,7 +8,7 @@
 #include <vector>
 
 
-enum class CardType: int {
+enum class CardType: unsigned int {
 	APPLE = 1,
 	PEAR = 2,
 	// TODO
