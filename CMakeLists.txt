@@ -12,6 +12,9 @@ set(SOURCE_FILES
     src/Client.h
     src/Client.cpp
 
+    src/ContentManager.h
+    src/ContentManager.cpp
+
     src/controllers/LabyrinthController.h
     src/controllers/LabyrinthController.cpp
     src/controllers/PlayerController.h
