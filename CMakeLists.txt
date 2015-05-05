@@ -16,13 +16,20 @@ set(SOURCE_FILES
     src/controllers/LabyrinthController.cpp
     src/controllers/PlayerController.h
     src/controllers/PlayerController.cpp
+
+    src/views/GUIView.h
+    src/views/GUIView.cpp
+
+    src/views/gui/LabyrinthItem.h
+    src/views/gui/LabyrinthItem.cpp
 )
 
-add_executable(ICP2015Client ${SOURCE_FILES} src/Client.cpp src/Client.h)
+add_executable(ICP2015Client ${SOURCE_FILES})
 target_link_libraries(ICP2015Client
     libqxcb.so
     libQt5Core.so
     libQt5Network.so
     libQt5OpenGL.so
     libQt5Gui.so
+    libQt5Widgets.so
 )
