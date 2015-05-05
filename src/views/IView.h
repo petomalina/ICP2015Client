@@ -4,6 +4,11 @@
 
 #pragma once
 
+enum class ViewState {
+	Menu,
+	Game
+};
+
 class IView {
 
 public:

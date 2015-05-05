@@ -4,6 +4,7 @@
 
 #include <QtWidgets/QGraphicsView>
 #include <QtWidgets/QGraphicsScene>
+#include <QtWidgets/QPushButton>
 
 #include "IView.h"
 #include "gui/LabyrinthItem.h"
@@ -16,7 +17,7 @@ class GUIView: public IView {
 
 protected:
 	QGraphicsView *view;
-	QGraphicsScene *scene;
+	QGraphicsScene *menuScene, *gameScene;
 
 	int size;
 
@@ -26,6 +27,10 @@ public:
 
 public:
 	void show();
+
+	void showGame();
+
+	void showMenu();
 
 	void generateMap();
 };

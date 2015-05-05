@@ -6,8 +6,10 @@
 
 GUIView::GUIView(int size)
 {
-	this->scene = new QGraphicsScene{};
-	this->view = new QGraphicsView{this->scene};
+	this->menuScene = new QGraphicsScene{};
+	this->gameScene = new QGraphicsScene{};
+	this->view = new QGraphicsView{this->menuScene};
+	this->view->resize(800, 600);
 
 	this->size = size;
 }
@@ -20,6 +22,17 @@ GUIView::~GUIView()
 void GUIView::show()
 {
 	this->view->show();
+}
+
+
+void GUIView::showGame()
+{
+	this->view->setScene(this->gameScene);
+}
+
+void GUIView::showMenu()
+{
+	this->view->setScene(this->menuScene);
 }
 
 void GUIView::generateMap()
