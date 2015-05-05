@@ -19,6 +19,11 @@ GUIView::~GUIView()
 	delete this->view;
 }
 
+
+void GUIView::initialize()
+{
+}
+
 void GUIView::show()
 {
 	this->view->show();

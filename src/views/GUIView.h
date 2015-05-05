@@ -26,6 +26,8 @@ public:
 	~GUIView();
 
 public:
+	void initialize();
+
 	void show();
 
 	void showGame();

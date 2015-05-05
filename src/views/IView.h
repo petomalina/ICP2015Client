@@ -12,6 +12,8 @@ enum class ViewState {
 class IView {
 
 public:
+	virtual void initialize() = 0;
+
 	virtual void show() = 0;
 
 	virtual void generateMap() = 0;

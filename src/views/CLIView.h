@@ -10,6 +10,8 @@
 class CLIView: public IView {
 
 public:
+	void initialize();
+
 	void show();
 
 	void generateMap();

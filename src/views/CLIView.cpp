@@ -4,6 +4,11 @@
 
 #include "CLIView.h"
 
+
+void CLIView::initialize()
+{
+}
+
 void CLIView::show()
 {
 
