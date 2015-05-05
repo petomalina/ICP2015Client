@@ -35,3 +35,7 @@ target_link_libraries(ICP2015Client
     libQt5Gui.so
     libQt5Widgets.so
 )
+
+add_custom_command(TARGET ICP2015Client PRE_BUILD
+                   COMMAND ${CMAKE_COMMAND} -E copy_directory
+                       ${CMAKE_SOURCE_DIR}/graphics $<TARGET_FILE_DIR:ICP2015Client>/graphics)
