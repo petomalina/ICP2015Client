@@ -31,6 +31,11 @@ set(SOURCE_FILES
 
     src/views/gui/LabyrinthItem.h
     src/views/gui/LabyrinthItem.cpp
+
+    src/models/Card.h
+    src/models/Card.cpp
+    src/models/CardPackGenerator.h
+    src/models/CardPackGenerator.cpp
 )
 
 add_executable(ICP2015Client ${SOURCE_FILES})
