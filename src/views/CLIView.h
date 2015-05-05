@@ -11,6 +11,8 @@ class CLIView: public IView {
 
 public:
 	void show();
+
+	void generateMap();
 };
 
 

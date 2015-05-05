@@ -9,7 +9,7 @@ int main (int argc, char *argv[])
 
 	int playgroundSize = 7;
 
-	GUIView view{};
+	GUIView view{playgroundSize};
 	view.show();
 
 	return application.exec();

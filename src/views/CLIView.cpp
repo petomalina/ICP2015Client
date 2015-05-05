@@ -8,3 +8,8 @@ void CLIView::show()
 {
 
 }
+
+void CLIView::generateMap()
+{
+
+}

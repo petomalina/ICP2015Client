@@ -4,10 +4,12 @@
 
 #include "GUIView.h"
 
-GUIView::GUIView()
+GUIView::GUIView(int size)
 {
 	this->scene = new QGraphicsScene{};
 	this->view = new QGraphicsView{this->scene};
+
+	this->size = size;
 }
 
 GUIView::~GUIView()
@@ -18,4 +20,9 @@ GUIView::~GUIView()
 void GUIView::show()
 {
 	this->view->show();
+}
+
+void GUIView::generateMap()
+{
+
 }

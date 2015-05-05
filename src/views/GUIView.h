@@ -18,12 +18,16 @@ protected:
 	QGraphicsView *view;
 	QGraphicsScene *scene;
 
+	int size;
+
 public:
-	GUIView();
+	GUIView(int size);
 	~GUIView();
 
 public:
 	void show();
+
+	void generateMap();
 };
 
 
