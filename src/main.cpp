@@ -1,7 +1,6 @@
-#include "Client.h"
-#include "views/GUIView.h"
-
 #include <QtWidgets/QApplication>
+
+#include "Client.h"
 
 int main (int argc, char *argv[])
 {

@@ -5,9 +5,9 @@
 #include "Client.h"
 
 
-Client::Client()
+Client::Client(IView *view)
 {
-
+	this->view = view;
 }
 
 Client::~Client()
@@ -15,7 +15,7 @@ Client::~Client()
 
 }
 
-ReturnCode Client::run()
+void Client::run()
 {
-	return ReturnCode::OK;
+	this->view->show();
 }

@@ -16,13 +16,16 @@ enum class ReturnCode: int {
 
 class Client {
 
+protected:
+	IView *view;
+
 public:
-	Client();
+	Client(IView *view);
 
 	~Client();
 
 public:
-	ReturnCode run();
+	void run();
 };
 
 
