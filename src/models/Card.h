@@ -5,6 +5,9 @@
 #ifndef ICP2015CLIENT_CARD_H
 #define ICP2015CLIENT_CARD_H
 
+#include <vector>
+
+
 enum class CardType: int {
 	APPLE = 1,
 	PEAR = 2,
@@ -22,5 +25,6 @@ public:
 	CardType getType();
 };
 
+using CardPack = std::vector<Card>;
 
 #endif //ICP2015CLIENT_CARD_H

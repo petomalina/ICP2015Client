@@ -3,3 +3,13 @@
 //
 
 #include "CardPackGenerator.h"
+
+CardPackGenerator::CardPackGenerator(int size)
+{
+
+}
+
+void CardPackGenerator::generatePack(CardPack &pack)
+{
+
+}

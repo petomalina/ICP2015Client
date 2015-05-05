@@ -5,12 +5,8 @@
 #ifndef ICP2015CLIENT_CARDPACKGENERATOR_H
 #define ICP2015CLIENT_CARDPACKGENERATOR_H
 
-#include <vector>
-#include <string>
-
 #include "Card.h"
 
-using CardPack = std::vector<Card>;
 
 class CardPackGenerator {
 

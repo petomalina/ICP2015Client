@@ -3,3 +3,13 @@
 //
 
 #include "Card.h"
+
+Card::Card(CardType type)
+{
+	this->type = type;
+}
+
+CardType Card::getType()
+{
+	return this->type;
+}
