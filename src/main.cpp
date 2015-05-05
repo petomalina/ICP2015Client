@@ -3,20 +3,13 @@
 
 #include <QtWidgets/QApplication>
 
-#include <QtWidgets/QGraphicsRectItem>
-
 int main (int argc, char *argv[])
 {
 	QApplication application{argc, argv};
 
-	QGraphicsScene *scene = new QGraphicsScene{};
+	int playgroundSize = 7;
 
-	QGraphicsRectItem *rect = new QGraphicsRectItem{};
-	rect->setRect(0, 0, 100, 100);
-
-	scene->addItem(rect);
-
-	GUIView view{scene};
+	GUIView view{};
 	view.show();
 
 	return application.exec();

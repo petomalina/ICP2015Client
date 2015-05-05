@@ -5,6 +5,9 @@
 #ifndef _ICP2015CLIENT_CLIENT_H_
 #define _ICP2015CLIENT_CLIENT_H_
 
+#include "views/GUIView.h"
+#include "views/CLIView.h"
+
 enum class ReturnCode: int {
 	OK = 0,
 	ERROR_INIT,
