@@ -6,11 +6,17 @@
 
 GUIView::GUIView(int size)
 {
-	this->menuScene = new QGraphicsScene{0, 0, 800, 600};
-	this->gameScene = new QGraphicsScene{0, 0, 800, 600};
-	this->view = new QGraphicsView{this->menuScene};
-
 	this->size = size;
+
+	// +1 so we can manipulate with one more stone
+	qreal pixelWidth = (this->size + 1) * LabyrinthItem::Width;
+	// +2 so we can manipulate with stone and add some stats
+	qreal pixelHeight = (this->size + 2) * LabyrinthItem::Height;
+
+	this->menuScene = new QGraphicsScene{0, 0, pixelWidth, pixelHeight};
+	this->gameScene = new QGraphicsScene{0, 0, pixelWidth, pixelHeight};
+	this->view = new QGraphicsView{this->menuScene};
+	this->view->scale(1.7, 1.7);
 }
 
 GUIView::~GUIView()
@@ -32,13 +38,15 @@ void GUIView::initialize()
 
 
 	const int sceneCenterX = (int)this->menuScene->width() / 2;
-	const int buttonWidth = 150;
-	const int buttonHeight = 40;
+	const int buttonWidth = 100;
+	const int buttonHeight = 25;
+
+	const int menuStartOffset = this->view->height() / 8;
 
 	// initialize menu scene
 	int index = 1;
 	for (QWidget *widget : this->menuElements) {
-		widget->setGeometry(QRect{QPoint{ sceneCenterX - buttonWidth/2, 200 + 50*index}, QSize{buttonWidth, buttonHeight}});
+		widget->setGeometry(QRect{QPoint{ sceneCenterX - buttonWidth/2, menuStartOffset + (buttonHeight + 10)*index}, QSize{buttonWidth, buttonHeight}});
 
 		this->menuScene->addWidget(widget);
 		index++;
@@ -68,7 +76,6 @@ void GUIView::showMenu()
 
 void GUIView::generateMap()
 {
-
 }
 
 void GUIView::handleStartButton()
