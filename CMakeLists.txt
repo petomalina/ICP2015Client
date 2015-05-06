@@ -44,7 +44,7 @@ set(SOURCE_FILES
     src/models/Player.cpp
 )
 
-add_executable(ICP2015Client ${SOURCE_FILES} ${gui_view})
+add_executable(ICP2015Client ${SOURCE_FILES})
 target_link_libraries(ICP2015Client
     libqxcb.so
     libQt5Core.so
