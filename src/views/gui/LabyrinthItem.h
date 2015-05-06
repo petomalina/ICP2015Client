@@ -14,6 +14,9 @@ public:
 	static const int Width = 40;
 	static const int Height = 40;
 
+private:
+	
+
 public:
 	LabyrinthItem(QPixmap pixmap);
 	~LabyrinthItem();

@@ -8,6 +8,8 @@
 #include <QtWidgets/QGraphicsView>
 #include <QtWidgets/QGraphicsScene>
 #include <QtWidgets/QPushButton>
+#include <QtWidgets/QInputDialog>
+#include <QtWidgets/QTextEdit>
 #include <QtCore/QObject>
 
 #include "IView.h"
@@ -18,7 +20,7 @@ Q_OBJECT
 
 protected:
 	QGraphicsView *view;
-	QGraphicsScene *menuScene, *gameScene;
+	QGraphicsScene *menuScene, *gameScene, *gameOptionsScene;
 
 	int size;
 
@@ -38,12 +40,21 @@ public:
 
 	void showGame();
 
+	void showGameOptions();
+
 	void showMenu();
 
 	void generateMap();
 
+protected: // geometry utils
+	void createSimpleMenu(QGraphicsScene *scene, std::vector<QWidget*> &elements);
+
+	void createDoubleMenu(QGraphicsScene *scene, std::vector<QWidget*> &elements);
+
 private slots:
-	void handleStartButton();
+	void handleNewGameButton();
+
+	void handleLoadGameButton();
 
 	void handleExitButton();
 

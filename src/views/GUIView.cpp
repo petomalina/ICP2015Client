@@ -15,6 +15,7 @@ GUIView::GUIView(int size)
 
 	this->menuScene = new QGraphicsScene{0, 0, pixelWidth, pixelHeight};
 	this->gameScene = new QGraphicsScene{0, 0, pixelWidth, pixelHeight};
+	this->gameOptionsScene = new QGraphicsScene{0, 0, pixelWidth, pixelHeight};
 	this->view = new QGraphicsView{this->menuScene};
 	this->view->scale(1.7, 1.7);
 }
@@ -28,29 +29,19 @@ GUIView::~GUIView()
 void GUIView::initialize()
 {
 	/* MENU INITIALIZATION */
-	QPushButton *startButton = new QPushButton{"Start Game"};
-	connect(startButton, SIGNAL(released()), this, SLOT(handleStartButton()));
-	this->menuElements.push_back(startButton);
+	QPushButton *newGameButton = new QPushButton{"New Game"};
+	connect(newGameButton, SIGNAL(released()), this, SLOT(handleNewGameButton()));
+	this->menuElements.push_back(newGameButton);
+
+	QPushButton *loadGameButton = new QPushButton{"Load Game"};
+	connect(loadGameButton, SIGNAL(released()), this, SLOT(handleLoadGameButton()));
+	this->menuElements.push_back(loadGameButton);
 
 	QPushButton *exitButton = new QPushButton{"Exit"};
 	connect(exitButton, SIGNAL(released()), this, SLOT(handleExitButton()));
 	this->menuElements.push_back(exitButton);
 
-
-	const int sceneCenterX = (int)this->menuScene->width() / 2;
-	const int buttonWidth = 100;
-	const int buttonHeight = 25;
-
-	const int menuStartOffset = this->view->height() / 8;
-
-	// initialize menu scene
-	int index = 1;
-	for (QWidget *widget : this->menuElements) {
-		widget->setGeometry(QRect{QPoint{ sceneCenterX - buttonWidth/2, menuStartOffset + (buttonHeight + 10)*index}, QSize{buttonWidth, buttonHeight}});
-
-		this->menuScene->addWidget(widget);
-		index++;
-	}
+	this->createSimpleMenu(this->menuScene, this->menuElements);
 
 	/* GAME OPTIONS INITIALIZATION */
 
@@ -69,6 +60,11 @@ void GUIView::showGame()
 	this->view->setScene(this->gameScene);
 }
 
+void GUIView::showGameOptions()
+{
+	this->view->setScene(this->gameOptionsScene);
+}
+
 void GUIView::showMenu()
 {
 	this->view->setScene(this->menuScene);
@@ -78,9 +74,37 @@ void GUIView::generateMap()
 {
 }
 
-void GUIView::handleStartButton()
+
+void GUIView::createSimpleMenu(QGraphicsScene *scene, std::vector<QWidget *> &elements)
 {
-	this->showGame();
+	const int sceneCenterX = (int)this->menuScene->width() / 2;
+	const int buttonWidth = 100;
+	const int buttonHeight = 25;
+
+	const int menuStartOffset = this->view->height() / 8;
+
+	int index = 1;
+	for (QWidget *widget : elements) {
+		widget->setGeometry(QRect{QPoint{ sceneCenterX - buttonWidth/2, menuStartOffset + (buttonHeight + 10)*index}, QSize{buttonWidth, buttonHeight}});
+
+		scene->addWidget(widget);
+		index++;
+	}
+}
+
+void GUIView::createDoubleMenu(QGraphicsScene *scene, std::vector<QWidget *> &elements)
+{
+
+}
+
+void GUIView::handleNewGameButton(){
+	this->showGameOptions();
+}
+
+
+void GUIView::handleLoadGameButton()
+{
+
 }
 
 void GUIView::handleExitButton()
