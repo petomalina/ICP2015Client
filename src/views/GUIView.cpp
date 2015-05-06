@@ -77,11 +77,11 @@ void GUIView::generateMap()
 
 void GUIView::createSimpleMenu(QGraphicsScene *scene, std::vector<QWidget *> &elements)
 {
-	const int sceneCenterX = (int)this->menuScene->width() / 2;
+	const int sceneCenterX = (int)scene->width() / 2;
 	const int buttonWidth = 100;
 	const int buttonHeight = 25;
 
-	const int menuStartOffset = this->view->height() / 8;
+	const int menuStartOffset = (int)scene->height() / 8;
 
 	int index = 1;
 	for (QWidget *widget : elements) {
@@ -94,7 +94,24 @@ void GUIView::createSimpleMenu(QGraphicsScene *scene, std::vector<QWidget *> &el
 
 void GUIView::createDoubleMenu(QGraphicsScene *scene, std::vector<QWidget *> &elements)
 {
+	const int sceneCenterX = (int)scene->width() / 2;
+	const int buttonWidth = 100;
+	const int buttonHeight = 25;
 
+	const int menuStartOffset = (int)scene->height() / 8;
+
+	int elemIndex = 1;
+	int index = 1;
+	for (QWidget *widget : elements) {
+		int offsetX = (elemIndex % 2 == 0) ? sceneCenterX + 10 : sceneCenterX - buttonWidth -10;
+		widget->setGeometry(QRect{QPoint{ offsetX, menuStartOffset + (buttonHeight + 10)* index}, QSize{buttonWidth, buttonHeight}});
+
+		scene->addWidget(widget);
+		if (elemIndex % 2 == 0) {
+			index++;
+		}
+		elemIndex++;
+	}
 }
 
 void GUIView::handleNewGameButton(){
