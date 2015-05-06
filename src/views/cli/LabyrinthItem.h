@@ -11,20 +11,18 @@
 // Base class, no constructor
 class LabyrinthItem {
 
-private:
-	std::array<char, 9> pixels;
-
-protected:
-	LabyrinthItem(std::array<char, 9> pixels) {
-		this->pixels = pixels;
-	}
+public:
+	std::array<char, 9> Pixels;
 
 public:
-	std::array<char, 9> getPixels();
+	LabyrinthItem() { }
+	LabyrinthItem(std::array<char, 9> pixels) {
+		this->Pixels = pixels;
+	}
 
-	LabyrinthItem rotateLeft();
-	LabyrinthItem rotateRight();
-	LabyrinthItem rotateFlip();
+	LabyrinthItem *rotateLeft();
+	LabyrinthItem *rotateRight();
+	LabyrinthItem *rotateFlip();
 };
 
 // Class for L item
