@@ -7,7 +7,8 @@
 
 #include <QtWidgets/QGraphicsPixmapItem>
 
-class LabyrinthItem: public QGraphicsPixmapItem {
+class LabyrinthItem: public QObject, public QGraphicsPixmapItem {
+Q_OBJECT
 
 public:
 	LabyrinthItem(QPixmap pixmap);

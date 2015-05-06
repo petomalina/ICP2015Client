@@ -2,6 +2,9 @@
 // Created by gelidus on 5.5.2015.
 //
 
+#ifndef ICP2015CLIENT_GUIVIEW_H
+#define ICP2015CLIENT_GUIVIEW_H
+
 #include <QtWidgets/QGraphicsView>
 #include <QtWidgets/QGraphicsScene>
 #include <QtWidgets/QPushButton>
@@ -10,11 +13,8 @@
 #include "IView.h"
 #include "gui/LabyrinthItem.h"
 
-#ifndef ICP2015CLIENT_GUIVIEW_H
-#define ICP2015CLIENT_GUIVIEW_H
-
-
-class GUIView: public IView {
+class GUIView: public QObject, public IView {
+Q_OBJECT
 
 protected:
 	QGraphicsView *view;
@@ -29,7 +29,7 @@ protected:
 
 public:
 	GUIView(int size);
-	~GUIView();
+	virtual ~GUIView();
 
 public:
 	void initialize();
@@ -41,6 +41,12 @@ public:
 	void showMenu();
 
 	void generateMap();
+
+private slots:
+	void handleStartButton();
+
+	void handleExitButton();
+
 };
 
 

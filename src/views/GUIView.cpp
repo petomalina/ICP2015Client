@@ -23,10 +23,12 @@ void GUIView::initialize()
 {
 	/* MENU INITIALIZATION */
 	QPushButton *startButton = new QPushButton{"Start Game"};
-	//QObject::connect(startButton, SIGNAL(released()), this, SLOT(showGame()));
+	connect(startButton, SIGNAL(released()), this, SLOT(handleStartButton()));
 	this->menuElements.push_back(startButton);
-	// TODO : push more items
-	this->menuElements.push_back(new QPushButton{"Exit"});
+
+	QPushButton *exitButton = new QPushButton{"Exit"};
+	connect(exitButton, SIGNAL(released()), this, SLOT(handleExitButton()));
+	this->menuElements.push_back(exitButton);
 
 
 	const int sceneCenterX = (int)this->menuScene->width() / 2;
@@ -45,6 +47,7 @@ void GUIView::initialize()
 	/* GAME OPTIONS INITIALIZATION */
 
 	/* GAME INITIALIZATION */
+	this->generateMap();
 };
 
 void GUIView::show()
@@ -66,4 +69,14 @@ void GUIView::showMenu()
 void GUIView::generateMap()
 {
 
+}
+
+void GUIView::handleStartButton()
+{
+	this->showGame();
+}
+
+void GUIView::handleExitButton()
+{
+	this->view->close();
 }

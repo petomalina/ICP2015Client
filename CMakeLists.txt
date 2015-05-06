@@ -1,8 +1,12 @@
 cmake_minimum_required(VERSION 3.1)
 project(ICP2015Client)
 
-SET (CMAKE_CXX_FLAGS "-fPIC") # qt thingy
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
+find_package(Qt5Widgets)
+
+set(CMAKE_CXX_FLAGS "-fPIC") # qt thingy
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 include_directories(~/SOFTWARE/Qt/5.2.0/gcc_64/include/)
@@ -40,7 +44,7 @@ set(SOURCE_FILES
     src/models/Player.cpp
 )
 
-add_executable(ICP2015Client ${SOURCE_FILES})
+add_executable(ICP2015Client ${SOURCE_FILES} ${gui_view})
 target_link_libraries(ICP2015Client
     libqxcb.so
     libQt5Core.so
@@ -50,6 +54,5 @@ target_link_libraries(ICP2015Client
     libQt5Widgets.so
 )
 
-add_custom_command(TARGET ICP2015Client PRE_BUILD
-                   COMMAND ${CMAKE_COMMAND} -E copy_directory
-                       ${CMAKE_SOURCE_DIR}/graphics $<TARGET_FILE_DIR:ICP2015Client>/graphics)
+add_custom_command(TARGET ICP2015Client PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory
+                   ${CMAKE_SOURCE_DIR}/graphics $<TARGET_FILE_DIR:ICP2015Client>/graphics)
