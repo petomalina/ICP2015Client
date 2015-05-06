@@ -4,28 +4,28 @@
 
 #include "LabyrinthItem.h"
 
-std::array<char, 9> LabyrinthItem::getPixels()
+LabyrinthItem *LabyrinthItem::rotateLeft()
 {
-	return this->pixels;
+	LabyrinthItem *rotated = new LabyrinthItem();
+	// TODO: rotate
+
+	return rotated;
 }
 
-
-LabyrinthItem LabyrinthItem::rotateLeft()
+LabyrinthItem *LabyrinthItem::rotateRight()
 {
+	LabyrinthItem *rotated = new LabyrinthItem();
 	// TODO: rotate
-	return LabyrinthItem(std::array<char, 9>());
+
+	return rotated;
 }
 
-LabyrinthItem LabyrinthItem::rotateRight()
+LabyrinthItem *LabyrinthItem::rotateFlip()
 {
+	LabyrinthItem *rotated = new LabyrinthItem();
 	// TODO: rotate
-	return LabyrinthItem(std::array<char, 9>());
-}
 
-LabyrinthItem LabyrinthItem::rotateFlip()
-{
-	// TODO: rotate
-	return LabyrinthItem(std::array<char, 9>());
+	return rotated;
 }
 
 LabyrinthItemL::LabyrinthItemL() : LabyrinthItem(
