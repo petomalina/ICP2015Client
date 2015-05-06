@@ -28,6 +28,7 @@ protected:
 	std::vector<QWidget*> menuElements;
 
 	// game elements
+	std::vector<LabyrinthItem*> fragments;
 
 public:
 	GUIView(int size);

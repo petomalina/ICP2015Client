@@ -35,6 +35,8 @@ set(SOURCE_FILES
 
     src/views/gui/LabyrinthItem.h
     src/views/gui/LabyrinthItem.cpp
+    src/views/cli/LabyrinthItem.h
+    src/views/cli/LabyrinthItem.cpp
 
     src/models/Card.h
     src/models/Card.cpp
