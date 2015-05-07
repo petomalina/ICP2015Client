@@ -82,15 +82,3 @@ LabyrinthItem *LabyrinthItem::swapRows()
 
 	return swapped;
 }
-
-
-LabyrinthItemL::LabyrinthItemL(): LabyrinthItem(
-		std::array<char, 9>{
-				'#', ' ', '#',
-				'#', ' ', ' ',
-				'#', '#', '#'
-		}
-)
-{
-
-}

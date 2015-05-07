@@ -27,12 +27,5 @@ public:
 	LabyrinthItem *swapRows();
 };
 
-// Class for L item
-class LabyrinthItemL: public LabyrinthItem {
-
-public:
-	LabyrinthItemL();
-};
-
 
 #endif //ICP2015CLIENT_LABYRINTHITEM_H

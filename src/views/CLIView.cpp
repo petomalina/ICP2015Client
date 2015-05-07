@@ -12,7 +12,7 @@ CLIView::CLIView(int size)
 
 void CLIView::initialize()
 {
-	LabyrinthItemL leftTop;
+
 }
 
 void CLIView::show()
