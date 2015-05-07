@@ -9,6 +9,5 @@
 
 int test_swap_columns()
 {
-	LabyrinthItem *item = new LabyrinthItem();
-	std::cout << item;
+	//tests ...
 }
