@@ -15,7 +15,6 @@ public:
 	std::array<char, 9> Pixels;
 
 public:
-	LabyrinthItem() { }
 	LabyrinthItem(std::array<char, 9> pixels) {
 		this->Pixels = pixels;
 	}

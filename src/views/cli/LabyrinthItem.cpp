@@ -7,7 +7,7 @@
 
 LabyrinthItem *LabyrinthItem::rotateLeft()
 {
-	LabyrinthItem *rotated = new LabyrinthItem();
+	LabyrinthItem *rotated = new LabyrinthItem(this->Pixels);
 	// TODO: rotate
 
 	return rotated;
