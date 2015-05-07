@@ -22,11 +22,14 @@ void CLIView::show()
 
 void CLIView::generateMap()
 {
+
+	LabyrinthItemFactory f{};
+
 	for (int x = 0; x < size; x++) {
 		for (int y = 0; y < size; y++) {
 
 			if (x == 0 && y == 0) {
-
+				this->fragments.push_back(f.L());
 			} else if (x == 0 && y == size-1) {
 
 			} else if (x == size -1 && y == 0) {

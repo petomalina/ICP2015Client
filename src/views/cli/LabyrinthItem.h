@@ -7,6 +7,7 @@
 
 
 #include <array>
+#include <memory>
 
 // Base class, no constructor
 class LabyrinthItem {
@@ -24,6 +25,14 @@ public:
 	LabyrinthItem *rotateFlip();
 	LabyrinthItem *swapColumns();
 	LabyrinthItem *swapRows();
+};
+
+class LabyrinthItemFactory {
+
+public:
+	LabyrinthItem *L();
+	LabyrinthItem *T();
+	LabyrinthItem *I();
 };
 
 
