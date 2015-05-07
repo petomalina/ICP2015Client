@@ -81,37 +81,3 @@ LabyrinthItem *LabyrinthItem::swapRows()
 
 	return swapped;
 }
-
-
-LabyrinthItemL::LabyrinthItemL(): LabyrinthItem(
-		std::array<char, 9>{
-				'#', ' ', '#',
-				'#', ' ', ' ',
-				'#', '#', '#'
-		}
-)
-{
-
-}
-
-LabyrinthItemT::LabyrinthItemT(): LabyrinthItem(
-		std::array<char, 9>{
-				'#', '#', '#',
-				' ', ' ', ' ',
-				'#', ' ', '#'
-		}
-)
-{
-
-}
-
-LabyrinthItemI::LabyrinthItemI(): LabyrinthItem(
-		std::array<char, 9>{
-				'#', ' ', '#',
-				'#', ' ', '#',
-				'#', ' ', '#'
-		}
-)
-{
-
-}
