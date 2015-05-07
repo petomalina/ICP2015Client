@@ -26,9 +26,6 @@ public:
 	LabyrinthItem *transpose();
 	LabyrinthItem *swapColumns();
 	LabyrinthItem *swapRows();
-
-
-
 };
 
 // Class for L item

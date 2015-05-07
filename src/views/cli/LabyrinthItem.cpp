@@ -15,7 +15,7 @@ LabyrinthItem *LabyrinthItem::rotateLeft()
 
 LabyrinthItem *LabyrinthItem::rotateRight()
 {
-	LabyrinthItem *rotated = new LabyrinthItem();
+	LabyrinthItem *rotated = new LabyrinthItem(this->Pixels);
 
 	for (int i = 0; i < 3; ++i)
 		for (int j = i + 1; j < 3; ++j)
@@ -30,7 +30,7 @@ LabyrinthItem *LabyrinthItem::rotateRight()
 
 LabyrinthItem *LabyrinthItem::rotateFlip()
 {
-	LabyrinthItem *rotated = new LabyrinthItem();
+	LabyrinthItem *rotated = new LabyrinthItem(this->Pixels);
 
 	for (int i = 0; i < 4; ++i) {
 		auto temp = rotated[9 - i - 1];
@@ -43,7 +43,7 @@ LabyrinthItem *LabyrinthItem::rotateFlip()
 
 LabyrinthItem *LabyrinthItem::transpose()
 {
-	LabyrinthItem *transposed = new LabyrinthItem();
+	LabyrinthItem *transposed = new LabyrinthItem(this->Pixels);
 
 	for (int i = 0; i < 3; i++) {
 		for (int j = i + 1; j < 3; j++) {
@@ -57,7 +57,7 @@ LabyrinthItem *LabyrinthItem::transpose()
 
 LabyrinthItem *LabyrinthItem::swapColumns()
 {
-	LabyrinthItem *swapped = new LabyrinthItem();
+	LabyrinthItem *swapped = new LabyrinthItem(this->Pixels);
 
 	for (int i = 0; i < 3; i++) {
 		for (int j = 0; j < 3 / 2; j++) {
@@ -72,7 +72,7 @@ LabyrinthItem *LabyrinthItem::swapColumns()
 
 LabyrinthItem *LabyrinthItem::swapRows()
 {
-	LabyrinthItem *swapped = new LabyrinthItem();
+	LabyrinthItem *swapped = new LabyrinthItem(this->Pixels);
 
 	for (int i = 0; i < 3; ++i) {
 		auto temp = swapped[0 + 3];
