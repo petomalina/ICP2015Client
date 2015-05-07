@@ -9,6 +9,8 @@ find_package(Qt5Widgets)
 set(CMAKE_CXX_FLAGS "-fPIC") # qt thingy
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
+include_directories(./lib)
+
 include_directories(~/SOFTWARE/Qt/5.2.0/gcc_64/include/)
 link_directories(~/SOFTWARE/Qt/5.2.0/gcc_64/plugins/platforms/)
 link_directories(~/SOFTWARE/Qt/5.2.0/gcc_64/lib/)
