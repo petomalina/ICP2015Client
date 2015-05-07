@@ -8,8 +8,8 @@ int main (int argc, char *argv[])
 
 	int playgroundSize = 7;
 
-	//GUIView view{playgroundSize};
-	CLIView view{playgroundSize};
+	GUIView view{playgroundSize};
+	//CLIView view{playgroundSize};
 
 	view.initialize();
 	view.show();

@@ -2,6 +2,9 @@
 // Created by gelidus on 5.5.2015.
 //
 
+#include <QtCore/qcoreevent.h>
+#include <iostream>
+#include <QtCore/qcoreapplication.h>
 #include "GUIView.h"
 
 GUIView::GUIView(int size)
@@ -16,13 +19,13 @@ GUIView::GUIView(int size)
 	this->menuScene = new QGraphicsScene{0, 0, pixelWidth, pixelHeight};
 	this->gameScene = new QGraphicsScene{0, 0, pixelWidth, pixelHeight};
 	this->gameOptionsScene = new QGraphicsScene{0, 0, pixelWidth, pixelHeight};
-	this->view = new QGraphicsView{this->menuScene};
-	this->view->scale(1.7, 1.7);
+	this->scale(1.5, 1.5);
+
+	this->showMenu();
 }
 
 GUIView::~GUIView()
 {
-	delete this->view;
 }
 
 
@@ -44,30 +47,56 @@ void GUIView::initialize()
 	this->createSimpleMenu(this->menuScene, this->menuElements);
 
 	/* GAME OPTIONS INITIALIZATION */
+	QLabel *nameLabel = new QLabel{"Game name: "};
+	this->gameOptionsElements.push_back(nameLabel);
+
+	QLineEdit *nameInput = new QLineEdit{};
+	this->gameOptionsElements.push_back(nameInput);
+
+	QLabel *playersLabel = new QLabel{"Players: "};
+	this->gameOptionsElements.push_back(playersLabel);
+
+	QComboBox *playersInput = new QComboBox{};
+	playersInput->addItems({ "4", "3", "2", "1" });
+	this->gameOptionsElements.push_back(playersInput);
+
+	QLabel *playSize = new QLabel{"Playground: "};
+	this->gameOptionsElements.push_back(playSize);
+
+	QComboBox *sizeInput = new QComboBox{};
+	sizeInput->addItems({"7", "5", "9", "11"});
+	this->gameOptionsElements.push_back(sizeInput);
+
+	QPushButton *startButton = new QPushButton{"Start game"};
+	connect(startButton, SIGNAL(released()), this, SLOT(handleGameStartButton()));
+	this->gameOptionsElements.push_back(startButton);
+
+	this->createDoubleMenu(this->gameOptionsScene, this->gameOptionsElements);
+
 
 	/* GAME INITIALIZATION */
 	this->generateMap();
 };
 
+
 void GUIView::show()
 {
-	this->view->show();
+	QGraphicsView::show();
 }
-
 
 void GUIView::showGame()
 {
-	this->view->setScene(this->gameScene);
+	this->setScene(this->gameScene);
 }
 
 void GUIView::showGameOptions()
 {
-	this->view->setScene(this->gameOptionsScene);
+	this->setScene(this->gameOptionsScene);
 }
 
 void GUIView::showMenu()
 {
-	this->view->setScene(this->menuScene);
+	this->setScene(this->menuScene);
 }
 
 void GUIView::generateMap()
@@ -78,7 +107,7 @@ void GUIView::generateMap()
 void GUIView::createSimpleMenu(QGraphicsScene *scene, std::vector<QWidget *> &elements)
 {
 	const int sceneCenterX = (int)scene->width() / 2;
-	const int buttonWidth = 100;
+	const int buttonWidth = 120;
 	const int buttonHeight = 25;
 
 	const int menuStartOffset = (int)scene->height() / 8;
@@ -95,7 +124,7 @@ void GUIView::createSimpleMenu(QGraphicsScene *scene, std::vector<QWidget *> &el
 void GUIView::createDoubleMenu(QGraphicsScene *scene, std::vector<QWidget *> &elements)
 {
 	const int sceneCenterX = (int)scene->width() / 2;
-	const int buttonWidth = 100;
+	const int buttonWidth = 120;
 	const int buttonHeight = 25;
 
 	const int menuStartOffset = (int)scene->height() / 8;
@@ -126,5 +155,18 @@ void GUIView::handleLoadGameButton()
 
 void GUIView::handleExitButton()
 {
-	this->view->close();
+	this->close();
+}
+
+void GUIView::handleGameStartButton()
+{
+	this->showGame();
+}
+
+
+void GUIView::keyPressEvent(QKeyEvent *event)
+{
+	if (event->key() == Qt::Key_Escape) {
+		this->showMenu();
+	}
 }

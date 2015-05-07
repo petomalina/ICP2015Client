@@ -1,5 +1,5 @@
 [submodule "src/lib/catch"]
-	path = src/lib/catch
+	path = lib/catch
 	url = git@github.com:philsquared/Catch.git
 [submodule "lib/socket"]
 	path = lib/socket

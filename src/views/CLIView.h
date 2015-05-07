@@ -7,8 +7,8 @@
 
 #include <vector>
 
-#include "IView.h"
 #include "cli/LabyrinthItem.h"
+#include "IView.h"
 
 class CLIView: public IView {
 
