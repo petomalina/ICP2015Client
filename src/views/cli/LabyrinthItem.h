@@ -22,7 +22,6 @@ public:
 	LabyrinthItem *rotateLeft();
 	LabyrinthItem *rotateRight();
 	LabyrinthItem *rotateFlip();
-	LabyrinthItem *transpose();
 	LabyrinthItem *swapColumns();
 	LabyrinthItem *swapRows();
 };

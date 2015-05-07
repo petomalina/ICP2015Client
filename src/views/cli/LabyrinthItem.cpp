@@ -8,7 +8,15 @@
 LabyrinthItem *LabyrinthItem::rotateLeft()
 {
 	LabyrinthItem *rotated = new LabyrinthItem(this->Pixels);
-	// TODO: rotate
+
+	rotated->Pixels[0] = this->Pixels[2];
+	rotated->Pixels[1] = this->Pixels[5];
+	rotated->Pixels[2] = this->Pixels[8];
+	rotated->Pixels[3] = this->Pixels[1];
+	rotated->Pixels[5] = this->Pixels[7];
+	rotated->Pixels[6] = this->Pixels[0];
+	rotated->Pixels[7] = this->Pixels[3];
+	rotated->Pixels[8] = this->Pixels[6];
 
 	return rotated;
 }
@@ -17,13 +25,14 @@ LabyrinthItem *LabyrinthItem::rotateRight()
 {
 	LabyrinthItem *rotated = new LabyrinthItem(this->Pixels);
 
-	for (int i = 0; i < 3; ++i)
-		for (int j = i + 1; j < 3; ++j)
-			std::swap(rotated[i+j], rotated[j+i]);
-
-	for (int i = 0; i < 3; ++i)
-		for (int j = 0; j < 3 / 2; ++j)
-			std::swap(rotated[i+j], rotated[i+3 - j - 1]);
+	rotated->Pixels[0] = this->Pixels[6];
+	rotated->Pixels[1] = this->Pixels[3];
+	rotated->Pixels[2] = this->Pixels[0];
+	rotated->Pixels[3] = this->Pixels[7];
+	rotated->Pixels[5] = this->Pixels[1];
+	rotated->Pixels[6] = this->Pixels[8];
+	rotated->Pixels[7] = this->Pixels[5];
+	rotated->Pixels[8] = this->Pixels[2];
 
 	return rotated;
 }
@@ -32,40 +41,28 @@ LabyrinthItem *LabyrinthItem::rotateFlip()
 {
 	LabyrinthItem *rotated = new LabyrinthItem(this->Pixels);
 
-	for (int i = 0; i < 4; ++i) {
-		auto temp = rotated[9 - i - 1];
-		rotated[9 - i - 1] = rotated[i];
-		rotated[i] = temp;
-	}
+	rotated->Pixels[0] = this->Pixels[8];
+	rotated->Pixels[1] = this->Pixels[7];
+	rotated->Pixels[2] = this->Pixels[6];
+	rotated->Pixels[3] = this->Pixels[5];
+	rotated->Pixels[5] = this->Pixels[3];
+	rotated->Pixels[6] = this->Pixels[2];
+	rotated->Pixels[7] = this->Pixels[1];
+	rotated->Pixels[8] = this->Pixels[0];
 
 	return rotated;
-}
-
-LabyrinthItem *LabyrinthItem::transpose()
-{
-	LabyrinthItem *transposed = new LabyrinthItem(this->Pixels);
-
-	for (int i = 0; i < 3; i++) {
-		for (int j = i + 1; j < 3; j++) {
-			auto tmp = transposed[i + j];
-			transposed[i + j] = transposed[j + i];
-			transposed[j + i] = tmp;
-		}
-	}
-	return transposed;
 }
 
 LabyrinthItem *LabyrinthItem::swapColumns()
 {
 	LabyrinthItem *swapped = new LabyrinthItem(this->Pixels);
-
-	for (int i = 0; i < 3; i++) {
-		for (int j = 0; j < 3 / 2; j++) {
-			auto tmp = swapped[i + j];
-			swapped[i + j] = swapped[i + 3 - 1 - j];
-			swapped[i + 3 - 1 - j] = tmp;
-		}
-	}
+	
+	swapped->Pixels[0] = this->Pixels[2];
+	swapped->Pixels[2] = this->Pixels[0];
+	swapped->Pixels[3] = this->Pixels[5];
+	swapped->Pixels[5] = this->Pixels[3];
+	swapped->Pixels[6] = this->Pixels[8];
+	swapped->Pixels[8] = this->Pixels[6];
 
 	return swapped;
 }
@@ -74,11 +71,47 @@ LabyrinthItem *LabyrinthItem::swapRows()
 {
 	LabyrinthItem *swapped = new LabyrinthItem(this->Pixels);
 
-	for (int i = 0; i < 3; ++i) {
-		auto temp = swapped[0 + 3];
-		swapped[0 + i] = swapped[1 + i];
-		swapped[1 + i] = temp;
-	}
+	swapped->Pixels[0] = this->Pixels[6];
+	swapped->Pixels[1] = this->Pixels[7];
+	swapped->Pixels[2] = this->Pixels[8];
+	swapped->Pixels[6] = this->Pixels[0];
+	swapped->Pixels[7] = this->Pixels[1];
+	swapped->Pixels[8] = this->Pixels[6];
+
 
 	return swapped;
+}
+
+
+LabyrinthItemL::LabyrinthItemL(): LabyrinthItem(
+		std::array<char, 9>{
+				'#', ' ', '#',
+				'#', ' ', ' ',
+				'#', '#', '#'
+		}
+)
+{
+
+}
+
+LabyrinthItemT::LabyrinthItemT(): LabyrinthItem(
+		std::array<char, 9>{
+				'#', '#', '#',
+				' ', ' ', ' ',
+				'#', ' ', '#'
+		}
+)
+{
+
+}
+
+LabyrinthItemI::LabyrinthItemI(): LabyrinthItem(
+		std::array<char, 9>{
+				'#', ' ', '#',
+				'#', ' ', '#',
+				'#', ' ', '#'
+		}
+)
+{
+
 }
