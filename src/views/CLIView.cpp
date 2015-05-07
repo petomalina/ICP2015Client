@@ -58,9 +58,7 @@ void CLIView::generateMap()
 			}
 			else if (x % 2 != 0 && y % 2 != 0) {
 				// randomize
-				int number = rand();
 				switch (rand() % 12) {
-
 					case 0 :
 						this->fragments.push_back(f.T());
 						break;
@@ -96,6 +94,8 @@ void CLIView::generateMap()
 						break;
 					case 11 :
 						this->fragments.push_back(f.I()->rotateFlip());
+						break;
+					default:
 						break;
 				}
 				this->fragments.push_back(f.T()->rotateFlip());
