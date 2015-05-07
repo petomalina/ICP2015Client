@@ -30,26 +30,75 @@ void CLIView::generateMap()
 
 			if (x == 0 && y == 0) {
 				this->fragments.push_back(f.L());
-			} else if (x == 0 && y == size-1) {
-
-			} else if (x == size -1 && y == 0) {
-
-			} else if (x == size -1 && y == size -1) {
-
-			} else if (x % 2 == 0 && y % 2 == 0) {
+			}
+			else if (x == 0 && y == size - 1) {
+				this->fragments.push_back(f.L()->rotateRight());
+			}
+			else if (x == size - 1 && y == 0) {
+				this->fragments.push_back(f.L()->rotateLeft());
+			}
+			else if (x == size - 1 && y == size - 1) {
+				this->fragments.push_back(f.L()->rotateFlip());
+			}
+			else if (x % 2 == 0 && y % 2 == 0) {
 				// calculate T-s
 				if (x == 0) { // up
-
-				} else if (y == 0) { // left
-
-				} else if (x == size -1) { // down
-
-				} else if (y == size -1) { // right
-
+					this->fragments.push_back(f.T());
+				}
+				else if (y == 0) { // left
+					this->fragments.push_back(f.T()->rotateRight());
+				}
+				else if (x == size - 1) { // down
+					this->fragments.push_back(f.T()->rotateLeft());
+				}
+				else if (y == size - 1) { // right
+					this->fragments.push_back(f.T()->rotateFlip());
 				}
 
-			} else if (x % 2 != 0 && y % 2 != 0) {
+			}
+			else if (x % 2 != 0 && y % 2 != 0) {
 				// randomize
+				int number = rand();
+				switch (rand() % 12) {
+
+					case 0 :
+						this->fragments.push_back(f.T());
+						break;
+					case 1 :
+						this->fragments.push_back(f.T()->rotateRight());
+						break;
+					case 2 :
+						this->fragments.push_back(f.T()->rotateLeft());
+						break;
+					case 3 :
+						this->fragments.push_back(f.T()->rotateFlip());
+						break;
+					case 4 :
+						this->fragments.push_back(f.L());
+						break;
+					case 5 :
+						this->fragments.push_back(f.L()->rotateRight());
+						break;
+					case 6 :
+						this->fragments.push_back(f.L()->rotateLeft());
+						break;
+					case 7 :
+						this->fragments.push_back(f.L()->rotateFlip());
+						break;
+					case 8 :
+						this->fragments.push_back(f.I());
+						break;
+					case 9 :
+						this->fragments.push_back(f.I()->rotateRight());
+						break;
+					case 10 :
+						this->fragments.push_back(f.I()->rotateLeft());
+						break;
+					case 11 :
+						this->fragments.push_back(f.I()->rotateFlip());
+						break;
+				}
+				this->fragments.push_back(f.T()->rotateFlip());
 			}
 		}
 	}
