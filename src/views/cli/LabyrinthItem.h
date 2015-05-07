@@ -22,7 +22,6 @@ public:
 	LabyrinthItem *rotateLeft();
 	LabyrinthItem *rotateRight();
 	LabyrinthItem *rotateFlip();
-	LabyrinthItem *transpose();
 	LabyrinthItem *swapColumns();
 	LabyrinthItem *swapRows();
 };
@@ -32,6 +31,20 @@ class LabyrinthItemL: public LabyrinthItem {
 
 public:
 	LabyrinthItemL();
+};
+
+// Class for T item
+class LabyrinthItemT: public LabyrinthItem {
+
+public:
+	LabyrinthItemT();
+};
+
+// Class for I item
+class LabyrinthItemI: public LabyrinthItem {
+
+public:
+	LabyrinthItemI();
 };
 
 
