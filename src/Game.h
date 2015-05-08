@@ -14,15 +14,15 @@ enum class ReturnCode: int {
 	ERROR_CONNECT
 };
 
-class Client {
+class Game {
 
 protected:
 	IView *view;
 
 public:
-	Client(IView *view);
+	Game(IView *view);
 
-	~Client();
+	~Game();
 
 public:
 	void run();

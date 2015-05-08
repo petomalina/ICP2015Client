@@ -2,20 +2,21 @@
 // Created by gelidus on 14.3.2015.
 //
 
-#include "Client.h"
+#include "Game.h"
 
 
-Client::Client(IView *view)
+Game::Game(IView *view)
 {
 	this->view = view;
+	this->view->initialize();
 }
 
-Client::~Client()
+Game::~Game()
 {
 
 }
 
-void Client::run()
+void Game::run()
 {
 	this->view->show();
 }

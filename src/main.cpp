@@ -1,6 +1,6 @@
 #include <QtWidgets/QApplication>
 
-#include "Client.h"
+#include "Game.h"
 
 int main (int argc, char *argv[])
 {
@@ -11,8 +11,8 @@ int main (int argc, char *argv[])
 	GUIView view{playgroundSize};
 	//CLIView view{playgroundSize};
 
-	view.initialize();
-	view.show();
+	Game game{&view};
+	game.run();
 
 	return application.exec();
 }

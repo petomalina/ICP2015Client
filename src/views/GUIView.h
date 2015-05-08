@@ -37,7 +37,7 @@ public:
 	virtual ~GUIView();
 
 public:
-	void initialize();
+	virtual void initialize() override;
 
 	void show();
 

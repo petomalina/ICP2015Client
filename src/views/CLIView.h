@@ -20,9 +20,9 @@ private:
 public:
 	CLIView(int size);
 
-	void initialize();
+	virtual void initialize() override;
 
-	void show();
+	virtual void show() override;
 
 	void generateMap();
 };

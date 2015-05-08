@@ -19,8 +19,8 @@ set(SOURCE_FILES
 
     src/main.cpp
 
-    src/Client.h
-    src/Client.cpp
+    src/Game.h
+    src/Game.cpp
 
     src/ContentManager.h
     src/ContentManager.cpp
@@ -30,6 +30,7 @@ set(SOURCE_FILES
     src/controllers/PlayerController.h
     src/controllers/PlayerController.cpp
 
+    src/views/IView.h
     src/views/GUIView.h
     src/views/GUIView.cpp
     src/views/CLIView.h
@@ -48,7 +49,7 @@ set(SOURCE_FILES
     src/models/Player.cpp
 )
 
-add_executable(ICP2015Client ${SOURCE_FILES} src/views/IView.h)
+add_executable(ICP2015Client ${SOURCE_FILES})
 target_link_libraries(ICP2015Client
     libqxcb.so
     libQt5Core.so
