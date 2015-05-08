@@ -16,23 +16,34 @@ public:
 	std::array<char, 9> Pixels;
 
 public:
-	LabyrinthItem(std::array<char, 9> pixels) {
+	LabyrinthItem(std::array<char, 9> pixels)
+	{
 		this->Pixels = pixels;
 	}
 
 	LabyrinthItem *rotateLeft();
+
 	LabyrinthItem *rotateRight();
+
 	LabyrinthItem *rotateFlip();
+
 	LabyrinthItem *swapColumns();
+
 	LabyrinthItem *swapRows();
+
+	std::string str();
 };
 
 class LabyrinthItemFactory {
 
 public:
 	LabyrinthItem *L();
+
 	LabyrinthItem *T();
+
 	LabyrinthItem *I();
+
+	LabyrinthItem *getRandomLabyrinthItem();
 };
 
 
