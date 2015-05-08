@@ -4,16 +4,19 @@
 
 #include "Game.h"
 
-using std::placeholders::_1;
+using namespace std::placeholders;
 
 Game::Game(IView *view)
 {
 	this->view = view;
 	this->view->initialize();
 
-	this->view->onCharacterMove.attach(std::bind(&Game::onPlayerMove, this, _1));
-	this->view->onFragmentPlace.attach(std::bind(&Game::onFragmentPlace, this, _1));
-	this->view->onGameStart.attach(std::bind(&Game::onGameStart, this, _1));
+	this->view->onCharacterMove(std::bind(&Game::onPlayerMove, this, _1));
+	this->view->onFragmentPlace(std::bind(&Game::onFragmentPlace, this, _3));
+	this->view->onGameStart(std::bind(&Game::onGameStart, this, _2));
+
+	this->view->onUndo(std::bind(&Game::onUndo, this));
+	this->view->onRedo(std::bind(&Game::onRedo, this));
 }
 
 Game::~Game()
@@ -59,6 +62,16 @@ void Game::onFragmentPlace(int index, FragmentType type, Rotation rot)
 }
 
 void Game::onGameStart(int players, int size)
+{
+
+}
+
+void Game::onUndo()
+{
+
+}
+
+void Game::onRedo()
 {
 
 }
