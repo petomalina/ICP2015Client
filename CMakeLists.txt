@@ -22,13 +22,11 @@ set(SOURCE_FILES
     src/Game.h
     src/Game.cpp
 
+    src/event/Event.h
+    src/event/EventListener.h
+
     src/ContentManager.h
     src/ContentManager.cpp
-
-    src/controllers/LabyrinthController.h
-    src/controllers/LabyrinthController.cpp
-    src/controllers/PlayerController.h
-    src/controllers/PlayerController.cpp
 
     src/views/IView.h
     src/views/GUIView.h
