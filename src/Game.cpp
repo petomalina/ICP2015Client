@@ -12,8 +12,8 @@ Game::Game(IView *view)
 	this->view->initialize();
 
 	this->view->onCharacterMove(std::bind(&Game::onPlayerMove, this, _1));
-	this->view->onFragmentPlace(std::bind(&Game::onFragmentPlace, this, _3));
-	this->view->onGameStart(std::bind(&Game::onGameStart, this, _2));
+	this->view->onFragmentPlace(std::bind(&Game::onFragmentPlace, this, _1, _2, _3));
+	this->view->onGameStart(std::bind(&Game::onGameStart, this, _1, _2));
 
 	this->view->onUndo(std::bind(&Game::onUndo, this));
 	this->view->onRedo(std::bind(&Game::onRedo, this));
