@@ -118,3 +118,41 @@ LabyrinthItem *LabyrinthItemFactory::I()
 							  }
 			};
 }
+
+LabyrinthItem *LabyrinthItemFactory::getRandomLabyrinthItem()
+{
+	switch (rand() % 12) {
+		case 0 :
+			return LabyrinthItemFactory::T();
+		case 1 :
+			return LabyrinthItemFactory::T()->rotateRight();
+		case 2 :
+			return LabyrinthItemFactory::T()->rotateLeft();
+		case 3 :
+			return LabyrinthItemFactory::T()->rotateFlip();
+		case 4 :
+			return LabyrinthItemFactory::L();
+		case 5 :
+			return LabyrinthItemFactory::L()->rotateRight();
+		case 6 :
+			return LabyrinthItemFactory::L()->rotateLeft();
+		case 7 :
+			return LabyrinthItemFactory::L()->rotateFlip();
+		case 8 :
+			return LabyrinthItemFactory::I();
+		case 9 :
+			return LabyrinthItemFactory::I()->rotateRight();
+		case 10 :
+			return LabyrinthItemFactory::I()->rotateLeft();
+		case 11 :
+			return LabyrinthItemFactory::I()->rotateFlip();
+		default:
+			break;
+	}
+}
+
+std::string LabyrinthItem::str()
+{
+	std::string _str(this->Pixels.begin(), this->Pixels.end());
+	return _str;
+}

@@ -3,7 +3,8 @@
 //
 
 #include "CLIView.h"
-
+#include <iostream>
+#include <string>
 
 CLIView::CLIView(int size)
 {
@@ -12,12 +13,41 @@ CLIView::CLIView(int size)
 
 void CLIView::initialize()
 {
-
+	std::cout << "This inicialize the game.\n\n\n";
+	//TODO: set values for player/game/..., if not specified (getopt ?) use default.
 }
 
 void CLIView::show()
 {
+	this->showMenu();
+}
 
+void CLIView::showMenu()
+{
+	std::cout << "Welcome to Cli version of MazeICP2015\n\n";
+	std::cout << "If you want to start a New game with default settings press <Space> key.\n";
+	std::cout << "If you want to edit Settings first press <E> key.\n";
+
+	getchar(); // TODO: delete this
+
+	this->showGame();
+}
+
+void CLIView::showGame()
+{
+	this->clearScreen();
+	//TODO: generate map ?
+	generateMap();
+	std::cout << "Here will be Game view\n\n\n";
+
+	LabyrinthItem *aaa = this->fragments[0];
+
+	std::cout << aaa->str() << "\n\n";
+}
+
+void CLIView::clearScreen()
+{
+	std::cout << std::string(100, '\n');
 }
 
 void CLIView::generateMap()
@@ -27,7 +57,6 @@ void CLIView::generateMap()
 
 	for (int x = 0; x < size; x++) {
 		for (int y = 0; y < size; y++) {
-
 			if (x == 0 && y == 0) {
 				this->fragments.push_back(f.L());
 			}
@@ -54,52 +83,36 @@ void CLIView::generateMap()
 				else if (y == size - 1) { // right
 					this->fragments.push_back(f.T()->rotateFlip());
 				}
-
-			}
-			else if (x % 2 != 0 && y % 2 != 0) {
-				// randomize
-				switch (rand() % 12) {
-					case 0 :
-						this->fragments.push_back(f.T());
-						break;
-					case 1 :
-						this->fragments.push_back(f.T()->rotateRight());
-						break;
-					case 2 :
-						this->fragments.push_back(f.T()->rotateLeft());
-						break;
-					case 3 :
-						this->fragments.push_back(f.T()->rotateFlip());
-						break;
-					case 4 :
-						this->fragments.push_back(f.L());
-						break;
-					case 5 :
-						this->fragments.push_back(f.L()->rotateRight());
-						break;
-					case 6 :
-						this->fragments.push_back(f.L()->rotateLeft());
-						break;
-					case 7 :
-						this->fragments.push_back(f.L()->rotateFlip());
-						break;
-					case 8 :
-						this->fragments.push_back(f.I());
-						break;
-					case 9 :
-						this->fragments.push_back(f.I()->rotateRight());
-						break;
-					case 10 :
-						this->fragments.push_back(f.I()->rotateLeft());
-						break;
-					case 11 :
-						this->fragments.push_back(f.I()->rotateFlip());
-						break;
-					default:
-						break;
+				else { // all other (even col/row crossings)
+					switch (rand() % 4) { // randomize T rotation
+						case 0 :
+							this->fragments.push_back(f.T());
+							break;
+						case 1 :
+							this->fragments.push_back(f.T()->rotateRight());
+							break;
+						case 2 :
+							this->fragments.push_back(f.T()->rotateLeft());
+							break;
+						case 3 :
+							this->fragments.push_back(f.T()->rotateFlip());
+							break;
+						default:
+							break;
+					}
 				}
-				this->fragments.push_back(f.T()->rotateFlip());
+			}
+			else { // all other (odd rows/cols)
+				// randomize
+				this->fragments.push_back(f.getRandomLabyrinthItem());
 			}
 		}
 	}
+
+	this->movingBlock = f.getRandomLabyrinthItem(); // get one random item that will be used for inserting to maze
+}
+
+void CLIView::createMovingBlocks()
+{
+
 }
