@@ -6,6 +6,7 @@
 #define ICP2015CLIENT_PLAYER_H
 
 #include <string>
+#include <QtCore/QPoint>
 
 #include "Card.h"
 
@@ -13,6 +14,7 @@ class Player {
 
 private:
 	std::string name;
+	QPoint position;
 
 public:
 	CardPack cards;
