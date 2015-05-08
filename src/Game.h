@@ -8,6 +8,7 @@
 #include <map>
 #include <string>
 
+#include "event/Event.h"
 #include "views/GUIView.h"
 #include "views/CLIView.h"
 #include "models/CardPackGenerator.h"
@@ -67,6 +68,13 @@ public:
 	void indexMovingBlock();
 
 	void adjustMovingBlockIndex();
+
+public:
+	void onPlayerMove(Rotation rot);
+
+	void onFragmentPlace(int index, FragmentType type, Rotation rot);
+
+	void onGameStart(int players, int size);
 };
 
 

@@ -4,11 +4,16 @@
 
 #include "Game.h"
 
+using std::placeholders::_1;
 
 Game::Game(IView *view)
 {
 	this->view = view;
 	this->view->initialize();
+
+	this->view->onCharacterMove.attach(std::bind(&Game::onPlayerMove, this, _1));
+	this->view->onFragmentPlace.attach(std::bind(&Game::onFragmentPlace, this, _1));
+	this->view->onGameStart.attach(std::bind(&Game::onGameStart, this, _1));
 }
 
 Game::~Game()
@@ -43,4 +48,17 @@ void Game::adjustMovingBlockIndex()
 		this->movingBlockIndex = maxIndex - this->movingBlockIndex;
 }
 
+void Game::onPlayerMove(Rotation rot)
+{
 
+}
+
+void Game::onFragmentPlace(int index, FragmentType type, Rotation rot)
+{
+
+}
+
+void Game::onGameStart(int players, int size)
+{
+
+}
