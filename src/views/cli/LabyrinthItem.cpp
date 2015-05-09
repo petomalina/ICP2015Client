@@ -4,7 +4,6 @@
 
 #include "LabyrinthItem.h"
 #include <algorithm>
-
 #include <iostream>
 
 

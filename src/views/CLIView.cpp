@@ -4,7 +4,6 @@
 
 #include "CLIView.h"
 #include <iostream>
-#include <string>
 
 CLIView::CLIView(int size)
 {
@@ -128,7 +127,7 @@ std::vector<std::string> CLIView::prepareMap()
 	int frags = this->size * this->size;
 
 	for (int i = 0; i < frags; ++i) {
-		int row = (i / this->size)*3;
+		int row = (i / this->size) * 3;
 		mazeRows[row].append(this->fragments[i]->getFirstRow());
 		mazeRows[row + 1].append(this->fragments[i]->getSecondRow());
 		mazeRows[row + 2].append(this->fragments[i]->getThirdRow());
