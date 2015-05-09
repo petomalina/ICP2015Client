@@ -4,17 +4,30 @@
 
 #include "Player.h"
 
-Player::Player(std::string name)
+Player::Player(int number, QPoint pos) : Number(number)
 {
-	this->name = name;
+	this->position = pos;
 }
 
-std::string Player::getName() const
+Card &Player::card()
 {
-	return this->name;
+	return this->Cards.back();
 }
 
-Card &Player::topCard()
+void Player::drawCard()
 {
-	return this->cards.back();
+	this->Cards.pop_back();
+}
+
+void Player::move(Movement type) {
+	switch (type) {
+		case Movement::Up:
+			this->position.ry() += 1; break;
+		case Movement::Down:
+			this->position.ry() -= 1; break;
+		case Movement::Left:
+			this->position.rx() -= 1; break;
+		case Movement::Right:
+			this->position.rx() += 1; break;
+	}
 }
