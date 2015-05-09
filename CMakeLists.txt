@@ -34,6 +34,8 @@ set(SOURCE_FILES
     src/views/CLIView.h
     src/views/CLIView.cpp
 
+    src/views/Fragment.h
+    src/views/Fragment.cpp
     src/views/gui/LabyrinthItem.h
     src/views/gui/LabyrinthItem.cpp
     src/views/cli/LabyrinthItem.h
