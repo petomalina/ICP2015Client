@@ -6,9 +6,6 @@
 #include <algorithm>
 
 #include <iostream>
-//TODO: delete
-
-#include <string>
 
 
 LabyrinthItem *LabyrinthItem::rotateLeft()
@@ -122,14 +119,13 @@ LabyrinthItem *LabyrinthItemFactory::getRandomLabyrinthItem()
 		case 11 :
 			return LabyrinthItemFactory::I()->rotateFlip();
 		default:
-			break;
+			return LabyrinthItemFactory::T(); // catchup
 	}
 }
 
 std::string LabyrinthItem::str()
 {
-	std::string _str(this->Pixels.begin(), this->Pixels.end());
-	return _str;
+	return std::string(this->Pixels.begin(), this->Pixels.end());
 }
 
 std::string LabyrinthItem::getFirstRow()
