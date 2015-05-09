@@ -134,36 +134,15 @@ std::string LabyrinthItem::str()
 
 std::string LabyrinthItem::getFirstRow()
 {
-	std::string ret = " ";
-	ret +=  this->Pixels[0];
-	ret += " ";
-	ret +=  this->Pixels[1];
-	ret += " ";
-	ret +=  this->Pixels[2];
-	ret += " ";
-	return ret;
+	return std::string() + this->Pixels[0] + " " + this->Pixels[1] + " " + this->Pixels[2] + " ";
 }
 
 std::string LabyrinthItem::getSecondRow()
 {
-	std::string ret = " ";
-	ret +=  this->Pixels[3];
-	ret += " ";
-	ret +=  this->Pixels[4];
-	ret += " ";
-	ret +=  this->Pixels[5];
-	ret += " ";
-	return ret;
+	return std::string() + this->Pixels[3] + " " + this->Pixels[4] + " " + this->Pixels[5] + " ";
 }
 
 std::string LabyrinthItem::getThirdRow()
 {
-	std::string ret = " ";
-	ret +=  this->Pixels[6];
-	ret += " ";
-	ret +=  this->Pixels[7];
-	ret += " ";
-	ret +=  this->Pixels[8];
-	ret += " ";
-	return ret;
+	return std::string() + this->Pixels[6] + " " + this->Pixels[7] + " " + this->Pixels[8] + " ";
 }
