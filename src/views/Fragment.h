@@ -33,7 +33,7 @@ public:
 	virtual void setPosition(int x, int y);
 	virtual void move(int dx, int dy);
 
-	virtual Fragment *rotate(FragmentRotation rotation);
+	virtual void rotate(FragmentRotation rotation);
 };
 
 class FragmentFactory {
