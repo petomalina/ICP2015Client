@@ -4,13 +4,23 @@
 
 #include "LabyrinthItem.h"
 
-LabyrinthItem::LabyrinthItem(QPixmap pixmap): QGraphicsPixmapItem(pixmap)
+LabyrinthItem::LabyrinthItem(QPixmap pixmap, int x, int y): QGraphicsPixmapItem(pixmap)
 {
 	this->setFlag(GraphicsItemFlag::ItemIsFocusable);
-	this->setScale(2.5);
+	this->setPosition(x, y);
 }
 
 LabyrinthItem::~LabyrinthItem()
 {
 
+}
+
+void LabyrinthItem::setPosition(int x, int y)
+{
+	this->setPos(x*Width, y*Height);
+}
+
+void LabyrinthItem::move(int x, int y)
+{
+	this->moveBy(x*Width, y*Height);
 }

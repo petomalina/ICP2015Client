@@ -15,8 +15,13 @@ public:
 	static const int Height = 40;
 
 public:
-	LabyrinthItem(QPixmap pixmap);
+	LabyrinthItem(QPixmap pixmap, int x = 0, int y = 0);
 	~LabyrinthItem();
+
+public:
+	void setPosition(int x, int y);
+
+	void move(int x, int y);
 };
 
 

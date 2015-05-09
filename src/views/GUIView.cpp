@@ -15,10 +15,10 @@ GUIView::GUIView(int size)
 
 	this->savedScene = nullptr;
 
-	// +1 so we can manipulate with one more stone
-	qreal pixelWidth = (this->size + 1) * LabyrinthItem::Width;
-	// +2 so we can manipulate with stone and add some stats
-	qreal pixelHeight = (this->size + 2) * LabyrinthItem::Height;
+	// +2 so we can manipulate with one more stone
+	qreal pixelWidth = (this->size + 2) * LabyrinthItem::Width;
+	// +3 so we can manipulate with stone and add some stats
+	qreal pixelHeight = (this->size + 3) * LabyrinthItem::Height;
 
 	this->menuScene = new QGraphicsScene{0, 0, pixelWidth, pixelHeight};
 	this->gameScene = new QGraphicsScene{0, 0, pixelWidth, pixelHeight};
@@ -86,6 +86,9 @@ void GUIView::initialize()
 
 	/* GAME INITIALIZATION */
 	this->generateMap();
+	for (LabyrinthItem *frag : this->fragments) {
+		this->gameScene->addItem(frag);
+	}
 };
 
 
@@ -113,7 +116,7 @@ void GUIView::generateMap()
 {
 	for (int x = 0; x < size; x++) {
 		for (int y = 0; y < size; y++) {
-			fragments.push_back(new LabyrinthItem(SContentManager.getTexture("L")));
+			fragments.push_back(new LabyrinthItem(SContentManager.getTexture("L"), x+1, y+1));
 			if (x == 0 && y == 0) {
 			} else if (x == 0 && y == size-1) {
 
