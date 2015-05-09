@@ -17,6 +17,7 @@
 
 #include "IView.h"
 #include "gui/LabyrinthItem.h"
+#include "../ContentManager.h"
 
 class GUIView: public QGraphicsView, public IView {
 Q_OBJECT
@@ -24,7 +25,7 @@ Q_OBJECT
 protected:
 	QGraphicsScene *menuScene, *gameScene, *gameOptionsScene;
 
-	int size;
+	int size, players;
 
 	// menu elements
 	std::vector<QWidget*> menuElements, gameOptionsElements, gameElements;
