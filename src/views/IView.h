@@ -6,13 +6,10 @@
 #define ICP2015CLIENT_IVIEW_H
 
 #include "../event/Event.h"
+#include "Fragment.h"
 
 enum class Rotation {
 	Up, Down, Left, Right
-};
-
-enum class FragmentType {
-	T, L, I
 };
 
 class IView {

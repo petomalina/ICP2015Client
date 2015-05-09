@@ -19,22 +19,33 @@
 #include "gui/LabyrinthItem.h"
 #include "../ContentManager.h"
 
+#include "../models/CardPackGenerator.h"
+#include "../models/Player.h"
+
+struct GameData {
+	int PlayerCount;
+	int PlaygroundSize;
+
+	std::map<int, Player*> Players;
+	std::vector<Fragment*> Map;
+};
+
 class GUIView: public QGraphicsView, public IView {
 Q_OBJECT
 
+public:
+	GameData *data; // this should be only for friends
+
 protected:
 	QGraphicsScene *savedScene, *menuScene, *gameScene, *gameOptionsScene;
-
-	int size, players;
-
 	// menu elements
 	std::vector<QWidget*> menuElements, gameOptionsElements, gameElements;
 
-	// game elements
-	std::vector<LabyrinthItem*> fragments;
+	// menu inputs
+	int playersInput, sizeInput;
 
 public:
-	GUIView(int size);
+	GUIView();
 	virtual ~GUIView();
 
 public:
@@ -47,8 +58,6 @@ public:
 	void showGameOptions();
 
 	void showMenu();
-
-	void generateMap();
 
 protected: // geometry utils
 	void createSimpleMenu(QGraphicsScene *scene, std::vector<QWidget*> &elements);

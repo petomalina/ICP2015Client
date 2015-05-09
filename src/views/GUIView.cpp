@@ -7,22 +7,18 @@
 #include <QtCore/qcoreapplication.h>
 #include "GUIView.h"
 
-GUIView::GUIView(int size)
+GUIView::GUIView()
 {
-	// initial setup
-	this->size = size;
-	this->players = 4;
-
 	this->savedScene = nullptr;
 
 	// +2 so we can manipulate with one more stone
-	qreal pixelWidth = (this->size + 2) * LabyrinthItem::Width;
+	//qreal pixelWidth = (this->size + 2) * LabyrinthItem::Width;
 	// +3 so we can manipulate with stone and add some stats
-	qreal pixelHeight = (this->size + 3) * LabyrinthItem::Height;
+	//qreal pixelHeight = (this->size + 3) * LabyrinthItem::Height;
 
-	this->menuScene = new QGraphicsScene{0, 0, pixelWidth, pixelHeight};
-	this->gameScene = new QGraphicsScene{0, 0, pixelWidth, pixelHeight};
-	this->gameOptionsScene = new QGraphicsScene{0, 0, pixelWidth, pixelHeight};
+	this->menuScene = new QGraphicsScene{0, 0, 800, 600};
+	this->gameScene = new QGraphicsScene{0, 0, 800, 600};
+	//this->gameOptionsScene = new QGraphicsScene{0, 0, pixelWidth, pixelHeight};
 	this->scale(1.5, 1.5);
 
 	SContentManager.addTexture("I", "graphics/I.png");
@@ -85,10 +81,6 @@ void GUIView::initialize()
 
 
 	/* GAME INITIALIZATION */
-	this->generateMap();
-	for (LabyrinthItem *frag : this->fragments) {
-		this->gameScene->addItem(frag);
-	}
 };
 
 
@@ -111,38 +103,6 @@ void GUIView::showMenu()
 {
 	this->setScene(this->menuScene);
 }
-
-void GUIView::generateMap()
-{
-	for (int x = 0; x < size; x++) {
-		for (int y = 0; y < size; y++) {
-			fragments.push_back(new LabyrinthItem(SContentManager.getTexture("L"), x+1, y+1));
-			if (x == 0 && y == 0) {
-			} else if (x == 0 && y == size-1) {
-
-			} else if (x == size -1 && y == 0) {
-
-			} else if (x == size -1 && y == size -1) {
-
-			} else if (x % 2 == 0 && y % 2 == 0) {
-				// calculate T-s
-				if (x == 0) { // up
-
-				} else if (y == 0) { // left
-
-				} else if (x == size -1) { // down
-
-				} else if (y == size -1) { // right
-
-				}
-
-			} else if (x % 2 != 0 && y % 2 != 0) {
-				// randomize
-			}
-		}
-	}
-}
-
 
 void GUIView::createSimpleMenu(QGraphicsScene *scene, std::vector<QWidget *> &elements)
 {
@@ -200,18 +160,18 @@ void GUIView::handleExitButton()
 
 void GUIView::handleGameStartButton()
 {
-	this->onGameStart.dispatch(this->players, this->size);
+	this->onGameStart.dispatch(this->playersInput, this->sizeInput);
 	this->showGame();
 }
 
 void GUIView::handlePlayersChange(const QString &text)
 {
-	this->players = atoi(text.toStdString().c_str());
+	this->playersInput = atoi(text.toStdString().c_str());
 }
 
 void GUIView::handleSizeChange(const QString &text)
 {
-	this->size = atoi(text.toStdString().c_str());
+	this->sizeInput = atoi(text.toStdString().c_str());
 }
 
 void GUIView::keyPressEvent(QKeyEvent *event)

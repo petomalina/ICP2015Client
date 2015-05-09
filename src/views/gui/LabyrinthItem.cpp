@@ -4,10 +4,11 @@
 
 #include "LabyrinthItem.h"
 
-LabyrinthItem::LabyrinthItem(QPixmap pixmap, int x, int y): QGraphicsPixmapItem(pixmap)
+LabyrinthItem::LabyrinthItem(FragmentType type, FragmentRotation rotation, int x, int y):
+		QGraphicsPixmapItem(SContentManager.getTexture(type == FragmentType::L ? "L" : type == FragmentType::I ? "I" : "T")),
+		Fragment(x, y, type, rotation)
 {
 	this->setFlag(GraphicsItemFlag::ItemIsFocusable);
-	this->setPosition(x, y);
 }
 
 LabyrinthItem::~LabyrinthItem()

@@ -6,8 +6,10 @@
 #define ICP2015CLIENT_LABYRINTHITEM_H
 
 #include <QtWidgets/QGraphicsPixmapItem>
+#include "../Fragment.h"
+#include "../../ContentManager.h"
 
-class LabyrinthItem: public QObject, public QGraphicsPixmapItem {
+class LabyrinthItem: public QObject, public QGraphicsPixmapItem, public Fragment {
 Q_OBJECT
 
 public:
@@ -15,13 +17,13 @@ public:
 	static const int Height = 40;
 
 public:
-	LabyrinthItem(QPixmap pixmap, int x = 0, int y = 0);
+	LabyrinthItem(FragmentType type, FragmentRotation rotation, int x = 0, int y = 0);
 	~LabyrinthItem();
 
 public:
-	void setPosition(int x, int y);
+	virtual void setPosition(int x, int y) override;
 
-	void move(int x, int y);
+	virtual void move(int x, int y) override;
 };
 
 
