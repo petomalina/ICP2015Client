@@ -9,7 +9,11 @@
 
 GUIView::GUIView(int size)
 {
+	// initial setup
 	this->size = size;
+	this->players = 4;
+
+	this->savedScene = nullptr;
 
 	// +1 so we can manipulate with one more stone
 	qreal pixelWidth = (this->size + 1) * LabyrinthItem::Width;
@@ -62,6 +66,7 @@ void GUIView::initialize()
 
 	QComboBox *playersInput = new QComboBox{};
 	playersInput->addItems({ "4", "3", "2", "1" });
+	connect(playersInput, SIGNAL(currentIndexChanged(const QString&)), this, SLOT(handlePlayersChange(const QString&)));
 	this->gameOptionsElements.push_back(playersInput);
 
 	QLabel *playSize = new QLabel{"Playground: "};
@@ -69,6 +74,7 @@ void GUIView::initialize()
 
 	QComboBox *sizeInput = new QComboBox{};
 	sizeInput->addItems({"7", "5", "9", "11"});
+	connect(sizeInput, SIGNAL(currentIndexChanged(const QString&)), this, SLOT(handleSizeChange(const QString&)));
 	this->gameOptionsElements.push_back(sizeInput);
 
 	QPushButton *startButton = new QPushButton{"Start game"};
@@ -191,16 +197,29 @@ void GUIView::handleExitButton()
 
 void GUIView::handleGameStartButton()
 {
-	QComboBox *players = qobject_cast<QComboBox*>(this->gameOptionsElements[3]);
-	this->players = atoi(players->currentText().toStdString().c_str());
 	this->onGameStart.dispatch(this->players, this->size);
 	this->showGame();
 }
 
+void GUIView::handlePlayersChange(const QString &text)
+{
+	this->players = atoi(text.toStdString().c_str());
+}
+
+void GUIView::handleSizeChange(const QString &text)
+{
+	this->size = atoi(text.toStdString().c_str());
+}
 
 void GUIView::keyPressEvent(QKeyEvent *event)
 {
 	if (event->key() == Qt::Key_Escape) {
-		this->showMenu();
+		if (this->savedScene == nullptr) {
+			this->savedScene = this->scene();
+			this->setScene(this->menuScene);
+		} else {
+			this->setScene(this->savedScene);
+			this->savedScene = nullptr;
+		}
 	}
 }

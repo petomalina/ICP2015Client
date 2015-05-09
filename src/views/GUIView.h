@@ -23,7 +23,7 @@ class GUIView: public QGraphicsView, public IView {
 Q_OBJECT
 
 protected:
-	QGraphicsScene *menuScene, *gameScene, *gameOptionsScene;
+	QGraphicsScene *savedScene, *menuScene, *gameScene, *gameOptionsScene;
 
 	int size, players;
 
@@ -63,6 +63,10 @@ private slots:
 	void handleExitButton();
 
 	void handleGameStartButton();
+
+	void handlePlayersChange(const QString &text);
+
+	void handleSizeChange(const QString &text);
 
 protected:
 	virtual void keyPressEvent(QKeyEvent *event) override;
