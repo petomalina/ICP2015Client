@@ -43,7 +43,8 @@ void Fragment::move(int dx, int dy)
 	this->y += dy;
 }
 
-void Fragment::rotate(FragmentRotation rotation)
+Fragment *Fragment::rotate(FragmentRotation rotation)
 {
 	this->rotation = rotation;
+	return this;
 }
