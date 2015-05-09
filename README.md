@@ -16,3 +16,9 @@ it will create linux like Makefile in base directory.
 
 
 
+Doxygen documentation
+---------------------
+
+Running command `doxygen` in base directory will generate automatic documentation from code sources.
+
+For correct caller/callie graphs generating you'll probably need to resolve `graphviz` dependency.
