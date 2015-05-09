@@ -17,28 +17,21 @@ protected:
 
 	Textures textures;
 public:
-	void AddTexture(std::string name, std::string path);
+	void addTexture(std::string name, std::string path);
 
-	void AddTexture(std::string name, QPixmap pixmap);
+	void addTexture(std::string name, QPixmap pixmap);
 
-	QPixmap GetTexture(std::string name);
+	QPixmap getTexture(std::string name);
 
-	// singleton part
-private:
-	static ContentManager *instance;
-
-public: // Singleton method
-	static ContentManager *get()
+public: // Singleton
+	static ContentManager &get()
 	{
-		if (instance == nullptr) {
-			instance = new ContentManager{};
-		}
-
+		static ContentManager instance;
 		return instance;
 	}
 };
 
-#define SContentManager ContentManager.get()
+#define SContentManager ContentManager::get()
 
 
 #endif //ICP2015CLIENT_CONTENTMANAGER_H
