@@ -19,17 +19,6 @@
 #include "gui/LabyrinthItem.h"
 #include "../ContentManager.h"
 
-#include "../models/CardPackGenerator.h"
-#include "../models/Player.h"
-
-struct GameData {
-	int PlayerCount;
-	int PlaygroundSize;
-
-	std::map<int, Player*> Players;
-	std::vector<Fragment*> Map;
-};
-
 class GUIView: public QGraphicsView, public IView {
 Q_OBJECT
 

@@ -92,6 +92,21 @@ void Game::generateMap()
 	}
 }
 
+
+void Game::generatePlayers()
+{
+	// clear all players
+	for (Player *player : this->data->Players) {
+		delete player;
+	}
+	this->data->Players.clear();
+
+	for (int i = 1; i <= this->data->PlayerCount; i++) {
+		// TODO: Calculate position of player
+		this->data->Players.push_back(new Player(static_cast<int>(pow(i, 2)), QPoint{}));
+	}
+}
+
 void Game::indexMovingBlock()
 {
 	if (this->pressedKey == KeyBindings::keyRight)

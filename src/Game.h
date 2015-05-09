@@ -7,6 +7,7 @@
 
 #include <map>
 #include <string>
+#include <math.h>
 
 #include "event/Event.h"
 #include "views/GUIView.h"
@@ -60,6 +61,8 @@ public:
 
 private:
 	void generateMap();
+
+	void generatePlayers();
 
 public:
 	void run();

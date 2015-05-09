@@ -8,6 +8,17 @@
 #include "../event/Event.h"
 #include "Fragment.h"
 
+#include "../models/CardPackGenerator.h"
+#include "../models/Player.h"
+
+struct GameData {
+	int PlayerCount;
+	int PlaygroundSize;
+
+	std::vector<Player*> Players;
+	std::vector<Fragment*> Map;
+};
+
 enum class Rotation {
 	Up, Down, Left, Right
 };
