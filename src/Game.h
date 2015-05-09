@@ -11,8 +11,6 @@
 #include "event/Event.h"
 #include "views/GUIView.h"
 #include "views/CLIView.h"
-#include "models/CardPackGenerator.h"
-#include "models/Player.h"
 
 
 enum class ReturnCode: int {
@@ -50,17 +48,18 @@ enum class KeyBindings: int {
 class Game {
 protected:
 	IView *view;
+	GameData *data;
 
-	int playersCount, size;
-	std::vector<std::string> playersNames;
 	int movingBlockIndex;
 	KeyBindings pressedKey;
-	std::map<int, Player*> players;
 
 public:
 	Game(IView *view);
 
 	~Game();
+
+private:
+	void generateMap();
 
 public:
 	void run();

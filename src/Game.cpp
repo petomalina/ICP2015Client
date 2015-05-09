@@ -29,6 +29,69 @@ void Game::run()
 	this->view->show();
 }
 
+
+void Game::generateMap()
+{
+	// clear map before generating
+	for (Fragment *fragment : this->data->Map) {
+		delete fragment;
+	}
+	this->data->Map.clear();
+
+	for (int x = 0; x < this->data->PlaygroundSize; x++) {
+		for (int y = 0; y < this->data->PlaygroundSize; y++) {
+			if (x == 0 && y == 0) {
+				this->data->Map.push_back(FragmentFactory::create(x, y, FragmentType::L, FragmentRotation::Normal));
+			}
+			else if (x == 0 && y == this->data->PlaygroundSize - 1) {
+				this->data->Map.push_back(FragmentFactory::create(x, y, FragmentType::L, FragmentRotation::Right));
+			}
+			else if (x == this->data->PlaygroundSize - 1 && y == 0) {
+				this->data->Map.push_back(FragmentFactory::create(x, y, FragmentType::L, FragmentRotation::Left));
+			}
+			else if (x == this->data->PlaygroundSize - 1 && y == this->data->PlaygroundSize - 1) {
+				this->data->Map.push_back(FragmentFactory::create(x, y, FragmentType::L, FragmentRotation::Flip));
+			}
+			else if (x % 2 == 0 && y % 2 == 0) {
+				// calculate T-s
+				if (x == 0) { // up
+					this->data->Map.push_back(FragmentFactory::create(x, y, FragmentType::T, FragmentRotation::Normal));
+				}
+				else if (y == 0) { // left
+					this->data->Map.push_back(FragmentFactory::create(x, y, FragmentType::T, FragmentRotation::Left));
+				}
+				else if (x == this->data->PlaygroundSize - 1) { // down
+					this->data->Map.push_back(FragmentFactory::create(x, y, FragmentType::T, FragmentRotation::Flip));
+				}
+				else if (y == this->data->PlaygroundSize - 1) { // right
+					this->data->Map.push_back(FragmentFactory::create(x, y, FragmentType::T, FragmentRotation::Right));
+				}
+				else { // all other (even col/row crossings)
+					switch (rand() % 4) { // randomize T rotation
+						case 0 :
+							this->data->Map.push_back(FragmentFactory::create(x, y, FragmentType::T, FragmentRotation::Normal));
+							break;
+						case 1 :
+							this->data->Map.push_back(FragmentFactory::create(x, y, FragmentType::T, FragmentRotation::Right));
+							break;
+						case 2 :
+							this->data->Map.push_back(FragmentFactory::create(x, y, FragmentType::T, FragmentRotation::Left));
+							break;
+						case 3 :
+							this->data->Map.push_back(FragmentFactory::create(x, y, FragmentType::T, FragmentRotation::Flip));
+							break;
+						default:
+							break;
+					}
+				}
+			}
+			else { // all other (odd rows/cols)
+				this->data->Map.push_back(FragmentFactory::createRandom(x, y));
+			}
+		}
+	}
+}
+
 void Game::indexMovingBlock()
 {
 	if (this->pressedKey == KeyBindings::keyRight)
@@ -44,7 +107,7 @@ void Game::indexMovingBlock()
 void Game::adjustMovingBlockIndex()
 {
 	// Maximal size of indexes where moving block can be placed. (only even rows/cols on 4 sides)
-	int maxIndex = (this->size / 2) * 4;
+	int maxIndex = (this->data->PlaygroundSize / 2) * 4;
 	if (this->movingBlockIndex >= maxIndex)
 		this->movingBlockIndex = this->movingBlockIndex % maxIndex;
 	else
@@ -63,7 +126,9 @@ void Game::onFragmentPlace(int index, FragmentType type, Rotation rot)
 
 void Game::onGameStart(int players, int size)
 {
-
+	this->data->PlayerCount = players;
+	this->data->PlaygroundSize = size;
+	this->generateMap();
 }
 
 void Game::onUndo()
