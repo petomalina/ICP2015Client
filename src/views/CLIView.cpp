@@ -40,9 +40,10 @@ void CLIView::showGame()
 	generateMap();
 	std::cout << "Here will be Game view\n\n\n";
 
-	LabyrinthItem *aaa = this->fragments[0];
-
-	std::cout << aaa->str() << "\n\n";
+	std::vector<std::string> mapRows = this->prepareMap();
+	for (int i = 0; i < 3 * this->size; ++i) {
+		std::cout << mapRows[i] << "\n";
+	}
 }
 
 void CLIView::clearScreen()
@@ -75,13 +76,13 @@ void CLIView::generateMap()
 					this->fragments.push_back(f.T());
 				}
 				else if (y == 0) { // left
-					this->fragments.push_back(f.T()->rotateRight());
-				}
-				else if (x == size - 1) { // down
 					this->fragments.push_back(f.T()->rotateLeft());
 				}
-				else if (y == size - 1) { // right
+				else if (x == size - 1) { // down
 					this->fragments.push_back(f.T()->rotateFlip());
+				}
+				else if (y == size - 1) { // right
+					this->fragments.push_back(f.T()->rotateRight());
 				}
 				else { // all other (even col/row crossings)
 					switch (rand() % 4) { // randomize T rotation
@@ -114,5 +115,23 @@ void CLIView::generateMap()
 
 void CLIView::createMovingBlocks()
 {
-
 }
+
+std::vector<std::string> CLIView::prepareMap()
+{
+	// will prepare map to vector of 3 times <maze-size> strings symbolizing rows of map that will be used to print the maze out.
+	std::vector<std::string> mazeRows;
+	for (int i = 0; i < 3 * this->size; ++i) {
+		mazeRows.push_back("");
+	}
+
+	int frags = this->size * this->size;
+
+	for (int i = 0; i < frags; ++i) {
+		int row = (i / this->size)*3;
+		mazeRows[row].append(this->fragments[i]->getFirstRow());
+		mazeRows[row + 1].append(this->fragments[i]->getSecondRow());
+		mazeRows[row + 2].append(this->fragments[i]->getThirdRow());
+	}
+	return mazeRows;
+};

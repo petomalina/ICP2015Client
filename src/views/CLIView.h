@@ -15,9 +15,9 @@ class CLIView: public IView {
 private:
 	int size;
 
-	LabyrinthItem* movingBlock;
+	LabyrinthItem *movingBlock;
 
-	std::vector<LabyrinthItem*> fragments;
+	std::vector<LabyrinthItem *> fragments;
 
 public:
 	CLIView(int size);
@@ -31,6 +31,8 @@ public:
 	void showGame();
 
 	void generateMap();
+
+	std::vector<std::string> prepareMap();
 
 	void clearScreen();
 
