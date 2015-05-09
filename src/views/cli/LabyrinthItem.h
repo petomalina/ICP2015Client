@@ -27,9 +27,10 @@ public:
 
 	LabyrinthItem *rotateFlip();
 
-	LabyrinthItem *swapColumns();
+	std::string getFirstRow();
+	std::string getSecondRow();
+	std::string getThirdRow();
 
-	LabyrinthItem *swapRows();
 
 	std::string str();
 };
