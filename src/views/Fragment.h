@@ -5,12 +5,14 @@
 #ifndef ICP2015CLIENT_FRAGMENT_H
 #define ICP2015CLIENT_FRAGMENT_H
 
-enum class FragmentType {
-	L, T, I
+#include <algorithm>
+
+enum class FragmentType: int {
+	L = 0, T = 1, I = 2
 };
 
-enum class FragmentRotation {
-	Normal, Left, Right, Flip
+enum class FragmentRotation: int {
+	Normal = 0, Left = 1, Right = 2, Flip = 2
 };
 
 class Fragment {
@@ -43,8 +45,12 @@ public:
 		return new Fragment(x, y, type, rot);
 	}
 
-	static Fragment *create(FragmentType type, FragmentRotation rot = FragmentRotation::Normal) {
-		return new Fragment(0, 0, type, rot);
+	static Fragment *createRandom(int x, int y) {
+
+		FragmentType type = static_cast<FragmentType>(rand() % 3);
+		FragmentRotation rot = static_cast<FragmentRotation>(rand() % 4);
+
+		return new Fragment(x, y, type, rot);
 	}
 };
 
