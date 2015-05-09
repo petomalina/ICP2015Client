@@ -10,21 +10,27 @@
 
 #include "Card.h"
 
+enum class Movement {
+	Up, Down, Left, Right
+};
+
 class Player {
 
+public:
+	const int Number;
+	CardPack Cards;
+
 private:
-	std::string name;
 	QPoint position;
 
 public:
-	CardPack cards;
+	Player(int number, QPoint position);
 
-public:
-	Player(std::string name);
+	Card &card();
 
-	std::string getName() const;
+	void drawCard();
 
-	Card &topCard();
+	void move(Movement type);
 };
 
 

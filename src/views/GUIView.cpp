@@ -21,6 +21,10 @@ GUIView::GUIView(int size)
 	this->gameOptionsScene = new QGraphicsScene{0, 0, pixelWidth, pixelHeight};
 	this->scale(1.5, 1.5);
 
+	SContentManager.addTexture("I", "graphics/I.png");
+	SContentManager.addTexture("L", "graphics/L.png");
+	SContentManager.addTexture("T", "graphics/T.png");
+
 	this->showMenu();
 }
 
@@ -103,9 +107,8 @@ void GUIView::generateMap()
 {
 	for (int x = 0; x < size; x++) {
 		for (int y = 0; y < size; y++) {
-
+			fragments.push_back(new LabyrinthItem(SContentManager.getTexture("L")));
 			if (x == 0 && y == 0) {
-
 			} else if (x == 0 && y == size-1) {
 
 			} else if (x == size -1 && y == 0) {
@@ -188,6 +191,9 @@ void GUIView::handleExitButton()
 
 void GUIView::handleGameStartButton()
 {
+	QComboBox *players = qobject_cast<QComboBox*>(this->gameOptionsElements[3]);
+	this->players = atoi(players->currentText().toStdString().c_str());
+	this->onGameStart.dispatch(this->players, this->size);
 	this->showGame();
 }
 
