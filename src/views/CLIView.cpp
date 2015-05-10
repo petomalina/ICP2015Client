@@ -13,8 +13,11 @@ void CLIView::initialize(GameData *data)
 {
 	this->game = data;
 
-	std::cout << "This inicialize the game.\n\n\n";
-	//TODO: set values for player/game/..., if not specified (getopt ?) use default.
+	std::cout << "This initializes the game.\n\n\n";
+
+	for (Fragment *frag : this->game->Map) {
+		this->fragments.push_back(new LabyrinthItem(frag));
+	}
 }
 
 void CLIView::show()
@@ -30,6 +33,7 @@ void CLIView::showMenu()
 
 	getchar(); // TODO: delete this
 
+	this->onGameStart.dispatch(1, 7);
 	this->showGame();
 }
 
@@ -64,11 +68,11 @@ std::vector<std::string> CLIView::prepareMap()
 
 	int frags = this->game->PlaygroundSize * this->game->PlaygroundSize;
 
-	/*for (int i = 0; i < frags; ++i) {
+	for (int i = 0; i < frags; ++i) {
 		int row = (i / this->game->PlaygroundSize) * 3;
 		mazeRows[row].append(this->fragments[i]->getFirstRow());
 		mazeRows[row + 1].append(this->fragments[i]->getSecondRow());
 		mazeRows[row + 2].append(this->fragments[i]->getThirdRow());
 	}
-	return mazeRows;*/
+	return mazeRows;
 };

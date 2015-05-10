@@ -41,6 +41,15 @@ void LabyrinthItem::initialize()
 	}
 }
 
+
+LabyrinthItem *LabyrinthItem::rotate(FragmentRotation rotation)
+{
+	// TODO: logic for each turn
+
+	this->Frag->rotate(rotation);
+	return this;
+}
+
 LabyrinthItem *LabyrinthItem::rotateLeft()
 {
 	std::array<char, 9> rotated = this->Pixels;
@@ -91,38 +100,6 @@ LabyrinthItem *LabyrinthItem::rotateFlip()
 	this->Pixels = rotated;
 	return this;
 }
-
-/*LabyrinthItem *LabyrinthItemFactory::L()
-{
-	new LabyrinthItem{{
-							  '#', '#', '#',
-							  '#', ' ', ' ',
-							  '#', ' ', '#',
-					  }
-	};
-}
-
-LabyrinthItem *LabyrinthItemFactory::T()
-{
-	return
-			new LabyrinthItem{{
-									  '#', '#', '#',
-									  ' ', ' ', ' ',
-									  '#', ' ', '#',
-							  }
-			};
-}
-
-LabyrinthItem *LabyrinthItemFactory::I()
-{
-	return
-			new LabyrinthItem{{
-									  '#', ' ', '#',
-									  '#', ' ', '#',
-									  '#', ' ', '#',
-							  }
-			};
-}*/
 
 std::string LabyrinthItem::getFirstRow()
 {

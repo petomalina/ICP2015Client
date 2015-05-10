@@ -10,7 +10,6 @@
 #include <iostream>
 #include "../Fragment.h"
 
-// Base class, no constructor
 class LabyrinthItem {
 
 public:
@@ -24,15 +23,20 @@ public:
 private:
 	void initialize();
 
-public: // api
 	LabyrinthItem *rotateLeft();
 
 	LabyrinthItem *rotateRight();
 
 	LabyrinthItem *rotateFlip();
 
+public:
+
+	LabyrinthItem *rotate(FragmentRotation rotation);
+
 	std::string getFirstRow();
+
 	std::string getSecondRow();
+
 	std::string getThirdRow();
 };
 

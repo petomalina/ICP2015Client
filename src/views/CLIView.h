@@ -13,7 +13,7 @@
 class CLIView: public IView {
 
 private:
-	LabyrinthItem *movingBlock;
+	std::vector<LabyrinthItem*> fragments;
 
 public:
 	CLIView();
