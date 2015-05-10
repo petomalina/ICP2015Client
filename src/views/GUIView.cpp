@@ -213,6 +213,7 @@ void GUIView::handleExitButton()
 void GUIView::handleGameStartButton()
 {
 	this->onGameStart.dispatch(this->playersInput, this->sizeInput);
+
 	this->reflect(); // reflect fragments into game
 	this->showGame();
 }
@@ -238,5 +239,16 @@ void GUIView::keyPressEvent(QKeyEvent *event)
 			this->setScene(this->savedScene);
 			this->savedScene = nullptr;
 		}
+	}
+
+	// event binsings
+	if (event->key() == Qt::DownArrow) {
+		this->onMove(Rotation::Down);
+	} else if (event->key() == Qt::UpArrow) {
+		this->onMove(Rotation::Up);
+	} else if (event->key() == Qt::LeftArrow) {
+		this->onMove(Rotation::Left);
+	} else if (event->key() == Qt::RightArrow) {
+		this->onMove(Rotation::Right);
 	}
 }
