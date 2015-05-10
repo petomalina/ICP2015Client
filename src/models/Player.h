@@ -26,6 +26,8 @@ private:
 public:
 	Player(int number, QPoint position);
 
+	QPoint getPosition() const { return this->position; }
+
 	Card &card();
 
 	void drawCard();

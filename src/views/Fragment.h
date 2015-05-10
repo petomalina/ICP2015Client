@@ -8,7 +8,7 @@
 #include <algorithm>
 
 enum class FragmentType: int {
-	L = 0, T = 1, I = 2
+	L = 0, T = 1, I = 2, Player = 3
 };
 
 enum class FragmentRotation: int {

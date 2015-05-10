@@ -27,6 +27,8 @@ protected:
 	// menu elements
 	std::vector<QWidget *> menuElements, gameOptionsElements;
 
+	std::vector<GUIBlock*> blocks, playerBlocks;
+
 	// menu inputs
 	int playersInput, sizeInput;
 
