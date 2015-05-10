@@ -3,9 +3,43 @@
 //
 
 #include "LabyrinthItem.h"
-#include <algorithm>
-#include <iostream>
 
+LabyrinthItem::LabyrinthItem(Fragment *frag)
+{
+	this->Frag = frag;
+	this->initialize();
+}
+
+void LabyrinthItem::initialize()
+{
+	switch (this->Frag->Type) {
+		case FragmentType::L:
+			this->Pixels = {'#', '#', '#', ' ', ' ', ' ', '#', ' ', '#' };
+			break;
+
+		case FragmentType::T:
+			this->Pixels = { '#', '#', '#', ' ', ' ', ' ', '#', ' ', '#' };
+			break;
+
+		case FragmentType::I:
+			this->Pixels = {'#', ' ', '#', '#', ' ', '#', '#', ' ', '#' };
+	}
+
+
+	switch (this->Frag->getRotation()) {
+		case FragmentRotation::Right:
+			this->rotateRight(); break;
+
+		case FragmentRotation::Left:
+			this->rotateLeft(); break;
+
+		case FragmentRotation::Flip:
+			this->rotateFlip(); break;
+
+		default:
+			break;
+	}
+}
 
 LabyrinthItem *LabyrinthItem::rotateLeft()
 {
@@ -88,44 +122,7 @@ LabyrinthItem *LabyrinthItemFactory::I()
 									  '#', ' ', '#',
 							  }
 			};
-}
-
-LabyrinthItem *LabyrinthItemFactory::getRandomLabyrinthItem()
-{
-	switch (rand() % 12) {
-		case 0 :
-			return LabyrinthItemFactory::T();
-		case 1 :
-			return LabyrinthItemFactory::T()->rotateRight();
-		case 2 :
-			return LabyrinthItemFactory::T()->rotateLeft();
-		case 3 :
-			return LabyrinthItemFactory::T()->rotateFlip();
-		case 4 :
-			return LabyrinthItemFactory::L();
-		case 5 :
-			return LabyrinthItemFactory::L()->rotateRight();
-		case 6 :
-			return LabyrinthItemFactory::L()->rotateLeft();
-		case 7 :
-			return LabyrinthItemFactory::L()->rotateFlip();
-		case 8 :
-			return LabyrinthItemFactory::I();
-		case 9 :
-			return LabyrinthItemFactory::I()->rotateRight();
-		case 10 :
-			return LabyrinthItemFactory::I()->rotateLeft();
-		case 11 :
-			return LabyrinthItemFactory::I()->rotateFlip();
-		default:
-			return LabyrinthItemFactory::T(); // catchup
-	}
 }*/
-
-std::string LabyrinthItem::str()
-{
-	return std::string(this->Pixels.begin(), this->Pixels.end());
-}
 
 std::string LabyrinthItem::getFirstRow()
 {

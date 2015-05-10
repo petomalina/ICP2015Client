@@ -5,23 +5,26 @@
 #ifndef ICP2015CLIENT_LABYRINTHITEM_H
 #define ICP2015CLIENT_LABYRINTHITEM_H
 
-
 #include <array>
 #include <memory>
+#include <iostream>
 #include "../Fragment.h"
 
 // Base class, no constructor
 class LabyrinthItem {
 
 public:
+	Fragment *Frag;
+
 	std::array<char, 9> Pixels;
 
 public:
-	LabyrinthItem(std::array<char, 9> pixels)
-	{
-		this->Pixels = pixels;
-	}
+	LabyrinthItem(Fragment *frag);
 
+private:
+	void initialize();
+
+public: // api
 	LabyrinthItem *rotateLeft();
 
 	LabyrinthItem *rotateRight();
@@ -31,9 +34,6 @@ public:
 	std::string getFirstRow();
 	std::string getSecondRow();
 	std::string getThirdRow();
-
-
-	std::string str();
 };
 
 

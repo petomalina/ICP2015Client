@@ -64,11 +64,11 @@ std::vector<std::string> CLIView::prepareMap()
 
 	int frags = this->game->PlaygroundSize * this->game->PlaygroundSize;
 
-	for (int i = 0; i < frags; ++i) {
+	/*for (int i = 0; i < frags; ++i) {
 		int row = (i / this->game->PlaygroundSize) * 3;
 		mazeRows[row].append(this->fragments[i]->getFirstRow());
 		mazeRows[row + 1].append(this->fragments[i]->getSecondRow());
 		mazeRows[row + 2].append(this->fragments[i]->getThirdRow());
 	}
-	return mazeRows;
+	return mazeRows;*/
 };

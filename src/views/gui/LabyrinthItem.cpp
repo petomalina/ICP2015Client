@@ -5,8 +5,7 @@
 #include "LabyrinthItem.h"
 
 LabyrinthItem::LabyrinthItem(FragmentType type, FragmentRotation rotation, int x, int y):
-		QGraphicsPixmapItem(SContentManager.getTexture(type == FragmentType::L ? "L" : type == FragmentType::I ? "I" : "T")),
-		Fragment(x, y, type, rotation)
+		QGraphicsPixmapItem(SContentManager.getTexture(type == FragmentType::L ? "L" : type == FragmentType::I ? "I" : "T"))
 {
 	this->setFlag(GraphicsItemFlag::ItemIsFocusable);
 }

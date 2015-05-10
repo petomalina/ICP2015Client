@@ -12,7 +12,7 @@ enum class FragmentType: int {
 };
 
 enum class FragmentRotation: int {
-	Normal = 0, Left = 1, Right = 2, Flip = 2
+	Normal = 0, Left = 1, Right = 2, Flip = 3
 };
 
 class Fragment {

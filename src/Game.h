@@ -9,16 +9,8 @@
 #include <string>
 #include <math.h>
 
-#include "event/Event.h"
 #include "views/GUIView.h"
 #include "views/CLIView.h"
-
-
-enum class ReturnCode: int {
-	OK = 0,
-	ERROR_INIT,
-	ERROR_CONNECT
-};
 
 enum class KeyBindings: int {
 	keyEscape = 0x01000000,

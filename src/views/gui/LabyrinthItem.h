@@ -9,7 +9,7 @@
 #include "../Fragment.h"
 #include "../../ContentManager.h"
 
-class LabyrinthItem: public QObject, public QGraphicsPixmapItem, public Fragment {
+class LabyrinthItem: public QObject, public QGraphicsPixmapItem {
 Q_OBJECT
 
 public:
@@ -17,13 +17,16 @@ public:
 	static const int Height = 40;
 
 public:
+	Fragment *Frag; // linked fragment
+
+public:
 	LabyrinthItem(FragmentType type, FragmentRotation rotation, int x = 0, int y = 0);
 	~LabyrinthItem();
 
 public:
-	virtual void setPosition(int x, int y) override;
+	void setPosition(int x, int y);
 
-	virtual void move(int x, int y) override;
+	void move(int x, int y);
 };
 
 
