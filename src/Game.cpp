@@ -143,6 +143,7 @@ void Game::onGameStart(int players, int size)
 	this->data.PlayerCount = players;
 	this->data.PlaygroundSize = size;
 	this->generateMap();
+	this->generatePlayers();
 }
 
 void Game::onUndo()
