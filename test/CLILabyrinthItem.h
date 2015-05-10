@@ -1,4 +1,5 @@
 #define CATCH_CONFIG_MAIN
+
 #include "catch/include/catch.hpp"
 
 #include "src/views/cli/LabyrinthItem.h"

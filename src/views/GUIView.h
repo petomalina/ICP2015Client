@@ -16,7 +16,7 @@
 #include <QtGui/QKeyEvent>
 
 #include "IView.h"
-#include "gui/LabyrinthItem.h"
+#include "gui/GUIBlock.h"
 #include "../ContentManager.h"
 
 class GUIView: public QGraphicsView, public IView {
@@ -25,13 +25,14 @@ Q_OBJECT
 protected:
 	QGraphicsScene *savedScene, *menuScene, *gameScene, *gameOptionsScene;
 	// menu elements
-	std::vector<QWidget*> menuElements, gameOptionsElements, gameElements;
+	std::vector<QWidget *> menuElements, gameOptionsElements, gameElements;
 
 	// menu inputs
 	int playersInput, sizeInput;
 
 public:
 	GUIView();
+
 	virtual ~GUIView();
 
 public:
@@ -46,11 +47,12 @@ public:
 	void showMenu();
 
 protected: // geometry utils
-	void createSimpleMenu(QGraphicsScene *scene, std::vector<QWidget*> &elements);
+	void createSimpleMenu(QGraphicsScene *scene, std::vector<QWidget *> &elements);
 
-	void createDoubleMenu(QGraphicsScene *scene, std::vector<QWidget*> &elements);
+	void createDoubleMenu(QGraphicsScene *scene, std::vector<QWidget *> &elements);
 
 private slots:
+
 	void handleNewGameButton();
 
 	void handleLoadGameButton();

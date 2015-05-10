@@ -2,39 +2,42 @@
 // Created by gelidus on 6.5.2015.
 //
 
-#include "LabyrinthItem.h"
+#include "CLIBlock.h"
 
-LabyrinthItem::LabyrinthItem(Fragment *frag)
+CLIBlock::CLIBlock(Fragment *frag)
 {
 	this->Frag = frag;
 	this->initialize();
 }
 
-void LabyrinthItem::initialize()
+void CLIBlock::initialize()
 {
 	switch (this->Frag->Type) {
 		case FragmentType::L:
-			this->Pixels = {'#', '#', '#', ' ', ' ', ' ', '#', ' ', '#' };
+			this->Pixels = {'#', '#', '#', ' ', ' ', ' ', '#', ' ', '#'};
 			break;
 
 		case FragmentType::T:
-			this->Pixels = { '#', '#', '#', ' ', ' ', ' ', '#', ' ', '#' };
+			this->Pixels = {'#', '#', '#', ' ', ' ', ' ', '#', ' ', '#'};
 			break;
 
 		case FragmentType::I:
-			this->Pixels = {'#', ' ', '#', '#', ' ', '#', '#', ' ', '#' };
+			this->Pixels = {'#', ' ', '#', '#', ' ', '#', '#', ' ', '#'};
 	}
 
 
 	switch (this->Frag->getRotation()) {
 		case FragmentRotation::Right:
-			this->rotateRight(); break;
+			this->rotateRight();
+			break;
 
 		case FragmentRotation::Left:
-			this->rotateLeft(); break;
+			this->rotateLeft();
+			break;
 
 		case FragmentRotation::Flip:
-			this->rotateFlip(); break;
+			this->rotateFlip();
+			break;
 
 		default:
 			break;
@@ -42,7 +45,7 @@ void LabyrinthItem::initialize()
 }
 
 
-LabyrinthItem *LabyrinthItem::rotate(FragmentRotation rotation)
+CLIBlock *CLIBlock::rotate(FragmentRotation rotation)
 {
 	// TODO: logic for each turn
 
@@ -50,7 +53,7 @@ LabyrinthItem *LabyrinthItem::rotate(FragmentRotation rotation)
 	return this;
 }
 
-LabyrinthItem *LabyrinthItem::rotateLeft()
+CLIBlock *CLIBlock::rotateLeft()
 {
 	std::array<char, 9> rotated = this->Pixels;
 
@@ -67,7 +70,7 @@ LabyrinthItem *LabyrinthItem::rotateLeft()
 	return this;
 }
 
-LabyrinthItem *LabyrinthItem::rotateRight()
+CLIBlock *CLIBlock::rotateRight()
 {
 	std::array<char, 9> rotated = this->Pixels;
 
@@ -84,7 +87,7 @@ LabyrinthItem *LabyrinthItem::rotateRight()
 	return this;
 }
 
-LabyrinthItem *LabyrinthItem::rotateFlip()
+CLIBlock *CLIBlock::rotateFlip()
 {
 	std::array<char, 9> rotated = this->Pixels;
 
@@ -101,17 +104,17 @@ LabyrinthItem *LabyrinthItem::rotateFlip()
 	return this;
 }
 
-std::string LabyrinthItem::getFirstRow()
+std::string CLIBlock::getFirstRow()
 {
 	return std::string() + this->Pixels[0] + " " + this->Pixels[1] + " " + this->Pixels[2] + " ";
 }
 
-std::string LabyrinthItem::getSecondRow()
+std::string CLIBlock::getSecondRow()
 {
 	return std::string() + this->Pixels[3] + " " + this->Pixels[4] + " " + this->Pixels[5] + " ";
 }
 
-std::string LabyrinthItem::getThirdRow()
+std::string CLIBlock::getThirdRow()
 {
 	return std::string() + this->Pixels[6] + " " + this->Pixels[7] + " " + this->Pixels[8] + " ";
 }

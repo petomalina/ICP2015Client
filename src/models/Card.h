@@ -16,11 +16,11 @@ enum class CardType: unsigned int {
 	LEMON = 5,
 	PEACH = 6,
 	POTATO = 7,
-	PINEAPPLE= 8,
+	PINEAPPLE = 8,
 	SHERRY = 9,
 	TOMATO = 10,
 	ORANGE = 11,
-	MANDARIN= 12
+	MANDARIN = 12
 	// TODO: Change names and get icons for object over elements
 };
 

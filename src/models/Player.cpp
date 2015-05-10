@@ -4,7 +4,7 @@
 
 #include "Player.h"
 
-Player::Player(int number, QPoint pos) : Number(number)
+Player::Player(int number, QPoint pos): Number(number)
 {
 	this->position = pos;
 }
@@ -19,15 +19,20 @@ void Player::drawCard()
 	this->Cards.pop_back();
 }
 
-void Player::move(Movement type) {
+void Player::move(Movement type)
+{
 	switch (type) {
 		case Movement::Up:
-			this->position.ry() += 1; break;
+			this->position.ry() += 1;
+			break;
 		case Movement::Down:
-			this->position.ry() -= 1; break;
+			this->position.ry() -= 1;
+			break;
 		case Movement::Left:
-			this->position.rx() -= 1; break;
+			this->position.rx() -= 1;
+			break;
 		case Movement::Right:
-			this->position.rx() += 1; break;
+			this->position.rx() += 1;
+			break;
 	}
 }

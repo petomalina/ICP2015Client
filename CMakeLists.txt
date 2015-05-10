@@ -36,10 +36,10 @@ set(SOURCE_FILES
 
     src/views/Fragment.h
     src/views/Fragment.cpp
-    src/views/gui/LabyrinthItem.h
-    src/views/gui/LabyrinthItem.cpp
-    src/views/cli/LabyrinthItem.h
-    src/views/cli/LabyrinthItem.cpp
+    src/views/gui/GUIBlock.h
+    src/views/gui/GUIBlock.cpp
+    src/views/cli/CLIBlock.h
+    src/views/cli/CLIBlock.cpp
 
     src/models/Card.h
     src/models/Card.cpp

@@ -15,8 +15,8 @@ struct GameData {
 	int PlayerCount;
 	int PlaygroundSize;
 
-	std::vector<Player*> Players;
-	std::vector<Fragment*> Map;
+	std::vector<Player *> Players;
+	std::vector<Fragment *> Map;
 	Fragment *MovingBlock;
 };
 
@@ -31,6 +31,7 @@ public:
 
 public:
 	virtual void initialize(GameData *data) = 0;
+
 	virtual void show() = 0;
 
 public:

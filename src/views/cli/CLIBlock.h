@@ -2,15 +2,15 @@
 // Created by gelidus on 6.5.2015.
 //
 
-#ifndef ICP2015CLIENT_LABYRINTHITEM_H
-#define ICP2015CLIENT_LABYRINTHITEM_H
+#ifndef ICP2015CLIENT_GUIBLOCK_H
+#define ICP2015CLIENT_GUIBLOCK_H
 
 #include <array>
 #include <memory>
 #include <iostream>
 #include "../Fragment.h"
 
-class LabyrinthItem {
+class CLIBlock {
 
 public:
 	Fragment *Frag;
@@ -18,20 +18,20 @@ public:
 	std::array<char, 9> Pixels;
 
 public:
-	LabyrinthItem(Fragment *frag);
+	CLIBlock(Fragment *frag);
 
 private:
 	void initialize();
 
-	LabyrinthItem *rotateLeft();
+	CLIBlock *rotateLeft();
 
-	LabyrinthItem *rotateRight();
+	CLIBlock *rotateRight();
 
-	LabyrinthItem *rotateFlip();
+	CLIBlock *rotateFlip();
 
 public:
 
-	LabyrinthItem *rotate(FragmentRotation rotation);
+	CLIBlock *rotate(FragmentRotation rotation);
 
 	std::string getFirstRow();
 

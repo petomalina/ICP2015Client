@@ -24,13 +24,13 @@ void CLIView::show()
 
 void CLIView::reflect()
 {
-	for (LabyrinthItem *block : this->blocks) {
+	for (CLIBlock *block : this->blocks) {
 		delete block;
 	}
 	this->blocks.clear();
 
 	for (Fragment *frag : this->game->Map) {
-		this->blocks.push_back(new LabyrinthItem(frag));
+		this->blocks.push_back(new CLIBlock(frag));
 	}
 }
 

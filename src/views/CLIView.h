@@ -7,13 +7,13 @@
 
 #include <vector>
 
-#include "cli/LabyrinthItem.h"
+#include "cli/CLIBlock.h"
 #include "IView.h"
 
 class CLIView: public IView {
 
 private:
-	std::vector<LabyrinthItem*> blocks;
+	std::vector<CLIBlock *> blocks;
 
 public:
 	CLIView();

@@ -6,6 +6,7 @@
 #define ICP2015CLIENT_TEST_ROTATING_H
 
 #include <iostream>
+
 int test_swap_columns();
 
 #endif //ICP2015CLIENT_TEST_ROTATING_H

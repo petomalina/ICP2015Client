@@ -63,8 +63,10 @@ void GUIView::initialize(GameData *data)
 	this->gameOptionsElements.push_back(playersLabel);
 
 	QComboBox *playersInput = new QComboBox{};
-	playersInput->addItems({ "4", "3", "2", "1" });
-	connect(playersInput, SIGNAL(currentIndexChanged(const QString&)), this, SLOT(handlePlayersChange(const QString&)));
+	playersInput->addItems({"4", "3", "2", "1"});
+	connect(playersInput, SIGNAL(currentIndexChanged(
+																	 const QString&)), this, SLOT(handlePlayersChange(
+																																		const QString&)));
 	this->gameOptionsElements.push_back(playersInput);
 
 	QLabel *playSize = new QLabel{"Playground: "};
@@ -72,7 +74,9 @@ void GUIView::initialize(GameData *data)
 
 	QComboBox *sizeInput = new QComboBox{};
 	sizeInput->addItems({"7", "5", "9", "11"});
-	connect(sizeInput, SIGNAL(currentIndexChanged(const QString&)), this, SLOT(handleSizeChange(const QString&)));
+	connect(sizeInput, SIGNAL(currentIndexChanged(
+																const QString&)), this, SLOT(handleSizeChange(
+																																 const QString&)));
 	this->gameOptionsElements.push_back(sizeInput);
 
 	QPushButton *startButton = new QPushButton{"Start game"};
@@ -108,15 +112,16 @@ void GUIView::showMenu()
 
 void GUIView::createSimpleMenu(QGraphicsScene *scene, std::vector<QWidget *> &elements)
 {
-	const int sceneCenterX = (int)scene->width() / 2;
+	const int sceneCenterX = (int) scene->width() / 2;
 	const int buttonWidth = 120;
 	const int buttonHeight = 25;
 
-	const int menuStartOffset = (int)scene->height() / 8;
+	const int menuStartOffset = (int) scene->height() / 8;
 
 	int index = 1;
 	for (QWidget *widget : elements) {
-		widget->setGeometry(QRect{QPoint{ sceneCenterX - buttonWidth/2, menuStartOffset + (buttonHeight + 10)*index}, QSize{buttonWidth, buttonHeight}});
+		widget->setGeometry(QRect{QPoint{sceneCenterX - buttonWidth / 2, menuStartOffset + (buttonHeight + 10) * index},
+															QSize{buttonWidth, buttonHeight}});
 
 		scene->addWidget(widget);
 		index++;
@@ -125,17 +130,18 @@ void GUIView::createSimpleMenu(QGraphicsScene *scene, std::vector<QWidget *> &el
 
 void GUIView::createDoubleMenu(QGraphicsScene *scene, std::vector<QWidget *> &elements)
 {
-	const int sceneCenterX = (int)scene->width() / 2;
+	const int sceneCenterX = (int) scene->width() / 2;
 	const int buttonWidth = 120;
 	const int buttonHeight = 25;
 
-	const int menuStartOffset = (int)scene->height() / 8;
+	const int menuStartOffset = (int) scene->height() / 8;
 
 	int elemIndex = 1;
 	int index = 1;
 	for (QWidget *widget : elements) {
-		int offsetX = (elemIndex % 2 == 0) ? sceneCenterX + 10 : sceneCenterX - buttonWidth -10;
-		widget->setGeometry(QRect{QPoint{ offsetX, menuStartOffset + (buttonHeight + 10)* index}, QSize{buttonWidth, buttonHeight}});
+		int offsetX = (elemIndex % 2 == 0) ? sceneCenterX + 10 : sceneCenterX - buttonWidth - 10;
+		widget->setGeometry(
+				QRect{QPoint{offsetX, menuStartOffset + (buttonHeight + 10) * index}, QSize{buttonWidth, buttonHeight}});
 
 		scene->addWidget(widget);
 		if (elemIndex % 2 == 0) {
@@ -145,7 +151,8 @@ void GUIView::createDoubleMenu(QGraphicsScene *scene, std::vector<QWidget *> &el
 	}
 }
 
-void GUIView::handleNewGameButton(){
+void GUIView::handleNewGameButton()
+{
 	this->showGameOptions();
 }
 
@@ -182,7 +189,8 @@ void GUIView::keyPressEvent(QKeyEvent *event)
 		if (this->savedScene == nullptr) {
 			this->savedScene = this->scene();
 			this->setScene(this->menuScene);
-		} else {
+		}
+		else {
 			this->setScene(this->savedScene);
 			this->savedScene = nullptr;
 		}

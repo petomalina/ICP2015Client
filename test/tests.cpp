@@ -6,7 +6,6 @@
 #include "../src/views/cli/LabyrinthItem.h"
 
 
-
 int test_swap_columns()
 {
 	//tests ...

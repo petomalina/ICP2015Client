@@ -9,7 +9,7 @@
 #include "../Fragment.h"
 #include "../../ContentManager.h"
 
-class LabyrinthItem: public QObject, public QGraphicsPixmapItem {
+class GUIBlock: public QObject, public QGraphicsPixmapItem {
 Q_OBJECT
 
 public:
@@ -20,8 +20,9 @@ public:
 	Fragment *Frag; // linked fragment
 
 public:
-	LabyrinthItem(FragmentType type, FragmentRotation rotation, int x = 0, int y = 0);
-	~LabyrinthItem();
+	GUIBlock(Fragment *frag);
+
+	virtual ~GUIBlock();
 
 public:
 	void setPosition(int x, int y);
