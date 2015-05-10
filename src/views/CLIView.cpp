@@ -81,13 +81,10 @@ void CLIView::prepareMap(std::vector<std::string> *rows)
 			first += this->blocks[i * this->game->PlaygroundSize + j]->getFirstRow();
 			second_row = this->blocks[i * this->game->PlaygroundSize + j]->getSecondRow();
 			for (int p = 0; p < this->game->PlayerCount; ++p) {
-				auto player= this->game->Players[p];
+				auto player = this->game->Players[p];
 				auto playerPosition = player->getPosition();
-				if (playerPosition.y() == i && playerPosition.x() == j) {
-					std::cout << player->Number << "\n";
-					second_row[playerPosition.x() + 2] = this->insertPlayer(player->Number,
-																			second_row[playerPosition.x() + 1]);
-				}
+				if (playerPosition.y() == i && playerPosition.x() == j)
+					second_row[2] = this->insertPlayer(player->Number, second_row[2]);
 			}
 			second += second_row;
 			third += this->blocks[i * this->game->PlaygroundSize + j]->getThirdRow();
