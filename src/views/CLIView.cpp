@@ -82,9 +82,44 @@ void CLIView::prepareMap(std::vector<std::string> *rows)
 			second += this->blocks[i * this->game->PlaygroundSize + j]->getSecondRow();
 			third += this->blocks[i * this->game->PlaygroundSize + j]->getThirdRow();
 		}
+/*
+		for (int p = 0; p < this->game->PlayerCount ; ++p) {
+			if (this->game->Players[p]){}
+		}*/
 
 		rows->push_back(first);
 		rows->push_back(second);
 		rows->push_back(third);
 	}
 };
+
+void CLIView::insertPlayerToIndex(char player, int x, int y)
+{
+	char actual = this->blocks[x + y]->Pixels[4];
+	if (actual == ' ')
+		this->blocks[x + y]->Pixels[4] = player;
+	else
+		this->blocks[x + y]->Pixels[4] = calculatePlayer(decodePlayer(actual) + (player - 48));
+}
+
+void CLIView::movePlayerFromIndex(char player, int x, int y)
+{
+	this->blocks[x + y]->Pixels[4] = calculatePlayer(decodePlayer(this->blocks[x + y]->Pixels[4]) - (player - 48));
+}
+
+int CLIView::decodePlayer(char pixel)
+{
+	return pixel - (pixel > 9 ? 55 : 48);
+}
+
+char CLIView::calculatePlayer(int player)
+{
+	return (char) (player + (player > 9 ? 55 : 48));
+}
+
+
+void CLIView::putPlayers()
+{
+
+
+}

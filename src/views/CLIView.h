@@ -30,9 +30,19 @@ public:
 
 	void prepareMap(std::vector<std::string> *map);
 
+	void putPlayers();
+
+	void insertPlayerToIndex(char player, int x, int y);
+
+	void movePlayerFromIndex(char player, int x, int y);
+
 	void clearScreen();
 
 	void createMovingBlocks();
+
+	char calculatePlayer(int player);
+
+	int decodePlayer(char pixel);
 };
 
 
