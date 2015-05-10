@@ -8,6 +8,7 @@
 
 #include <array>
 #include <memory>
+#include "../Fragment.h"
 
 // Base class, no constructor
 class LabyrinthItem {
