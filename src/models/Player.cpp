@@ -4,7 +4,7 @@
 
 #include "Player.h"
 
-Player::Player(int index, QPoint pos): Index(index), Number(std::pow(index, 2))
+Player::Player(int index, QPoint pos): Index(index-1), Number(std::pow(index, 2))
 {
 	this->position = pos;
 }
@@ -23,10 +23,10 @@ void Player::move(Movement type)
 {
 	switch (type) {
 		case Movement::Up:
-			this->position.ry() += 1;
+			this->position.ry() -= 1;
 			break;
 		case Movement::Down:
-			this->position.ry() -= 1;
+			this->position.ry() += 1;
 			break;
 		case Movement::Left:
 			this->position.rx() -= 1;

@@ -101,6 +101,8 @@ void Game::generatePlayers()
 	}
 	this->data.Players.clear();
 
+	CardPackGenerator cardPackGenerator{12};
+
 	for (int i = 1; i <= this->data.PlayerCount; i++) {
 		QPoint position{};
 		switch (i) {
@@ -127,7 +129,9 @@ void Game::generatePlayers()
 				break;
 		}
 
-		this->data.Players.push_back(new Player(i, position));
+		Player *p = new Player(i-1, position);
+		cardPackGenerator.generatePack(p->Cards);
+		this->data.Players.push_back(p);
 	}
 }
 
@@ -163,9 +167,37 @@ void Game::adjustMovingBlockIndex()
 		this->movingBlockIndex = maxIndex - this->movingBlockIndex;
 }
 
-void Game::onMove(Rotation rot)
+void Game::onMove(Movement mov)
 {
+	if (this->data.MovingPlayer) {
+		QPoint p = data.OnMove->getPosition();
+		if (p.y() + 1 == data.PlaygroundSize && mov == Movement::Down ||
+				p.y() == 0 && mov == Movement::Up ||
+				p.x() == 0 && mov == Movement::Left ||
+				p.x() + 1 == data.PlaygroundSize && mov == Movement::Right) {
+			return;
+		}
 
+		switch (mov) {
+			case Movement::Down:
+				this->data.OnMove->move(Movement::Down);
+				break;
+
+			case Movement::Up:
+				this->data.OnMove->move(Movement::Up);
+				break;
+
+			case Movement::Left:
+				this->data.OnMove->move(Movement::Left);
+				break;
+
+			case Movement::Right:
+				this->data.OnMove->move(Movement::Right);
+				break;
+		}
+	} else { // moving block
+
+	}
 }
 
 void Game::onFragmentPlace(int index, FragmentType type, Rotation rot)
@@ -179,6 +211,7 @@ void Game::onGameStart(int players, int size)
 	this->data.PlaygroundSize = size;
 	this->generateMap();
 	this->generatePlayers();
+	this->data.OnMove = *this->data.Players.begin();
 }
 
 void Game::onUndo()
