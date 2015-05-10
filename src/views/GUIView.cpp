@@ -22,6 +22,10 @@ GUIView::GUIView()
 	SContentManager.addTexture("I", "graphics/I.png");
 	SContentManager.addTexture("L", "graphics/L.png");
 	SContentManager.addTexture("T", "graphics/T.png");
+	SContentManager.addTexture("P1", "graphics/P1.png");
+	SContentManager.addTexture("P2", "graphics/P2.png");
+	SContentManager.addTexture("P3", "graphics/P3.png");
+	SContentManager.addTexture("P4", "graphics/P4.png");
 }
 
 GUIView::~GUIView()
