@@ -167,32 +167,36 @@ void Game::adjustMovingBlockIndex()
 		this->movingBlockIndex = maxIndex - this->movingBlockIndex;
 }
 
-void Game::onMove(Rotation rot)
+void Game::onMove(Movement mov)
 {
-	switch (rot) {
-		case Rotation::Down:
-			if (data.OnMove->getPosition().y() + 1 < data.PlaygroundSize) {
+	if (this->data.MovingPlayer) {
+		QPoint p = data.OnMove->getPosition();
+		if (p.y() + 1 == data.PlaygroundSize && mov == Movement::Down ||
+				p.y() == 0 && mov == Movement::Up ||
+				p.x() == 0 && mov == Movement::Left ||
+				p.x() + 1 == data.PlaygroundSize && mov == Movement::Right) {
+			return;
+		}
+
+		switch (mov) {
+			case Movement::Down:
 				this->data.OnMove->move(Movement::Down);
-			}
-			break;
+				break;
 
-		case Rotation::Up:
-			if (data.OnMove->getPosition().y() > 0) {
+			case Movement::Up:
 				this->data.OnMove->move(Movement::Up);
-			}
-			break;
+				break;
 
-		case Rotation::Left:
-			if (data.OnMove->getPosition().x() > 0) {
+			case Movement::Left:
 				this->data.OnMove->move(Movement::Left);
-			}
-			break;
+				break;
 
-		case Rotation::Right:
-			if (data.OnMove->getPosition().x() + 1 < data.PlaygroundSize) {
+			case Movement::Right:
 				this->data.OnMove->move(Movement::Right);
-			}
-			break;
+				break;
+		}
+	} else { // moving block
+
 	}
 }
 

@@ -243,13 +243,13 @@ void GUIView::keyPressEvent(QKeyEvent *event)
 
 	// event binsings
 	if (event->key() == Qt::Key_Down) {
-		this->onMove(Rotation::Down);
+		this->onMove(Movement::Down);
 	} else if (event->key() == Qt::Key_Up) {
-		this->onMove(Rotation::Up);
+		this->onMove(Movement::Up);
 	} else if (event->key() == Qt::Key_Left) {
-		this->onMove(Rotation::Left);
+		this->onMove(Movement::Left);
 	} else if (event->key() == Qt::Key_Right) {
-		this->onMove(Rotation::Right);
+		this->onMove(Movement::Right);
 	}
 
 	if (this->game->MovingPlayer) {
