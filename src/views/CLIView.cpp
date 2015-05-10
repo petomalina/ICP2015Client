@@ -43,7 +43,7 @@ void CLIView::showMenu()
 	getchar(); // TODO: delete this
 
 	// TODO: dispatch correct values
-	this->onGameStart.dispatch(1, 7);
+	this->onGameStart.dispatch(4, 7);
 	this->reflect(); // reflect fragments to view
 	this->showGame();
 }
@@ -74,18 +74,24 @@ void CLIView::prepareMap(std::vector<std::string> *rows)
 {
 	// for every row
 	for (int i = 0; i < this->game->PlaygroundSize; i++) {
-		std::string first, second, third;
+		std::string first, second, third, second_row;
 
 		// for every column
 		for (int j = 0; j < this->game->PlaygroundSize; j++) {
 			first += this->blocks[i * this->game->PlaygroundSize + j]->getFirstRow();
-			second += this->blocks[i * this->game->PlaygroundSize + j]->getSecondRow();
+			second_row = this->blocks[i * this->game->PlaygroundSize + j]->getSecondRow();
+			for (int p = 0; p < this->game->PlayerCount; ++p) {
+				auto player= this->game->Players[p];
+				auto playerPosition = player->getPosition();
+				if (playerPosition.y() == i && playerPosition.x() == j) {
+					std::cout << player->Number << "\n";
+					second_row[playerPosition.x() + 2] = this->insertPlayer(player->Number,
+																			second_row[playerPosition.x() + 1]);
+				}
+			}
+			second += second_row;
 			third += this->blocks[i * this->game->PlaygroundSize + j]->getThirdRow();
 		}
-/*
-		for (int p = 0; p < this->game->PlayerCount ; ++p) {
-			if (this->game->Players[p]){}
-		}*/
 
 		rows->push_back(first);
 		rows->push_back(second);
@@ -93,33 +99,22 @@ void CLIView::prepareMap(std::vector<std::string> *rows)
 	}
 };
 
-void CLIView::insertPlayerToIndex(char player, int x, int y)
+char CLIView::insertPlayer(int player, char field)
 {
-	char actual = this->blocks[x + y]->Pixels[4];
-	if (actual == ' ')
-		this->blocks[x + y]->Pixels[4] = player;
-	else
-		this->blocks[x + y]->Pixels[4] = calculatePlayer(decodePlayer(actual) + (player - 48));
+	return field == ' ' ? (char) (player + '0') : calculatePlayer(decodePlayer(field) + (player - '0'));
 }
 
 void CLIView::movePlayerFromIndex(char player, int x, int y)
 {
-	this->blocks[x + y]->Pixels[4] = calculatePlayer(decodePlayer(this->blocks[x + y]->Pixels[4]) - (player - 48));
+	this->blocks[x + y]->Pixels[4] = calculatePlayer(decodePlayer(this->blocks[x + y]->Pixels[4]) - (player - '0'));
 }
 
 int CLIView::decodePlayer(char pixel)
 {
-	return pixel - (pixel > 9 ? 55 : 48);
+	return pixel - (pixel > 9 ? 55 : '0'); //55 is 'A' - 10 (numeric values)
 }
 
 char CLIView::calculatePlayer(int player)
 {
-	return (char) (player + (player > 9 ? 55 : 48));
-}
-
-
-void CLIView::putPlayers()
-{
-
-
+	return (char) (player + (player > 9 ? 55 : '0')); //55 is 'A' - 10 (numeric values)
 }

@@ -30,9 +30,7 @@ public:
 
 	void prepareMap(std::vector<std::string> *map);
 
-	void putPlayers();
-
-	void insertPlayerToIndex(char player, int x, int y);
+	char insertPlayer(int player, char field);
 
 	void movePlayerFromIndex(char player, int x, int y);
 
