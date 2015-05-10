@@ -14,15 +14,24 @@ void CLIView::initialize(GameData *data)
 	this->game = data;
 
 	std::cout << "This initializes the game.\n\n\n";
-
-	for (Fragment *frag : this->game->Map) {
-		this->fragments.push_back(new LabyrinthItem(frag));
-	}
 }
 
 void CLIView::show()
 {
 	this->showMenu();
+}
+
+
+void CLIView::reflect()
+{
+	for (LabyrinthItem *block : this->blocks) {
+		delete block;
+	}
+	this->blocks.clear();
+
+	for (Fragment *frag : this->game->Map) {
+		this->blocks.push_back(new LabyrinthItem(frag));
+	}
 }
 
 void CLIView::showMenu()
@@ -33,19 +42,22 @@ void CLIView::showMenu()
 
 	getchar(); // TODO: delete this
 
+	// TODO: dispatch correct values
 	this->onGameStart.dispatch(1, 7);
+	this->reflect(); // reflect fragments to view
 	this->showGame();
 }
 
 void CLIView::showGame()
 {
 	this->clearScreen();
-	//TODO: generate map ?
 	std::cout << "Here will be Game view\n\n\n";
 
-	std::vector<std::string> mapRows = this->prepareMap();
-	for (int i = 0; i < 3 * this->game->PlaygroundSize; ++i) {
-		std::cout << mapRows[i] << "\n";
+	std::vector<std::string> map;
+	this->prepareMap(&map);
+
+	for (std::string row : map) {
+		std::cout << row << std::endl;
 	}
 }
 
@@ -58,21 +70,21 @@ void CLIView::createMovingBlocks()
 {
 }
 
-std::vector<std::string> CLIView::prepareMap()
+void CLIView::prepareMap(std::vector<std::string> *rows)
 {
-	// will prepare map to vector of 3 times <maze-size> strings symbolizing rows of map that will be used to print the maze out.
-	std::vector<std::string> mazeRows;
-	for (int i = 0; i < 3 * this->game->PlaygroundSize; ++i) {
-		mazeRows.push_back("");
-	}
+	// for every row
+	for (int i = 0; i < this->game->PlaygroundSize; i++) {
+		std::string first, second, third;
 
-	int frags = this->game->PlaygroundSize * this->game->PlaygroundSize;
+		// for every column
+		for (int j = 0; j < this->game->PlaygroundSize; j++) {
+			first += this->blocks[i * this->game->PlaygroundSize + j]->getFirstRow();
+			second += this->blocks[i * this->game->PlaygroundSize + j]->getSecondRow();
+			third += this->blocks[i * this->game->PlaygroundSize + j]->getThirdRow();
+		}
 
-	for (int i = 0; i < frags; ++i) {
-		int row = (i / this->game->PlaygroundSize) * 3;
-		mazeRows[row].append(this->fragments[i]->getFirstRow());
-		mazeRows[row + 1].append(this->fragments[i]->getSecondRow());
-		mazeRows[row + 2].append(this->fragments[i]->getThirdRow());
+		rows->push_back(first);
+		rows->push_back(second);
+		rows->push_back(third);
 	}
-	return mazeRows;
 };

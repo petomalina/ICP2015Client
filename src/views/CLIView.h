@@ -13,7 +13,7 @@
 class CLIView: public IView {
 
 private:
-	std::vector<LabyrinthItem*> fragments;
+	std::vector<LabyrinthItem*> blocks;
 
 public:
 	CLIView();
@@ -22,11 +22,13 @@ public:
 
 	virtual void show() override;
 
+	void reflect();
+
 	void showMenu();
 
 	void showGame();
 
-	std::vector<std::string> prepareMap();
+	void prepareMap(std::vector<std::string> *map);
 
 	void clearScreen();
 
