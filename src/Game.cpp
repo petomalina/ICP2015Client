@@ -102,8 +102,31 @@ void Game::generatePlayers()
 	this->data.Players.clear();
 
 	for (int i = 1; i <= this->data.PlayerCount; i++) {
-		// TODO: Calculate position of player
-		this->data.Players.push_back(new Player(static_cast<int>(pow(i, 2)), QPoint{}));
+		QPoint position{};
+		switch (i) {
+			case 1:
+				position.setX(0);
+				position.setY(0);
+				break;
+
+			case 2:
+				position.setX(this->data.PlaygroundSize-1);
+				position.setY(this->data.PlaygroundSize-1);
+				break;
+
+			case 3:
+				position.setX(0);
+				position.setY(this->data.PlaygroundSize-1);
+
+			case 4:
+				position.setX(this->data.PlaygroundSize-1);
+				position.setY(0);
+
+			default:
+				break;
+		}
+
+		this->data.Players.push_back(new Player(static_cast<int>(pow(i, 2)), position));
 	}
 }
 
