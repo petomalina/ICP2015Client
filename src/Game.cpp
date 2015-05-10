@@ -171,19 +171,27 @@ void Game::onMove(Rotation rot)
 {
 	switch (rot) {
 		case Rotation::Down:
-			this->data.OnMove->move(Movement::Down);
+			if (data.OnMove->getPosition().y() + 1 < data.PlaygroundSize) {
+				this->data.OnMove->move(Movement::Down);
+			}
 			break;
 
 		case Rotation::Up:
-			this->data.OnMove->move(Movement::Up);
+			if (data.OnMove->getPosition().y() > 0) {
+				this->data.OnMove->move(Movement::Up);
+			}
 			break;
 
 		case Rotation::Left:
-			this->data.OnMove->move(Movement::Left);
+			if (data.OnMove->getPosition().x() > 0) {
+				this->data.OnMove->move(Movement::Left);
+			}
 			break;
 
 		case Rotation::Right:
-			this->data.OnMove->move(Movement::Right);
+			if (data.OnMove->getPosition().x() + 1 < data.PlaygroundSize) {
+				this->data.OnMove->move(Movement::Right);
+			}
 			break;
 	}
 }
