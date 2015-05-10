@@ -101,6 +101,8 @@ void Game::generatePlayers()
 	}
 	this->data.Players.clear();
 
+	CardPackGenerator cardPackGenerator{12};
+
 	for (int i = 1; i <= this->data.PlayerCount; i++) {
 		QPoint position{};
 		switch (i) {
@@ -127,7 +129,9 @@ void Game::generatePlayers()
 				break;
 		}
 
-		this->data.Players.push_back(new Player(i, position));
+		Player *p = new Player(i, position);
+		cardPackGenerator.generatePack(p->Cards);
+		this->data.Players.push_back(p);
 	}
 }
 
