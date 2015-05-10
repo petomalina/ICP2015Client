@@ -178,6 +178,21 @@ void Game::onMove(Movement mov)
 			return;
 		}
 
+		Fragment *nextFragment = nullptr;
+		switch (mov) {
+			case Movement::Down:
+				break;
+
+			case Movement::Up:
+				break;
+
+			case Movement::Left:
+				break;
+
+			case Movement::Right:
+				break;
+		}
+
 		switch (mov) {
 			case Movement::Down:
 				this->data.OnMove->move(Movement::Down);
