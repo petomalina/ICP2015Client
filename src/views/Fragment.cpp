@@ -31,6 +31,58 @@ int Fragment::getY() const
 	return this->y;
 }
 
+bool Fragment::isOpenUp() const
+{
+	if (this->Type == FragmentType::L) {
+		return (this->rotation == FragmentRotation::Flip || this->rotation == FragmentRotation::Left);
+	} else if (this->Type == FragmentType::T) {
+		return (this->rotation != FragmentRotation::Normal);
+	} else if (this->Type == FragmentType::I) {
+		return (this->rotation != FragmentRotation::Normal && this->rotation != FragmentRotation::Flip);
+	}
+
+	return false;
+}
+
+bool Fragment::isOpenDown() const
+{
+	if (this->Type == FragmentType::L) {
+		return (this->rotation != FragmentRotation::Left && this->rotation != FragmentRotation::Flip);
+	} else if (this->Type == FragmentType::T) {
+		return (this->rotation != FragmentRotation::Flip);
+	} else if (this->Type == FragmentType::I) {
+		return (this->rotation != FragmentRotation::Normal && this->rotation != FragmentRotation::Flip);
+	}
+
+	return false;
+}
+
+bool Fragment::isOpenRight() const
+{
+	if (this->Type == FragmentType::L) {
+
+	} else if (this->Type == FragmentType::T) {
+
+	} else if (this->Type == FragmentType::I) {
+
+	}
+
+	return false;
+}
+
+bool Fragment::isOpenLeft() const
+{
+	if (this->Type == FragmentType::L) {
+
+	} else if (this->Type == FragmentType::T) {
+
+	} else if (this->Type == FragmentType::I) {
+
+	}
+
+	return false;
+}
+
 void Fragment::setPosition(int x, int y)
 {
 	this->x = x;

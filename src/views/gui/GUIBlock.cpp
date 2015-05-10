@@ -52,10 +52,10 @@ void GUIBlock::rotate(FragmentRotation rot)
 	if (this->Frag->getRotation() == FragmentRotation::Normal) {
 		switch(rot) {
 			case FragmentRotation::Right:
-				QGraphicsPixmapItem::setRotation(-90);
+				QGraphicsPixmapItem::setRotation(90);
 				break;
 			case FragmentRotation::Left:
-				QGraphicsPixmapItem::setRotation(90);
+				QGraphicsPixmapItem::setRotation(-90);
 				break;
 			case FragmentRotation::Flip:
 				QGraphicsPixmapItem::setRotation(180);

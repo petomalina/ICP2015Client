@@ -178,18 +178,29 @@ void Game::onMove(Movement mov)
 			return;
 		}
 
-		Fragment *nextFragment = nullptr;
+		// next fragment calculation
+		Fragment *nextFragment = nullptr, *thisFragment = this->data.Map[this->data.PlaygroundSize * p.y() + p.x()];
 		switch (mov) {
 			case Movement::Down:
+				nextFragment = this->data.Map[this->data.PlaygroundSize * (p.y() + 1) + p.x()];
+				if (!nextFragment->isOpenUp() || !thisFragment->isOpenDown()) {
+					return;
+				}
 				break;
 
 			case Movement::Up:
+				nextFragment = this->data.Map[this->data.PlaygroundSize * (p.y() - 1) + p.x()];
+				if (!nextFragment->isOpenDown() || !thisFragment->isOpenUp()) {
+					return;
+				}
 				break;
 
 			case Movement::Left:
+				nextFragment = this->data.Map[this->data.PlaygroundSize * p.y() + p.x() - 1];
 				break;
 
 			case Movement::Right:
+				nextFragment = this->data.Map[this->data.PlaygroundSize * p.y() + p.x() + 1];
 				break;
 		}
 

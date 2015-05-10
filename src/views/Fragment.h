@@ -8,7 +8,7 @@
 #include <algorithm>
 
 enum class FragmentType: int {
-	L = 0, T = 1, I = 2, Player = 3
+	L = 0, T = 1, I = 2, Player = 3, Card = 4
 };
 
 enum class FragmentRotation: int {
@@ -34,6 +34,14 @@ public:
 	int getX() const;
 
 	int getY() const;
+
+	bool isOpenUp() const;
+
+	bool isOpenDown() const;
+
+	bool isOpenRight() const;
+
+	bool isOpenLeft() const;
 
 	virtual void setPosition(int x, int y);
 
