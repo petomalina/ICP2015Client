@@ -43,6 +43,10 @@ public:
 public:
 	// rotation of character
 	Event<Movement> onMove;
+
+	Event<> onMoveEnter;
+
+	Event<> onRotate;
 	// index and what type
 	Event<int, FragmentType, Rotation> onFragmentPlace;
 	// number of players, size of playground
