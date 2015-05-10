@@ -11,7 +11,7 @@ Game::Game(IView *view)
 	this->view = view;
 	this->view->initialize(&this->data);
 
-	this->view->onMove(std::bind(&Game::onPlayerMove, this, _1));
+	this->view->onMove(std::bind(&Game::onMove, this, _1));
 	this->view->onFragmentPlace(std::bind(&Game::onFragmentPlace, this, _1, _2, _3));
 	this->view->onGameStart(std::bind(&Game::onGameStart, this, _1, _2));
 
@@ -163,7 +163,7 @@ void Game::adjustMovingBlockIndex()
 		this->movingBlockIndex = maxIndex - this->movingBlockIndex;
 }
 
-void Game::onPlayerMove(Rotation rot)
+void Game::onMove(Rotation rot)
 {
 
 }
