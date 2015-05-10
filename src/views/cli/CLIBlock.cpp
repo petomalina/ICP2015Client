@@ -14,14 +14,17 @@ void CLIBlock::initialize()
 {
 	switch (this->Frag->Type) {
 		case FragmentType::L:
-			this->Pixels = {'#', '#', '#', ' ', ' ', ' ', '#', ' ', '#'};
+			//this->Pixels = {'#', '#', '#', '#', 'L', ' ', '#', ' ', '#'};
+			this->Pixels = {'#', '#', '#', '#', ' ', ' ', '#', ' ', '#'};
 			break;
 
 		case FragmentType::T:
+			//this->Pixels = {'#', '#', '#', ' ', 'T', ' ', '#', ' ', '#'};
 			this->Pixels = {'#', '#', '#', ' ', ' ', ' ', '#', ' ', '#'};
 			break;
 
 		case FragmentType::I:
+			//this->Pixels = {'#', ' ', '#', '#', 'I', '#', '#', ' ', '#'};
 			this->Pixels = {'#', ' ', '#', '#', ' ', '#', '#', ' ', '#'};
 			break;
 	}
