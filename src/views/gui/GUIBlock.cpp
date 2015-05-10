@@ -9,12 +9,18 @@ GUIBlock::GUIBlock(Fragment *frag):
 				SContentManager.getTexture(frag->Type == FragmentType::L ? "L" : frag->Type == FragmentType::I ? "I" : "T"))
 {
 	this->Frag = frag;
-	this->setPosition(frag->getX(), frag->getY());
+	this->initialize();
 }
 
 GUIBlock::~GUIBlock()
 {
 
+}
+
+
+void GUIBlock::initialize()
+{
+	this->setPosition(this->Frag->getX(), this->Frag->getY());
 }
 
 void GUIBlock::setPosition(int x, int y)
@@ -27,4 +33,9 @@ void GUIBlock::move(int dx, int dy)
 {
 	this->moveBy(dx * GUIBlock::Size, dy * GUIBlock::Size);
 	this->Frag->move(dx, dy);
+}
+
+void GUIBlock::rotate(FragmentRotation rot)
+{
+
 }

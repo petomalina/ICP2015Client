@@ -23,6 +23,7 @@ void CLIBlock::initialize()
 
 		case FragmentType::I:
 			this->Pixels = {'#', ' ', '#', '#', ' ', '#', '#', ' ', '#'};
+			break;
 	}
 
 
@@ -48,6 +49,15 @@ void CLIBlock::initialize()
 CLIBlock *CLIBlock::rotate(FragmentRotation rotation)
 {
 	// TODO: logic for each turn
+	if (this->Frag->getRotation() == FragmentRotation::Normal) {
+
+	} else if (this->Frag->getRotation() == FragmentRotation::Left) {
+
+	} else if (this->Frag->getRotation() == FragmentRotation::Right) {
+
+	} else { // flipped
+
+	}
 
 	this->Frag->rotate(rotation);
 	return this;

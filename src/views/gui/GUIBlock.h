@@ -23,10 +23,15 @@ public:
 
 	virtual ~GUIBlock();
 
+private:
+	void initialize();
+
 public:
 	void setPosition(int x, int y);
 
 	void move(int dx, int dy);
+
+	void rotate(FragmentRotation rot);
 };
 
 
