@@ -21,6 +21,8 @@ public:
 public:
 	GUIBlock(Fragment *frag);
 
+	GUIBlock(Fragment *frag, QPixmap pixmap);
+
 	virtual ~GUIBlock();
 
 private:
