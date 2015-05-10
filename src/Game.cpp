@@ -127,7 +127,7 @@ void Game::generatePlayers()
 				break;
 		}
 
-		this->data.Players.push_back(new Player(static_cast<int>(pow(i, 2)), position));
+		this->data.Players.push_back(new Player(i, position));
 	}
 }
 

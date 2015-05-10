@@ -17,6 +17,7 @@ enum class Movement {
 class Player {
 
 public:
+	const int Index;
 	const int Number;
 	CardPack Cards;
 
@@ -24,7 +25,7 @@ private:
 	QPoint position;
 
 public:
-	Player(int number, QPoint position);
+	Player(int index, QPoint position);
 
 	QPoint getPosition() const { return this->position; }
 
