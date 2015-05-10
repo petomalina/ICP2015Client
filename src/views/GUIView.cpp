@@ -9,23 +9,19 @@
 
 GUIView::GUIView()
 {
+	// set defaults
+	this->playersInput = 4;
+	this->sizeInput = 7;
 	this->savedScene = nullptr;
 
-	// +2 so we can manipulate with one more stone
-	//qreal pixelWidth = (this->size + 2) * LabyrinthItem::Width;
-	// +3 so we can manipulate with stone and add some stats
-	//qreal pixelHeight = (this->size + 3) * LabyrinthItem::Height;
-
 	this->menuScene = new QGraphicsScene{0, 0, 800, 600};
-	this->gameScene = new QGraphicsScene{0, 0, 800, 600};
-	//this->gameOptionsScene = new QGraphicsScene{0, 0, pixelWidth, pixelHeight};
+	this->gameOptionsScene = new QGraphicsScene{0, 0, 800, 600};
+	this->gameScene = nullptr;
 	this->scale(1.5, 1.5);
 
 	SContentManager.addTexture("I", "graphics/I.png");
 	SContentManager.addTexture("L", "graphics/L.png");
 	SContentManager.addTexture("T", "graphics/T.png");
-
-	this->showMenu();
 }
 
 GUIView::~GUIView()
@@ -85,14 +81,32 @@ void GUIView::initialize(GameData *data)
 
 	this->createDoubleMenu(this->gameOptionsScene, this->gameOptionsElements);
 
-
-	/* GAME INITIALIZATION */
+	this->showMenu();
 };
 
 
 void GUIView::show()
 {
 	QGraphicsView::show();
+}
+
+
+void GUIView::reflect()
+{
+	if (this->gameScene != nullptr) {
+		delete this->gameScene; // clear game scene
+	}
+
+	// +2 so we can manipulate with one more stone
+	qreal pixelWidth = (this->game->PlaygroundSize + 2) * GUIBlock::Size;
+	// +3 so we can manipulate with stone and add some stats
+	qreal pixelHeight = (this->game->PlaygroundSize + 3) * GUIBlock::Size;
+
+	this->gameScene = new QGraphicsScene{0, 0, pixelWidth, pixelHeight};
+
+	for (Fragment *frag : this->game->Map) {
+		this->gameScene->addItem(new GUIBlock(frag));
+	}
 }
 
 void GUIView::showGame()
@@ -116,7 +130,7 @@ void GUIView::createSimpleMenu(QGraphicsScene *scene, std::vector<QWidget *> &el
 	const int buttonWidth = 120;
 	const int buttonHeight = 25;
 
-	const int menuStartOffset = (int) scene->height() / 8;
+	const int menuStartOffset = (int) scene->height() / 4;
 
 	int index = 1;
 	for (QWidget *widget : elements) {
@@ -134,7 +148,7 @@ void GUIView::createDoubleMenu(QGraphicsScene *scene, std::vector<QWidget *> &el
 	const int buttonWidth = 120;
 	const int buttonHeight = 25;
 
-	const int menuStartOffset = (int) scene->height() / 8;
+	const int menuStartOffset = (int) scene->height() / 4;
 
 	int elemIndex = 1;
 	int index = 1;
@@ -170,6 +184,7 @@ void GUIView::handleExitButton()
 void GUIView::handleGameStartButton()
 {
 	this->onGameStart.dispatch(this->playersInput, this->sizeInput);
+	this->reflect(); // reflect fragments into game
 	this->showGame();
 }
 

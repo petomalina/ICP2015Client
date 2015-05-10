@@ -25,7 +25,7 @@ Q_OBJECT
 protected:
 	QGraphicsScene *savedScene, *menuScene, *gameScene, *gameOptionsScene;
 	// menu elements
-	std::vector<QWidget *> menuElements, gameOptionsElements, gameElements;
+	std::vector<QWidget *> menuElements, gameOptionsElements;
 
 	// menu inputs
 	int playersInput, sizeInput;
@@ -39,6 +39,8 @@ public:
 	virtual void initialize(GameData *data) override;
 
 	void show();
+
+	void reflect();
 
 	void showGame();
 

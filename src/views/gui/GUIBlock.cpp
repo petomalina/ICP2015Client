@@ -8,7 +8,8 @@ GUIBlock::GUIBlock(Fragment *frag):
 		QGraphicsPixmapItem(
 				SContentManager.getTexture(frag->Type == FragmentType::L ? "L" : frag->Type == FragmentType::I ? "I" : "T"))
 {
-	this->setFlag(GraphicsItemFlag::ItemIsFocusable);
+	this->Frag = frag;
+	this->setPosition(frag->getX(), frag->getY());
 }
 
 GUIBlock::~GUIBlock()
@@ -18,12 +19,12 @@ GUIBlock::~GUIBlock()
 
 void GUIBlock::setPosition(int x, int y)
 {
-	this->setPos(x * Width, y * Height);
+	this->setPos(x * GUIBlock::Size, y * GUIBlock::Size);
 	this->Frag->setPosition(x, y);
 }
 
 void GUIBlock::move(int dx, int dy)
 {
-	this->moveBy(dx * Width, dy * Height);
+	this->moveBy(dx * GUIBlock::Size, dy * GUIBlock::Size);
 	this->Frag->move(dx, dy);
 }

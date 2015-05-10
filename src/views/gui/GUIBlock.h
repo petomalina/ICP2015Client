@@ -13,8 +13,7 @@ class GUIBlock: public QObject, public QGraphicsPixmapItem {
 Q_OBJECT
 
 public:
-	static const int Width = 40;
-	static const int Height = 40;
+	static const int Size = 40;
 
 public:
 	Fragment *Frag; // linked fragment
