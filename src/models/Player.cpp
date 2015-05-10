@@ -23,10 +23,10 @@ void Player::move(Movement type)
 {
 	switch (type) {
 		case Movement::Up:
-			this->position.ry() += 1;
+			this->position.ry() -= 1;
 			break;
 		case Movement::Down:
-			this->position.ry() -= 1;
+			this->position.ry() += 1;
 			break;
 		case Movement::Left:
 			this->position.rx() -= 1;

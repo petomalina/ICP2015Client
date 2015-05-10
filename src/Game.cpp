@@ -129,7 +129,7 @@ void Game::generatePlayers()
 				break;
 		}
 
-		Player *p = new Player(i, position);
+		Player *p = new Player(i-1, position);
 		cardPackGenerator.generatePack(p->Cards);
 		this->data.Players.push_back(p);
 	}
@@ -169,7 +169,23 @@ void Game::adjustMovingBlockIndex()
 
 void Game::onMove(Rotation rot)
 {
+	switch (rot) {
+		case Rotation::Down:
+			this->data.OnMove->move(Movement::Down);
+			break;
 
+		case Rotation::Up:
+			this->data.OnMove->move(Movement::Up);
+			break;
+
+		case Rotation::Left:
+			this->data.OnMove->move(Movement::Left);
+			break;
+
+		case Rotation::Right:
+			this->data.OnMove->move(Movement::Right);
+			break;
+	}
 }
 
 void Game::onFragmentPlace(int index, FragmentType type, Rotation rot)
@@ -183,6 +199,7 @@ void Game::onGameStart(int players, int size)
 	this->data.PlaygroundSize = size;
 	this->generateMap();
 	this->generatePlayers();
+	this->data.OnMove = *this->data.Players.begin();
 }
 
 void Game::onUndo()

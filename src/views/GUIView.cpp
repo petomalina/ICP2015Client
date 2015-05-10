@@ -242,13 +242,20 @@ void GUIView::keyPressEvent(QKeyEvent *event)
 	}
 
 	// event binsings
-	if (event->key() == Qt::DownArrow) {
+	if (event->key() == Qt::Key_Down) {
 		this->onMove(Rotation::Down);
-	} else if (event->key() == Qt::UpArrow) {
+	} else if (event->key() == Qt::Key_Up) {
 		this->onMove(Rotation::Up);
-	} else if (event->key() == Qt::LeftArrow) {
+	} else if (event->key() == Qt::Key_Left) {
 		this->onMove(Rotation::Left);
-	} else if (event->key() == Qt::RightArrow) {
+	} else if (event->key() == Qt::Key_Right) {
 		this->onMove(Rotation::Right);
+	}
+
+	if (this->game->MovingPlayer) {
+		GUIBlock *playerBlock = this->playerBlocks[this->game->OnMove->Index];
+		playerBlock->setPosition(this->game->OnMove->getPosition().x(), this->game->OnMove->getPosition().y());
+	} else {
+		// move block
 	}
 }
