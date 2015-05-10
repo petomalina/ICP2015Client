@@ -19,9 +19,11 @@ GUIBlock::~GUIBlock()
 void GUIBlock::setPosition(int x, int y)
 {
 	this->setPos(x * Width, y * Height);
+	this->Frag->setPosition(x, y);
 }
 
-void GUIBlock::move(int x, int y)
+void GUIBlock::move(int dx, int dy)
 {
-	this->moveBy(x * Width, y * Height);
+	this->moveBy(dx * Width, dy * Height);
+	this->Frag->move(dx, dy);
 }
