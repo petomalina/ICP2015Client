@@ -4,7 +4,7 @@
 
 #include "Player.h"
 
-Player::Player(int index, QPoint pos): Index(index), Number(std::pow(index, 2))
+Player::Player(int index, QPoint pos): Index(index-1), Number(std::pow(index, 2))
 {
 	this->position = pos;
 }
