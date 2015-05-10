@@ -12,10 +12,14 @@
 #include "../models/Player.h"
 
 struct GameData {
+	std::string Name;
+
 	int PlayerCount;
 	int PlaygroundSize;
 
 	std::vector<Player *> Players;
+	Player *OnMove;
+
 	std::vector<Fragment *> Map;
 	Fragment *MovingBlock;
 };

@@ -80,6 +80,7 @@ void Game::generateMap()
 							this->data.Map.push_back(FragmentFactory::create(x, y, FragmentType::T, FragmentRotation::Flip));
 							break;
 						default:
+							this->data.Map.push_back(FragmentFactory::create(x, y, FragmentType::T, FragmentRotation::Normal));
 							break;
 					}
 				}
@@ -104,6 +105,16 @@ void Game::generatePlayers()
 		// TODO: Calculate position of player
 		this->data.Players.push_back(new Player(static_cast<int>(pow(i, 2)), QPoint{}));
 	}
+}
+
+void Game::loadGame(GameData *data)
+{
+
+}
+
+void Game::saveGame(GameData *data)
+{
+
 }
 
 void Game::indexMovingBlock()

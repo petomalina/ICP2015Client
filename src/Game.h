@@ -58,6 +58,10 @@ private:
 
 	void generatePlayers();
 
+	void loadGame(GameData *data);
+
+	void saveGame(GameData *data);
+
 public:
 	void run();
 
