@@ -70,7 +70,7 @@ public:
 	void adjustMovingBlockIndex();
 
 public:
-	void onPlayerMove(Rotation rot);
+	void onMove(Rotation rot);
 
 	void onFragmentPlace(int index, FragmentType type, Rotation rot);
 

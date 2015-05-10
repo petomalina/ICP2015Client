@@ -11,7 +11,7 @@ Game::Game(IView *view)
 	this->view = view;
 	this->view->initialize(&this->data);
 
-	this->view->onCharacterMove(std::bind(&Game::onPlayerMove, this, _1));
+	this->view->onMove(std::bind(&Game::onMove, this, _1));
 	this->view->onFragmentPlace(std::bind(&Game::onFragmentPlace, this, _1, _2, _3));
 	this->view->onGameStart(std::bind(&Game::onGameStart, this, _1, _2));
 
@@ -127,7 +127,7 @@ void Game::generatePlayers()
 				break;
 		}
 
-		this->data.Players.push_back(new Player(static_cast<int>(pow(i, 2)), position));
+		this->data.Players.push_back(new Player(i, position));
 	}
 }
 
@@ -163,7 +163,7 @@ void Game::adjustMovingBlockIndex()
 		this->movingBlockIndex = maxIndex - this->movingBlockIndex;
 }
 
-void Game::onPlayerMove(Rotation rot)
+void Game::onMove(Rotation rot)
 {
 
 }

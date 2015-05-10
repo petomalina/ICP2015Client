@@ -97,6 +97,16 @@ void GUIView::show()
 
 void GUIView::reflect()
 {
+	for (GUIBlock *block : this->blocks) {
+		delete block;
+	}
+	this->blocks.clear();
+
+	for (GUIBlock *player : this->playerBlocks) {
+		delete player;
+	}
+	this->playerBlocks.clear();
+
 	if (this->gameScene != nullptr) {
 		delete this->gameScene; // clear game scene
 	}
@@ -109,7 +119,22 @@ void GUIView::reflect()
 	this->gameScene = new QGraphicsScene{0, 0, pixelWidth, pixelHeight};
 
 	for (Fragment *frag : this->game->Map) {
-		this->gameScene->addItem(new GUIBlock(frag));
+		auto block = new GUIBlock(frag);
+		this->blocks.push_back(block);
+		this->gameScene->addItem(block);
+	}
+
+	int playerIndex = 1;
+	for (Player *player : this->game->Players) {
+		auto block = new GUIBlock(
+				new Fragment(player->getPosition().x(), player->getPosition().y(), FragmentType::Player, FragmentRotation::Normal),
+				SContentManager.getTexture("P"+std::to_string(playerIndex))
+		);
+
+		this->playerBlocks.push_back(block);
+		this->gameScene->addItem(block);
+
+		playerIndex++;
 	}
 }
 
@@ -188,6 +213,7 @@ void GUIView::handleExitButton()
 void GUIView::handleGameStartButton()
 {
 	this->onGameStart.dispatch(this->playersInput, this->sizeInput);
+
 	this->reflect(); // reflect fragments into game
 	this->showGame();
 }
@@ -213,5 +239,16 @@ void GUIView::keyPressEvent(QKeyEvent *event)
 			this->setScene(this->savedScene);
 			this->savedScene = nullptr;
 		}
+	}
+
+	// event binsings
+	if (event->key() == Qt::DownArrow) {
+		this->onMove(Rotation::Down);
+	} else if (event->key() == Qt::UpArrow) {
+		this->onMove(Rotation::Up);
+	} else if (event->key() == Qt::LeftArrow) {
+		this->onMove(Rotation::Left);
+	} else if (event->key() == Qt::RightArrow) {
+		this->onMove(Rotation::Right);
 	}
 }

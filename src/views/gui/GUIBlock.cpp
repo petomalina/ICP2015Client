@@ -12,6 +12,12 @@ GUIBlock::GUIBlock(Fragment *frag):
 	this->initialize();
 }
 
+GUIBlock::GUIBlock(Fragment *frag, QPixmap pixmap) : QGraphicsPixmapItem(pixmap)
+{
+	this->Frag = frag;
+	this->initialize();
+}
+
 GUIBlock::~GUIBlock()
 {
 

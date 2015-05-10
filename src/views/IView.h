@@ -22,6 +22,8 @@ struct GameData {
 
 	std::vector<Fragment *> Map;
 	Fragment *MovingBlock;
+
+	bool MovingPlayer;
 };
 
 enum class Rotation {
@@ -40,7 +42,7 @@ public:
 
 public:
 	// rotation of character
-	Event<Rotation> onCharacterMove;
+	Event<Rotation> onMove;
 	// index and what type
 	Event<int, FragmentType, Rotation> onFragmentPlace;
 	// number of players, size of playground
