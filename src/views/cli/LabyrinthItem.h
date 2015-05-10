@@ -35,17 +35,5 @@ public:
 	std::string str();
 };
 
-class LabyrinthItemFactory {
-
-public:
-	LabyrinthItem *L();
-
-	LabyrinthItem *T();
-
-	LabyrinthItem *I();
-
-	LabyrinthItem *getRandomLabyrinthItem();
-};
-
 
 #endif //ICP2015CLIENT_LABYRINTHITEM_H

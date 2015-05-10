@@ -22,9 +22,6 @@
 class GUIView: public QGraphicsView, public IView {
 Q_OBJECT
 
-public:
-	GameData *data; // this should be only for friends
-
 protected:
 	QGraphicsScene *savedScene, *menuScene, *gameScene, *gameOptionsScene;
 	// menu elements
@@ -38,7 +35,7 @@ public:
 	virtual ~GUIView();
 
 public:
-	virtual void initialize() override;
+	virtual void initialize(GameData *data) override;
 
 	void show();
 

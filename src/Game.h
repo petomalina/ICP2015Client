@@ -49,10 +49,12 @@ enum class KeyBindings: int {
 class Game {
 protected:
 	IView *view;
-	GameData *data;
 
 	int movingBlockIndex;
 	KeyBindings pressedKey;
+
+public:
+	GameData data; // this should be only for friends
 
 public:
 	Game(IView *view);

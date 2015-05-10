@@ -33,8 +33,10 @@ GUIView::~GUIView()
 }
 
 
-void GUIView::initialize()
+void GUIView::initialize(GameData *data)
 {
+	this->game = data;
+
 	/* MENU INITIALIZATION */
 	QPushButton *newGameButton = new QPushButton{"New Game"};
 	connect(newGameButton, SIGNAL(released()), this, SLOT(handleNewGameButton()));

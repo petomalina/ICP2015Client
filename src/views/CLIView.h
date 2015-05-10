@@ -13,24 +13,20 @@
 class CLIView: public IView {
 
 private:
-	int size;
-
 	LabyrinthItem *movingBlock;
 
 	std::vector<LabyrinthItem *> fragments;
 
 public:
-	CLIView(int size);
+	CLIView();
 
-	virtual void initialize() override;
+	virtual void initialize(GameData *game) override;
 
 	virtual void show() override;
 
 	void showMenu();
 
 	void showGame();
-
-	void generateMap();
 
 	std::vector<std::string> prepareMap();
 

@@ -9,8 +9,8 @@ int main (int argc, char *argv[])
 	int playgroundSize = 7;
 	srand(time(NULL)); //seed for pseudo random number generating
 
-	GUIView view{};
-	//CLIView view{};
+	//GUIView view{};
+	CLIView view{};
 
 	Game game{&view};
 	game.run();

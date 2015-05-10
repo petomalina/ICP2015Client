@@ -17,6 +17,7 @@ struct GameData {
 
 	std::vector<Player*> Players;
 	std::vector<Fragment*> Map;
+	Fragment *MovingBlock;
 };
 
 enum class Rotation {
@@ -26,7 +27,10 @@ enum class Rotation {
 class IView {
 
 public:
-	virtual void initialize() = 0;
+	GameData *game;
+
+public:
+	virtual void initialize(GameData *data) = 0;
 	virtual void show() = 0;
 
 public:

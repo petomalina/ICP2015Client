@@ -58,7 +58,7 @@ LabyrinthItem *LabyrinthItem::rotateFlip()
 	return this;
 }
 
-LabyrinthItem *LabyrinthItemFactory::L()
+/*LabyrinthItem *LabyrinthItemFactory::L()
 {
 	new LabyrinthItem{{
 							  '#', '#', '#',
@@ -120,7 +120,7 @@ LabyrinthItem *LabyrinthItemFactory::getRandomLabyrinthItem()
 		default:
 			return LabyrinthItemFactory::T(); // catchup
 	}
-}
+}*/
 
 std::string LabyrinthItem::str()
 {
