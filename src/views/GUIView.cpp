@@ -258,11 +258,15 @@ void GUIView::keyPressEvent(QKeyEvent *event)
 		this->onMove(Movement::Right);
 	}
 
+	if (event->key() == Qt::Key_R) {
+		this->onRotate();
+	}
+
 	if (this->game->MovingPlayer) {
 		GUIBlock *playerBlock = this->playerBlocks[this->game->OnMove->Index];
 		playerBlock->setPosition(this->game->OnMove->getPosition().x(), this->game->OnMove->getPosition().y());
 	} else {
-		this->movingBlock->setPosition(this->game->MovingBlock->getX(), this->game->MovingBlock->getY());
+		this->movingBlock->setPosition(this->game->MovingBlock->getX(), this->game->MovingBlock->getY());this->movingBlock->rotate(this->game->MovingBlock->getRotation());
 	}
 
 	if (event->key() == Qt::Key_Enter) {

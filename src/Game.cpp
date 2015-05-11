@@ -17,6 +17,7 @@ Game::Game(IView *view)
 
 	this->view->onMove(std::bind(&Game::onMove, this, _1));
 	this->view->onMoveEnter(std::bind(&Game::onMoveEnter, this));
+	this->view->onRotate(std::bind(&Game::onRotate, this));
 	this->view->onFragmentPlace(std::bind(&Game::onFragmentPlace, this, _1, _2, _3));
 	this->view->onGameStart(std::bind(&Game::onGameStart, this, _1, _2));
 
@@ -46,7 +47,7 @@ void Game::generateMap()
 		delete this->data.MovingBlock;
 		this->data.MovingBlock = nullptr;
 	}
-	this->data.MovingBlock = new Fragment(-1, 2, FragmentType::T, FragmentRotation::Normal);
+	this->data.MovingBlock = FragmentFactory::createRandom(1, -1);
 
 	for (int y = 0; y < this->data.PlaygroundSize; y++) {
 		for (int x = 0; x < this->data.PlaygroundSize; x++) {
@@ -101,6 +102,34 @@ void Game::generateMap()
 			}
 		}
 	}
+
+	// index generation for moving block
+	int x = 1, y = 1;
+	for (; x < this->data.PlaygroundSize-1; x++) {
+		if (x % 2 == 1) {
+			this->movingBlockPositions.push_back(Vector2{x, -1});
+		}
+	}
+
+	for (; y < this->data.PlaygroundSize-1; y++) {
+		if (y % 2 == 1) {
+			this->movingBlockPositions.push_back(Vector2{this->data.PlaygroundSize, y});
+		}
+	}
+
+	for (; x > 0; x--) {
+		if (x % 2 == 1) {
+			this->movingBlockPositions.push_back(Vector2{x, this->data.PlaygroundSize});
+		}
+	}
+
+	for (; y > 0; y--) {
+		if (y % 2 == 1) {
+			this->movingBlockPositions.push_back(Vector2{-1, y});
+		}
+	}
+
+	this->movingBlockPosition = this->movingBlockPositions.begin();
 }
 
 
@@ -217,26 +246,43 @@ void Game::onMove(Movement mov)
 				break;
 		}
 	} else { // moving block
-		switch (mov) {
-			case Movement::Down:
+		if (mov == Movement::Right || mov == Movement::Left) {
+			int direction = mov == Movement::Right ? 1 : -1;
 
-			case Movement::Up:
-				break;
-
-			case Movement::Right:
-				this->data.MovingBlock->move(1, 0);
-				break;
-
-			case Movement::Left:
-				this->data.MovingBlock->move(-1, 0);
-				break;
+			if (direction == -1) {
+				if (this->movingBlockPosition == this->movingBlockPositions.begin()) {
+					this->movingBlockPosition = --this->movingBlockPositions.end();
+				} else {
+					this->movingBlockPosition--;
+				}
+			} else {
+				if (this->movingBlockPosition == --this->movingBlockPositions.end()) {
+					this->movingBlockPosition = this->movingBlockPositions.begin();
+				} else {
+					this->movingBlockPosition++;
+				}
+			}
 		}
+
+		this->data.MovingBlock->setPosition(this->movingBlockPosition->x(), this->movingBlockPosition->y());
 	}
 }
 
 void Game::onMoveEnter()
 {
 	this->data.MovingPlayer = !this->data.MovingPlayer;
+}
+
+void Game::onRotate()
+{
+	if (!this->data.MovingPlayer) {
+		int rotation = static_cast<int>(this->data.MovingBlock->getRotation()) + 1;
+		if (rotation > 3) {
+			rotation = 0;
+		}
+
+		this->data.MovingBlock->rotate(static_cast<FragmentRotation>(rotation));
+	}
 }
 
 void Game::onFragmentPlace(int index, FragmentType type, Rotation rot)

@@ -37,7 +37,7 @@ void GUIBlock::initialize()
 
 void GUIBlock::setPosition(int x, int y)
 {
-	this->setPos(x * GUIBlock::Size, y * GUIBlock::Size);
+	this->setPos(x * GUIBlock::Size, (y + 1) * GUIBlock::Size);
 	this->Frag->setPosition(x, y);
 }
 
@@ -49,13 +49,10 @@ void GUIBlock::move(int dx, int dy)
 
 void GUIBlock::rotate(FragmentRotation rot)
 {
-	if (this->Frag->getRotation() == rot) {
-		return;
-	}
-
 	switch(rot) {
 		case FragmentRotation::Normal:
 			QGraphicsPixmapItem::setRotation(0);
+			break;
 		case FragmentRotation::Right:
 			QGraphicsPixmapItem::setRotation(90);
 			break;
