@@ -19,6 +19,9 @@ set(SOURCE_FILES
 
     src/main.cpp
 
+    src/math/Vector2.h
+    src/math/Vector2.cpp
+
     src/Game.h
     src/Game.cpp
 
