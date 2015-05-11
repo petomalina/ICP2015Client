@@ -60,11 +60,11 @@ bool Fragment::isOpenDown() const
 bool Fragment::isOpenRight() const
 {
 	if (this->Type == FragmentType::L) {
-
+		return (this->rotation == FragmentRotation::Normal || this->rotation == FragmentRotation::Left);
 	} else if (this->Type == FragmentType::T) {
-
+		return (this->rotation != FragmentRotation::Right);
 	} else if (this->Type == FragmentType::I) {
-
+		return (this->rotation == FragmentRotation::Normal || this->rotation == FragmentRotation::Flip);
 	}
 
 	return false;
@@ -73,11 +73,11 @@ bool Fragment::isOpenRight() const
 bool Fragment::isOpenLeft() const
 {
 	if (this->Type == FragmentType::L) {
-
+		return (this->rotation == FragmentRotation::Right || this->rotation == FragmentRotation::Flip);
 	} else if (this->Type == FragmentType::T) {
-
+		return (this->rotation != FragmentRotation::Left);
 	} else if (this->Type == FragmentType::I) {
-
+		return (this->rotation == FragmentRotation::Normal || this->rotation == FragmentRotation::Flip);
 	}
 
 	return false;

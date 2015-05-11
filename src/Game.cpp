@@ -37,33 +37,33 @@ void Game::generateMap()
 	}
 	this->data.Map.clear();
 
-	for (int x = 0; x < this->data.PlaygroundSize; x++) {
-		for (int y = 0; y < this->data.PlaygroundSize; y++) {
+	for (int y = 0; y < this->data.PlaygroundSize; y++) {
+		for (int x = 0; x < this->data.PlaygroundSize; x++) {
 			if (x == 0 && y == 0) {
 				this->data.Map.push_back(FragmentFactory::create(x, y, FragmentType::L, FragmentRotation::Normal));
 			}
 			else if (x == 0 && y == this->data.PlaygroundSize - 1) {
-				this->data.Map.push_back(FragmentFactory::create(x, y, FragmentType::L, FragmentRotation::Right));
+				this->data.Map.push_back(FragmentFactory::create(x, y, FragmentType::L, FragmentRotation::Left));
 			}
 			else if (x == this->data.PlaygroundSize - 1 && y == 0) {
-				this->data.Map.push_back(FragmentFactory::create(x, y, FragmentType::L, FragmentRotation::Left));
+				this->data.Map.push_back(FragmentFactory::create(x, y, FragmentType::L, FragmentRotation::Right));
 			}
 			else if (x == this->data.PlaygroundSize - 1 && y == this->data.PlaygroundSize - 1) {
 				this->data.Map.push_back(FragmentFactory::create(x, y, FragmentType::L, FragmentRotation::Flip));
 			}
 			else if (x % 2 == 0 && y % 2 == 0) {
 				// calculate T-s
-				if (x == 0) { // up
-					this->data.Map.push_back(FragmentFactory::create(x, y, FragmentType::T, FragmentRotation::Normal));
-				}
-				else if (y == 0) { // left
+				if (x == 0) { // left
 					this->data.Map.push_back(FragmentFactory::create(x, y, FragmentType::T, FragmentRotation::Left));
 				}
-				else if (x == this->data.PlaygroundSize - 1) { // down
-					this->data.Map.push_back(FragmentFactory::create(x, y, FragmentType::T, FragmentRotation::Flip));
+				else if (y == 0) { // up
+					this->data.Map.push_back(FragmentFactory::create(x, y, FragmentType::T, FragmentRotation::Normal));
 				}
-				else if (y == this->data.PlaygroundSize - 1) { // right
+				else if (x == this->data.PlaygroundSize - 1) { // right
 					this->data.Map.push_back(FragmentFactory::create(x, y, FragmentType::T, FragmentRotation::Right));
+				}
+				else if (y == this->data.PlaygroundSize - 1) { // down
+					this->data.Map.push_back(FragmentFactory::create(x, y, FragmentType::T, FragmentRotation::Flip));
 				}
 				else { // all other (even col/row crossings)
 					switch (rand() % 4) { // randomize T rotation
@@ -197,10 +197,16 @@ void Game::onMove(Movement mov)
 
 			case Movement::Left:
 				nextFragment = this->data.Map[this->data.PlaygroundSize * p.y() + p.x() - 1];
+				if (!nextFragment->isOpenRight() || !thisFragment->isOpenLeft()) {
+					return;
+				}
 				break;
 
 			case Movement::Right:
 				nextFragment = this->data.Map[this->data.PlaygroundSize * p.y() + p.x() + 1];
+				if (!nextFragment->isOpenLeft() || !thisFragment->isOpenRight()) {
+					return;
+				}
 				break;
 		}
 
