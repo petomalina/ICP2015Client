@@ -9,14 +9,16 @@
 class Vector2 {
 
 private:
-	int x, y;
+	int xpos, ypos;
 
 public:
 	Vector2(int x = 0, int y = 0);
 	~Vector2();
 
-	int getX() const;
-	int getY() const;
+	int x() const;
+	int y() const;
+	int &rx();
+	int &ry();
 
 	void setX(int x);
 	void setY(int y);

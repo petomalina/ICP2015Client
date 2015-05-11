@@ -14,40 +14,50 @@ Vector2::~Vector2()
 
 }
 
-int Vector2::getX() const
+int Vector2::x() const
 {
-	return this->x;
+	return this->xpos;
 }
 
-int Vector2::getY() const
+int Vector2::y() const
 {
-	return this->y;
+	return this->ypos;
+}
+
+int &Vector2::rx()
+{
+	return this->xpos;
+}
+
+int &Vector2::ry()
+{
+	return this->ypos;
 }
 
 void Vector2::setX(int x)
 {
-	this->x = x;
+	this->xpos = x;
 }
 
 void Vector2::setY(int y)
 {
-	this->y = y;
+	this->ypos = y;
 }
 
 void Vector2::set(int x, int y)
 {
-	this->x = x;
-	this->y = y;
+	this->xpos = x;
+	this->ypos = y;
 }
 
 void Vector2::move(int dx, int dy)
 {
-	this->x += dx;
-	this->y += dy;
+	this->xpos += dx;
+	this->ypos += dy;
 }
 
 void Vector2::move(const Vector2 &vec)
 {
-	this->x += vec.getX();
-	this->y += vec.getY();
+	this->xpos += vec.x();
+	this->ypos += vec.x();
 }

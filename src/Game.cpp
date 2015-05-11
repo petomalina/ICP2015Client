@@ -115,7 +115,7 @@ void Game::generatePlayers()
 	CardPackGenerator cardPackGenerator{12};
 
 	for (int i = 1; i <= this->data.PlayerCount; i++) {
-		QPoint position{};
+		Vector2 position{};
 		switch (i) {
 			case 1:
 				position.setX(0);
@@ -159,7 +159,7 @@ void Game::saveGame(GameData *data)
 void Game::onMove(Movement mov)
 {
 	if (this->data.MovingPlayer) {
-		QPoint p = data.OnMove->getPosition();
+		Vector2 p = data.OnMove->getPosition();
 		if (p.y() + 1 == data.PlaygroundSize && mov == Movement::Down ||
 				p.y() == 0 && mov == Movement::Up ||
 				p.x() == 0 && mov == Movement::Left ||

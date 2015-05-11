@@ -8,6 +8,7 @@
 #include <string>
 #include <QtCore/QPoint>
 
+#include "../math/Vector2.h"
 #include "Card.h"
 
 enum class Movement {
@@ -22,12 +23,12 @@ public:
 	CardPack Cards;
 
 private:
-	QPoint position;
+	Vector2 position;
 
 public:
-	Player(int index, QPoint position);
+	Player(int index, Vector2 position);
 
-	QPoint getPosition() const { return this->position; }
+	Vector2 &getPosition() { return this->position; }
 
 	Card &card();
 
