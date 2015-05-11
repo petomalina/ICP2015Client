@@ -50,7 +50,7 @@ public:
 	// index and what type
 	Event<int, FragmentType, Rotation> onFragmentPlace;
 	// number of players, size of playground
-	Event<int, int> onGameStart;
+	Event<int, int, int> onGameStart;
 
 	Event<> onUndo;
 

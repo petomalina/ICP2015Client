@@ -43,7 +43,7 @@ void CLIView::showMenu()
 	getchar(); // TODO: delete this
 
 	// TODO: dispatch correct values
-	this->onGameStart.dispatch(4, 7);
+	this->onGameStart.dispatch(4, 7, 12);
 	this->reflect(); // reflect fragments to view
 	this->showGame();
 }

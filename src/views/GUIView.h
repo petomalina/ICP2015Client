@@ -31,7 +31,7 @@ protected:
 	GUIBlock *movingBlock;
 
 	// menu inputs
-	int playersInput, sizeInput;
+	int playersInput, sizeInput, cardInput;
 
 public:
 	GUIView();
@@ -69,6 +69,8 @@ private slots:
 	void handlePlayersChange(const QString &text);
 
 	void handleSizeChange(const QString &text);
+
+	void handleCardsChange(const QString &text);
 
 protected:
 	virtual void keyPressEvent(QKeyEvent *event) override;

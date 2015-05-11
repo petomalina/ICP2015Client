@@ -12,6 +12,7 @@ GUIView::GUIView()
 	// set defaults
 	this->playersInput = 4;
 	this->sizeInput = 7;
+	this->cardInput = 12;
 	this->savedScene = nullptr;
 
 	this->menuScene = new QGraphicsScene{0, 0, 800, 600};
@@ -78,6 +79,14 @@ void GUIView::initialize(GameData *data)
 																const QString&)), this, SLOT(handleSizeChange(
 																																 const QString&)));
 	this->gameOptionsElements.push_back(sizeInput);
+
+	QLabel *cardCount = new QLabel{"Cards: "};
+	this->gameOptionsElements.push_back(cardCount);
+
+	QComboBox *cardInput = new QComboBox{};
+	cardInput->addItems({"12", "24"});
+	connect(cardInput, SIGNAL(currentIndexChanged(const QString&)), this, SLOT(handleCardsChange(const QString&)));
+	this->gameOptionsElements.push_back(cardInput);
 
 	QPushButton *startButton = new QPushButton{"Start game"};
 	connect(startButton, SIGNAL(released()), this, SLOT(handleGameStartButton()));
@@ -218,7 +227,7 @@ void GUIView::handleExitButton()
 
 void GUIView::handleGameStartButton()
 {
-	this->onGameStart.dispatch(this->playersInput, this->sizeInput);
+	this->onGameStart.dispatch(this->playersInput, this->sizeInput, this->cardInput);
 
 	this->reflect(); // reflect fragments into game
 	this->showGame();
@@ -232,6 +241,12 @@ void GUIView::handlePlayersChange(const QString &text)
 void GUIView::handleSizeChange(const QString &text)
 {
 	this->sizeInput = atoi(text.toStdString().c_str());
+}
+
+
+void GUIView::handleCardsChange(const QString &text)
+{
+	this->cardInput = atoi(text.toStdString().c_str());
 }
 
 void GUIView::keyPressEvent(QKeyEvent *event)
