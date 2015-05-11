@@ -294,6 +294,7 @@ void Game::onGameStart(int players, int size, int cards)
 {
 	this->data.PlayerCount = players;
 	this->data.PlaygroundSize = size;
+	this->data.CardCount = cards;
 	this->generateMap();
 	this->generatePlayers();
 	this->data.OnMove = *this->data.Players.begin();

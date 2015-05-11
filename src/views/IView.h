@@ -16,6 +16,7 @@ struct GameData {
 
 	int PlayerCount;
 	int PlaygroundSize;
+	int CardCount;
 
 	std::vector<Player *> Players;
 	Player *OnMove;
