@@ -18,7 +18,6 @@ Game::Game(IView *view)
 	this->view->onMove(std::bind(&Game::onMove, this, _1));
 	this->view->onMoveEnter(std::bind(&Game::onMoveEnter, this));
 	this->view->onRotate(std::bind(&Game::onRotate, this));
-	this->view->onFragmentPlace(std::bind(&Game::onFragmentPlace, this, _1, _2, _3));
 	this->view->onGameStart(std::bind(&Game::onGameStart, this, _1, _2, _3));
 
 	this->view->onUndo(std::bind(&Game::onUndo, this));
@@ -283,11 +282,6 @@ void Game::onRotate()
 
 		this->data.MovingBlock->rotate(static_cast<FragmentRotation>(rotation));
 	}
-}
-
-void Game::onFragmentPlace(int index, FragmentType type, Rotation rot)
-{
-
 }
 
 void Game::onGameStart(int players, int size, int cards)

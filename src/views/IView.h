@@ -48,8 +48,6 @@ public:
 	Event<> onMoveEnter;
 
 	Event<> onRotate;
-	// index and what type
-	Event<int, FragmentType, Rotation> onFragmentPlace;
 	// number of players, size of playground
 	Event<int, int, int> onGameStart;
 

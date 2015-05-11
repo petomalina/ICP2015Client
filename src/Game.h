@@ -75,8 +75,6 @@ public:
 
 	void onRotate();
 
-	void onFragmentPlace(int index, FragmentType type, Rotation rot);
-
 	void onGameStart(int players, int size, int cards);
 
 	void onUndo();
