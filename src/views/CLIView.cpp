@@ -44,6 +44,7 @@ void CLIView::showMenu()
 
 	this->game->PlayerCount = 4; // setting default game values
 	this->game->PlaygroundSize = 7;
+	this->game->CardCount = 12;
 
 	bool cond = false;
 	do {
@@ -89,7 +90,9 @@ void CLIView::showOptions()
 	this->clearScreen();
 	std::cout << "Current game settings:\n\n";
 	std::cout << (this->game->Name == "" ? "\t" : "\tGame: " + std::string(this->game->Name) + " | ") +
-				 "Players: " << this->game->PlayerCount << " | Maze size: " << this->game->PlaygroundSize << "\n\n";
+				 "Players: " << this->game->PlayerCount <<
+	" | Maze size: " << this->game->PlaygroundSize << " | Cards: " << this->game->CardCount << "\n\n";
+
 	std::cout << "\tSelect action:\n";
 	std::cout << "\t\t1 - Set players\n";
 	std::cout << "\t\t2 - Set maze size\n";
@@ -117,7 +120,7 @@ void CLIView::showOptions()
 				break;
 			case KeyBindings::key5:
 				// TODO: dispatch correct values
-				this->onGameStart.dispatch(this->game->PlayerCount, this->game->PlaygroundSize);
+				this->onGameStart.dispatch(this->game->PlayerCount, this->game->PlaygroundSize, this->game->CardCount);
 				this->reflect(); // reflect fragments to view
 				this->showGame();
 			default:
@@ -176,7 +179,7 @@ void CLIView::showSetPlayers()
 
 void CLIView::showSetSize()
 {
-	this->c5learScreen();
+	this->clearScreen();
 
 	std::cout << "Enter size of the maze:\n\n";
 	std::cout << "\t\t1 - Set size to 5\n";

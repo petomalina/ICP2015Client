@@ -12,6 +12,7 @@ GUIView::GUIView()
 	// set defaults
 	this->playersInput = 4;
 	this->sizeInput = 7;
+	this->cardInput = 12;
 	this->savedScene = nullptr;
 
 	this->menuScene = new QGraphicsScene{0, 0, 800, 600};
@@ -79,6 +80,14 @@ void GUIView::initialize(GameData *data)
 																																 const QString&)));
 	this->gameOptionsElements.push_back(sizeInput);
 
+	QLabel *cardCount = new QLabel{"Cards: "};
+	this->gameOptionsElements.push_back(cardCount);
+
+	QComboBox *cardInput = new QComboBox{};
+	cardInput->addItems({"12", "24"});
+	connect(cardInput, SIGNAL(currentIndexChanged(const QString&)), this, SLOT(handleCardsChange(const QString&)));
+	this->gameOptionsElements.push_back(cardInput);
+
 	QPushButton *startButton = new QPushButton{"Start game"};
 	connect(startButton, SIGNAL(released()), this, SLOT(handleGameStartButton()));
 	this->gameOptionsElements.push_back(startButton);
@@ -127,8 +136,9 @@ void GUIView::reflect()
 	int playerIndex = 1;
 	for (Player *player : this->game->Players) {
 		auto block = new GUIBlock(
-				new Fragment(player->getPosition().x(), player->getPosition().y(), FragmentType::Player, FragmentRotation::Normal),
-				SContentManager.getTexture("P"+std::to_string(playerIndex))
+				new Fragment(player->getPosition().x(), player->getPosition().y(), FragmentType::Player,
+										 FragmentRotation::Normal),
+				SContentManager.getTexture("P" + std::to_string(playerIndex))
 		);
 
 		this->playerBlocks.push_back(block);
@@ -136,6 +146,11 @@ void GUIView::reflect()
 
 		playerIndex++;
 	}
+
+
+	// init moving block
+	this->movingBlock = new GUIBlock(this->game->MovingBlock);
+	this->gameScene->addItem(this->movingBlock);
 }
 
 void GUIView::showGame()
@@ -212,7 +227,7 @@ void GUIView::handleExitButton()
 
 void GUIView::handleGameStartButton()
 {
-	this->onGameStart.dispatch(this->playersInput, this->sizeInput);
+	this->onGameStart.dispatch(this->playersInput, this->sizeInput, this->cardInput);
 
 	this->reflect(); // reflect fragments into game
 	this->showGame();
@@ -226,6 +241,12 @@ void GUIView::handlePlayersChange(const QString &text)
 void GUIView::handleSizeChange(const QString &text)
 {
 	this->sizeInput = atoi(text.toStdString().c_str());
+}
+
+
+void GUIView::handleCardsChange(const QString &text)
+{
+	this->cardInput = atoi(text.toStdString().c_str());
 }
 
 void GUIView::keyPressEvent(QKeyEvent *event)
@@ -252,10 +273,18 @@ void GUIView::keyPressEvent(QKeyEvent *event)
 		this->onMove(Movement::Right);
 	}
 
+	if (event->key() == Qt::Key_R) {
+		this->onRotate();
+	}
+
 	if (this->game->MovingPlayer) {
 		GUIBlock *playerBlock = this->playerBlocks[this->game->OnMove->Index];
 		playerBlock->setPosition(this->game->OnMove->getPosition().x(), this->game->OnMove->getPosition().y());
 	} else {
-		// move block
+		this->movingBlock->setPosition(this->game->MovingBlock->getX(), this->game->MovingBlock->getY());this->movingBlock->rotate(this->game->MovingBlock->getRotation());
+	}
+
+	if (event->key() == Qt::Key_Enter) {
+		this->onMoveEnter();
 	}
 }

@@ -19,6 +19,9 @@ protected:
 	int movingBlockIndex;
 	KeyBindings pressedKey;
 
+	std::vector<Vector2> movingBlockPositions;
+	std::vector<Vector2>::iterator movingBlockPosition;
+
 public:
 	GameData data; // this should be only for friends
 
@@ -39,16 +42,16 @@ private:
 public:
 	void run();
 
-	void indexMovingBlock();
-
-	void adjustMovingBlockIndex();
-
 public:
 	void onMove(Movement mov);
 
+	void onMoveEnter();
+
+	void onRotate();
+
 	void onFragmentPlace(int index, FragmentType type, Rotation rot);
 
-	void onGameStart(int players, int size);
+	void onGameStart(int players, int size, int cards);
 
 	void onUndo();
 
