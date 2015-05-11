@@ -9,9 +9,14 @@ using namespace std::placeholders;
 Game::Game(IView *view)
 {
 	this->view = view;
+
+	this->data.MovingBlock = nullptr;
+	this->data.OnMove = nullptr;
+	this->data.MovingPlayer = false;
 	this->view->initialize(&this->data);
 
 	this->view->onMove(std::bind(&Game::onMove, this, _1));
+	this->view->onMoveEnter(std::bind(&Game::onMoveEnter, this));
 	this->view->onFragmentPlace(std::bind(&Game::onFragmentPlace, this, _1, _2, _3));
 	this->view->onGameStart(std::bind(&Game::onGameStart, this, _1, _2));
 
@@ -36,6 +41,12 @@ void Game::generateMap()
 		delete fragment;
 	}
 	this->data.Map.clear();
+
+	if (this->data.MovingBlock != nullptr) {
+		delete this->data.MovingBlock;
+		this->data.MovingBlock = nullptr;
+	}
+	this->data.MovingBlock = new Fragment(-1, 2, FragmentType::T, FragmentRotation::Normal);
 
 	for (int y = 0; y < this->data.PlaygroundSize; y++) {
 		for (int x = 0; x < this->data.PlaygroundSize; x++) {
@@ -145,28 +156,6 @@ void Game::saveGame(GameData *data)
 
 }
 
-void Game::indexMovingBlock()
-{
-	if (this->pressedKey == KeyBindings::keyRight)
-		this->movingBlockIndex += 1;
-	else if (this->pressedKey == KeyBindings::keyLeft)
-		this->movingBlockIndex -= 1;
-	else
-		return;
-
-	adjustMovingBlockIndex();
-}
-
-void Game::adjustMovingBlockIndex()
-{
-	// Maximal size of indexes where moving block can be placed. (only even rows/cols on 4 sides)
-	int maxIndex = (this->data.PlaygroundSize / 2) * 4;
-	if (this->movingBlockIndex >= maxIndex)
-		this->movingBlockIndex = this->movingBlockIndex % maxIndex;
-	else
-		this->movingBlockIndex = maxIndex - this->movingBlockIndex;
-}
-
 void Game::onMove(Movement mov)
 {
 	if (this->data.MovingPlayer) {
@@ -228,8 +217,26 @@ void Game::onMove(Movement mov)
 				break;
 		}
 	} else { // moving block
+		switch (mov) {
+			case Movement::Down:
 
+			case Movement::Up:
+				break;
+
+			case Movement::Right:
+				this->data.MovingBlock->move(1, 0);
+				break;
+
+			case Movement::Left:
+				this->data.MovingBlock->move(-1, 0);
+				break;
+		}
 	}
+}
+
+void Game::onMoveEnter()
+{
+	this->data.MovingPlayer = !this->data.MovingPlayer;
 }
 
 void Game::onFragmentPlace(int index, FragmentType type, Rotation rot)

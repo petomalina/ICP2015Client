@@ -65,12 +65,10 @@ private:
 public:
 	void run();
 
-	void indexMovingBlock();
-
-	void adjustMovingBlockIndex();
-
 public:
 	void onMove(Movement mov);
+
+	void onMoveEnter();
 
 	void onFragmentPlace(int index, FragmentType type, Rotation rot);
 

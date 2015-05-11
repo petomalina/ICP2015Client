@@ -127,8 +127,9 @@ void GUIView::reflect()
 	int playerIndex = 1;
 	for (Player *player : this->game->Players) {
 		auto block = new GUIBlock(
-				new Fragment(player->getPosition().x(), player->getPosition().y(), FragmentType::Player, FragmentRotation::Normal),
-				SContentManager.getTexture("P"+std::to_string(playerIndex))
+				new Fragment(player->getPosition().x(), player->getPosition().y(), FragmentType::Player,
+										 FragmentRotation::Normal),
+				SContentManager.getTexture("P" + std::to_string(playerIndex))
 		);
 
 		this->playerBlocks.push_back(block);
@@ -136,6 +137,11 @@ void GUIView::reflect()
 
 		playerIndex++;
 	}
+
+
+	// init moving block
+	this->movingBlock = new GUIBlock(this->game->MovingBlock);
+	this->gameScene->addItem(this->movingBlock);
 }
 
 void GUIView::showGame()
@@ -256,6 +262,10 @@ void GUIView::keyPressEvent(QKeyEvent *event)
 		GUIBlock *playerBlock = this->playerBlocks[this->game->OnMove->Index];
 		playerBlock->setPosition(this->game->OnMove->getPosition().x(), this->game->OnMove->getPosition().y());
 	} else {
-		// move block
+		this->movingBlock->setPosition(this->game->MovingBlock->getX(), this->game->MovingBlock->getY());
+	}
+
+	if (event->key() == Qt::Key_Enter) {
+		this->onMoveEnter();
 	}
 }
