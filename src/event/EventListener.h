@@ -1,7 +1,7 @@
-/*
-  This class is able to handle multiple events.
-
-  @author: Gelidus
+/**
+ * @brief ICP project 2015 (Maze game)
+ * @authors xmalin26, xmasek15
+ */
 */
 
 #ifndef __EventListener__H

@@ -1,6 +1,7 @@
-//
-// Created by gelidus on 14.3.2015.
-//
+/**
+ * @brief ICP project 2015 (Maze game)
+ * @authors xmalin26, xmasek15
+ */
 
 #ifndef _ICP2015CLIENT_CLIENT_H_
 #define _ICP2015CLIENT_CLIENT_H_

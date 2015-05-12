@@ -1,3 +1,9 @@
+/**
+ * @brief ICP project 2015 (Maze game)
+ * @authors xmalin26, xmasek15
+ */
+
+
 #include <QtWidgets/QApplication>
 
 #include "Game.h"

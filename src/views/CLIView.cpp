@@ -1,6 +1,8 @@
-//
-// Created by gelidus on 5.5.2015.
-//
+/**
+ * @brief ICP project 2015 (Maze game)
+ * @authors xmalin26, xmasek15
+ */
+
 
 #include "CLIView.h"
 #include <iostream>
