@@ -97,11 +97,12 @@ void CLIView::showOptions()
 	std::cout << "\t\t1 - Set players\n";
 	std::cout << "\t\t2 - Set maze size\n";
 	std::cout << "\t\t3 - Set game name\n";
-	std::cout << "\t\t4 - Return\n";
-	std::cout << "\t\t5 - Start Game\n\n";
+	std::cout << "\t\t4 - Set how many threasures\n";
+	std::cout << "\t\t5 - Return\n";
+	std::cout << "\t\t6 - Start Game\n\n";
 
 
-	bool cond = false;
+	bool cond;
 	do {
 		cond = false;
 		KeyBindings pressed = static_cast<KeyBindings>(ourGetCh());
@@ -116,10 +117,13 @@ void CLIView::showOptions()
 				this->showSetGameName();
 				break;
 			case KeyBindings::key4:
-				this->showMenu();
+				this->game->CardCount = (this->game->CardCount == 12 ? 24 : 12);
+				this->showOptions();
 				break;
 			case KeyBindings::key5:
-				// TODO: dispatch correct values
+				this->showMenu();
+				break;
+			case KeyBindings::key6:
 				this->onGameStart.dispatch(this->game->PlayerCount, this->game->PlaygroundSize, this->game->CardCount);
 				this->reflect(); // reflect fragments to view
 				this->showGame();
@@ -138,7 +142,17 @@ void CLIView::showOptions()
 
 void CLIView::showLoadDialog()
 {
-	// TODO: loading
+	std::cout << "Enter the name of the save to Load:\n";
+	std::cout << "(use format without extension [example: mysavegame42])\n\n\n";
+	std::string gameName;
+	std::cin >> gameName;
+	gameName.resize(128);
+	gameName.shrink_to_fit();
+
+	//TODO: load game
+
+	//after correct loading run game
+	this->showGame();
 }
 
 void CLIView::showSetGameName()
@@ -189,7 +203,7 @@ void CLIView::showSetSize()
 
 	int size = 7;
 
-	bool cond = false;
+	bool cond;
 	do {
 		cond = false;
 		KeyBindings pressed = static_cast<KeyBindings>(ourGetCh());
