@@ -37,16 +37,185 @@ void CLIView::reflect()
 void CLIView::showMenu()
 {
 	std::cout << "Welcome to Cli version of MazeICP2015\n\n";
-	std::cout << "If you want to start a New game with default settings press <Space> key.\n";
-	std::cout << "If you want to edit Settings first press <E> key.\n";
+	std::cout << "\tSelect action:\n";
+	std::cout << "\t\t1 - Start new game\n";
+	std::cout << "\t\t2 - Load game\n";
+	std::cout << "\t\t3 - Exit game\n";
 
-	getchar(); // TODO: delete this
+	this->game->PlayerCount = 4; // setting default game values
+	this->game->PlaygroundSize = 7;
+	this->game->CardCount = 12;
 
-	// TODO: dispatch correct values
-	this->onGameStart.dispatch(4, 7, 12);
+	bool cond = false;
+	do {
+		KeyBindings pressed = static_cast<KeyBindings >(ourGetCh());
+		switch (pressed) {
+			case KeyBindings::key1:
+				this->showOptions();
+				break;
+			case KeyBindings::key2:
+				this->showLoadDialog();
+				break;
+			case KeyBindings::key3:
+				exit(0);
+			default:
+				cond = true;
+		}
+	} while (cond);
+
+	/*
+	bool cond=false;
+	do {
+		switch (pressed) {
+			case KeyBindings::keySpace:
+				//do smtng
+				break;
+			default:
+				cond = true;
+		}
+	} while (cond);*/
+
+
+/*
+    // T ODO: dispatch correct values
+	this->onGameStart.dispatch(4, 7);
 	this->reflect(); // reflect fragments to view
 	this->showGame();
+ */
+
 }
+
+void CLIView::showOptions()
+{
+	this->clearScreen();
+	std::cout << "Current game settings:\n\n";
+	std::cout << (this->game->Name == "" ? "\t" : "\tGame: " + std::string(this->game->Name) + " | ") +
+				 "Players: " << this->game->PlayerCount <<
+	" | Maze size: " << this->game->PlaygroundSize << " | Cards: " << this->game->CardCount << "\n\n";
+
+	std::cout << "\tSelect action:\n";
+	std::cout << "\t\t1 - Set players\n";
+	std::cout << "\t\t2 - Set maze size\n";
+	std::cout << "\t\t3 - Set game name\n";
+	std::cout << "\t\t4 - Return\n";
+	std::cout << "\t\t5 - Start Game\n\n";
+
+
+	bool cond = false;
+	do {
+		cond = false;
+		KeyBindings pressed = static_cast<KeyBindings>(ourGetCh());
+		switch (pressed) {
+			case KeyBindings::key1:
+				this->showSetPlayers();
+				break;
+			case KeyBindings::key2:
+				this->showSetSize();
+				break;
+			case KeyBindings::key3:
+				this->showSetGameName();
+				break;
+			case KeyBindings::key4:
+				this->showMenu();
+				break;
+			case KeyBindings::key5:
+				// TODO: dispatch correct values
+				this->onGameStart.dispatch(this->game->PlayerCount, this->game->PlaygroundSize, this->game->CardCount);
+				this->reflect(); // reflect fragments to view
+				this->showGame();
+			default:
+				cond = true;
+		}
+	} while (cond);
+
+	std::vector<std::string> map;
+	this->prepareMap(&map);
+
+	for (std::string row : map) {
+		std::cout << row << std::endl;
+	}
+}
+
+void CLIView::showLoadDialog()
+{
+	// TODO: loading
+}
+
+void CLIView::showSetGameName()
+{
+	std::cout << "Enter the name of this game:\n";
+	std::cout << "(use 32 basic chars)\n\n\n";
+	std::string gameName;
+	std::cin >> gameName;
+	gameName.resize(32);
+	gameName.shrink_to_fit();
+	this->game->Name = gameName;
+	this->showOptions();
+}
+
+void CLIView::showSetPlayers()
+{
+	std::cout << "Enter number of players:\n\n";
+	int players;
+	KeyBindings pressed = static_cast<KeyBindings>(ourGetCh());
+
+	switch (pressed) {
+		case KeyBindings::key1:
+			players = 1;
+			break;
+		case KeyBindings::key2:
+			players = 2;
+			break;
+		case KeyBindings::key3:
+			players = 3;
+			break;
+		default:
+			players = 4;
+	}
+
+	this->game->PlayerCount = players;
+	this->showOptions();
+}
+
+void CLIView::showSetSize()
+{
+	this->clearScreen();
+
+	std::cout << "Enter size of the maze:\n\n";
+	std::cout << "\t\t1 - Set size to 5\n";
+	std::cout << "\t\t2 - Set size to 7\n";
+	std::cout << "\t\t3 - Set size to 9\n";
+	std::cout << "\t\t4 - Set size to 11\n";
+
+	int size = 7;
+
+	bool cond = false;
+	do {
+		cond = false;
+		KeyBindings pressed = static_cast<KeyBindings>(ourGetCh());
+		switch (pressed) {
+			case KeyBindings::key1:
+				size = 5;
+				break;
+			case KeyBindings::key2:
+				size = 7;
+				break;
+			case KeyBindings::key3:
+				size = 9;
+				break;
+			case KeyBindings::key4:
+				size = 11;
+				break;
+			default:
+				cond = true;
+				break;
+		}
+	} while (cond);
+
+	this->game->PlaygroundSize = size;
+	this->showOptions();
+}
+
 
 void CLIView::showGame()
 {
@@ -63,7 +232,7 @@ void CLIView::showGame()
 
 void CLIView::clearScreen()
 {
-	std::cout << std::string(100, '\n');
+	std::cout << std::string(50, '\n');
 }
 
 void CLIView::createMovingBlocks()
@@ -114,4 +283,22 @@ int CLIView::decodePlayer(char pixel)
 char CLIView::calculatePlayer(int player)
 {
 	return (char) (player + (player > 9 ? 55 : '0')); //55 is 'A' - 10 (numeric values)
+}
+
+char CLIView::ourGetCh()
+{
+#if __linux__
+	int ch;
+	struct termios oldT;
+	struct termios newT;
+	tcgetattr(STDIN_FILENO, &oldT); /*store old settings */
+	newT = oldT; /* copy old settings to new settings */
+	newT.c_lflag &= ~(ICANON | ECHO); /* make one change to old settings in new settings */
+	tcsetattr(STDIN_FILENO, TCSANOW, &newT); /*apply the new settings immediately */
+	ch = getchar(); /* standard getchar call */
+	tcsetattr(STDIN_FILENO, TCSANOW, &oldT); /*reapply the old settings */
+	return (char) ch; /*return received char */
+#else
+	return getchar();
+#endif
 }
