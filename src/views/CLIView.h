@@ -20,7 +20,6 @@ enum class KeyBindings: int {
 	keyEscape = 0x01000000,
 	keyBackspace = 0x01000003,
 	keyEnter = 0x01000005,
-	keyF1 = 0x01000030,
 	keySpace = 0x20,
 	keyLeft = 0x01000012,
 	keyUp = 0x01000013,
@@ -36,10 +35,9 @@ enum class KeyBindings: int {
 	key7 = 0x37,
 	key8 = 0x38,
 	key9 = 0x39,
-	keyC = 0x43,
-	keyD = 0x44,
-	keyE = 0x45,
-	keyV = 0x56,
+	keyS = 0x53,
+	keyL = 0x4c,
+	keyR = 0x52
 };
 
 
@@ -60,6 +58,8 @@ public:
 	void showMenu();
 
 	void showGame();
+
+	void showGameMap();
 
 	void showOptions();
 

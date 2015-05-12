@@ -46,8 +46,9 @@ void CLIView::showMenu()
 	this->game->PlaygroundSize = 7;
 	this->game->CardCount = 12;
 
-	bool cond = false;
+	bool cond;
 	do {
+		cond = false;
 		KeyBindings pressed = static_cast<KeyBindings >(ourGetCh());
 		switch (pressed) {
 			case KeyBindings::key1:
@@ -131,13 +132,6 @@ void CLIView::showOptions()
 				cond = true;
 		}
 	} while (cond);
-
-	std::vector<std::string> map;
-	this->prepareMap(&map);
-
-	for (std::string row : map) {
-		std::cout << row << std::endl;
-	}
 }
 
 void CLIView::showLoadDialog()
@@ -233,12 +227,65 @@ void CLIView::showSetSize()
 
 void CLIView::showGame()
 {
+	bool renew = true;
+	do {
+		if (renew)
+			this->showGameMap(); //displays the game view
+
+		KeyBindings pressed = static_cast<KeyBindings>(ourGetCh());
+		switch (pressed) {
+			case KeyBindings::key8:
+				this->onMove(Movement::Up);
+				renew = true;
+				break;
+			case KeyBindings::key2:
+				this->onMove(Movement::Down);
+				renew = true;
+				break;
+			case KeyBindings::key4:
+				this->onMove(Movement::Left);
+				renew = true;
+				break;
+			case KeyBindings::key6:
+				this->onMove(Movement::Right);
+				renew = true;
+				break;
+			case KeyBindings::key5:
+				this->onRotate();
+				renew = true;
+				break;
+			case KeyBindings::key0:
+				this->onMoveEnter();
+				renew = true;
+				break;
+			case KeyBindings::keyBackspace:
+				//TODO: UNDO
+				renew = true;
+				break;
+			case KeyBindings::keySpace:
+				//TODO: REDO
+				renew = true;
+				break;
+			case KeyBindings::keyS:
+				//TODO: Save game
+				break;
+			case KeyBindings::keyEscape:
+				exit(0);
+			default:
+				renew = false;
+		}
+	} while (true);
+
+}
+
+void CLIView::showGameMap()
+{
 	this->clearScreen();
-	std::cout << "Here will be Game view\n\n\n";
 
 	std::vector<std::string> map;
 	this->prepareMap(&map);
 
+	// print map to stdout
 	for (std::string row : map) {
 		std::cout << row << std::endl;
 	}
