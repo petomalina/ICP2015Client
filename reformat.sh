@@ -6,7 +6,7 @@ txtblu='\e[0;34m' # Blue
 txtrst='\e[0m'    # Text Reset
 
 HEADER="/**
- * @brief ICP projekt 2015 (Maze game)
+ * @brief ICP project 2015 (Maze game)
  * @authors xmalin26, xmasek15
  */"
 
