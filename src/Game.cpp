@@ -174,14 +174,24 @@ void Game::generatePlayers()
 	}
 }
 
-void Game::loadGame(GameData *data)
+void Game::loadGame(std::string name)
 {
+	std::string line;
+	std::string savePath = "games/" + name + ".save";
+	std::ifstream saveFile{savePath};
 
+
+	saveFile.close();
 }
 
-void Game::saveGame(GameData *data)
+void Game::saveGame()
 {
+	std::string savePath = "games/" + this->data.Name + ".save";
+	std::ofstream saveFile{savePath};
 
+	// stream in
+
+	saveFile.close();
 }
 
 void Game::onMove(Movement mov)

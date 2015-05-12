@@ -8,6 +8,8 @@
 #include <map>
 #include <string>
 #include <math.h>
+#include <fstream>
+#include <iostream>
 
 #include "views/GUIView.h"
 #include "views/CLIView.h"
@@ -61,9 +63,9 @@ private:
 
 	void generatePlayers();
 
-	void loadGame(GameData *data);
+	void loadGame(std::string name);
 
-	void saveGame(GameData *data);
+	void saveGame();
 
 public:
 	void run();
