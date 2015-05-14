@@ -219,7 +219,7 @@ void CLIView::showGame()
 
 		KeyBindings pressed = static_cast<KeyBindings>(ourGetCh());
 		switch (pressed) {
-			case KeyBindings::keyW:  //TODO: transform to arrow keys (see if works)
+			case KeyBindings::keyW:
 				this->onMove(Movement::Up);
 				renew = true;
 				break;
@@ -359,13 +359,13 @@ void CLIView::prepareFirstLastCol(std::string *first, std::string *second, std::
 
 char CLIView::insertPlayer(int player, char field)
 {
-	return field == ' ' ? (char) (player + '0') : calculatePlayer(decodePlayer(field) + (player - '0'));
+	return field == ' ' ? (char) (player + '0') : calculatePlayer(decodePlayer(field) + player);
 }
 
 
 int CLIView::decodePlayer(char pixel)
 {
-	return pixel - (pixel > 9 ? 55 : '0'); //55 is 'A' - 10 (numeric values)
+	return pixel - (pixel > '9' ? 55 : '0'); //55 is 'A' - 10 (numeric values)
 }
 
 char CLIView::calculatePlayer(int player)

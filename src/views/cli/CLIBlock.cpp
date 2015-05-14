@@ -13,6 +13,12 @@ CLIBlock::CLIBlock(Fragment *frag)
 
 void CLIBlock::initialize()
 {
+	this->rotate(this->Frag->getRotation());
+}
+
+
+CLIBlock *CLIBlock::rotate(FragmentRotation rotation)
+{
 	switch (this->Frag->Type) {
 		case FragmentType::L:
 			//this->Pixels = {'#', '#', '#', '#', 'L', ' ', '#', ' ', '#'};
@@ -45,51 +51,24 @@ void CLIBlock::initialize()
 			break;
 
 		case FragmentRotation::Left:
-			this->rotateLeft();
+			this->rotateRight();
+			this->rotateRight();
+			this->rotateRight();
 			break;
 
 		case FragmentRotation::Flip:
-			this->rotateFlip();
+			this->rotateRight();
+			this->rotateRight();
 			break;
 
 		default:
 			break;
-	}
-}
-
-
-CLIBlock *CLIBlock::rotate(FragmentRotation rotation)
-{
-	if (this->Frag->getRotation() == FragmentRotation::Flip) {
-		this->rotateFlip();
-	}
-	else if (this->Frag->getRotation() == FragmentRotation::Left) {
-		this->rotateLeft();
-	}
-	else if (this->Frag->getRotation() == FragmentRotation::Right) {
-		this->rotateRight();
 	}
 
 	this->Frag->rotate(rotation);
 	return this;
 }
 
-CLIBlock *CLIBlock::rotateLeft()
-{
-	std::array<char, 9> rotated = this->Pixels;
-
-	rotated[0] = this->Pixels[2];
-	rotated[1] = this->Pixels[5];
-	rotated[2] = this->Pixels[8];
-	rotated[3] = this->Pixels[1];
-	rotated[5] = this->Pixels[7];
-	rotated[6] = this->Pixels[0];
-	rotated[7] = this->Pixels[3];
-	rotated[8] = this->Pixels[6];
-
-	this->Pixels = rotated;
-	return this;
-}
 
 CLIBlock *CLIBlock::rotateRight()
 {
@@ -103,23 +82,6 @@ CLIBlock *CLIBlock::rotateRight()
 	rotated[6] = this->Pixels[8];
 	rotated[7] = this->Pixels[5];
 	rotated[8] = this->Pixels[2];
-
-	this->Pixels = rotated;
-	return this;
-}
-
-CLIBlock *CLIBlock::rotateFlip()
-{
-	std::array<char, 9> rotated = this->Pixels;
-
-	rotated[0] = this->Pixels[8];
-	rotated[1] = this->Pixels[7];
-	rotated[2] = this->Pixels[6];
-	rotated[3] = this->Pixels[5];
-	rotated[5] = this->Pixels[3];
-	rotated[6] = this->Pixels[2];
-	rotated[7] = this->Pixels[1];
-	rotated[8] = this->Pixels[0];
 
 	this->Pixels = rotated;
 	return this;
