@@ -36,3 +36,18 @@ Doxygen documentation
 Running command `doxygen` in base directory will generate automatic documentation from code sources.
 
 For correct caller/callie graphs generating you'll probably need to resolve `graphviz` dependency.
+
+Saved file format
+-----------------
+
+	playgroundSize cardCount isPlayerMoving
+	fragment1 x fragment1 y fragmentType fragmentRotation
+	.
+	.
+	.
+	movingFragment x y fragmentType fragmentRotation
+	
+	playerCount playerIndexOnMove
+	player1 index number posx posy cards cards1 card2 ...
+	player2 index number posx posy cards cards1 card2 ...
+

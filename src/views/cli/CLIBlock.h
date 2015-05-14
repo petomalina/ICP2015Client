@@ -40,11 +40,7 @@ public:
 private:
 	void initialize();
 
-	CLIBlock *rotateLeft();
-
 	CLIBlock *rotateRight();
-
-	CLIBlock *rotateFlip();
 
 public:
 
