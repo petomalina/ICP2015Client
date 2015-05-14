@@ -16,7 +16,7 @@ SOURCES += $$PWD/src/views/cli/CLIBlock.cpp
 SOURCES += $$PWD/src/models/Card.cpp
 SOURCES += $$PWD/src/models/CardPackGenerator.cpp
 SOURCES += $$PWD/src/models/Player.cpp
-
+SOURCES += $$PWD/src/models/Treasure.cpp
 
 HEADERS += $$PWD/src/math/Vector2.h
 HEADERS += $$PWD/src/Game.h
@@ -30,7 +30,7 @@ HEADERS += $$PWD/src/views/cli/CLIBlock.h
 HEADERS += $$PWD/src/models/Card.h
 HEADERS += $$PWD/src/models/CardPackGenerator.h
 HEADERS += $$PWD/src/models/Player.h
-
+HEADERS += $$PWD/src/models/Treasure.h
 
 target.path = ./qmaketarget
 INSTALLS += target
