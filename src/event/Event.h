@@ -76,6 +76,7 @@ public:
 	Event &operator()(Arguments ...params)
 	{
 		this->dispatch(params...);
+		return *this;
 	}
 
 	void detach(EventFunction listener)
