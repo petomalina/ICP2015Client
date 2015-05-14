@@ -232,11 +232,15 @@ void CLIView::showGame()
 	bool renew = true;
 	do {
 		if (renew)
+		{
+			this->reflect();
 			this->showGameMap(); //displays the game view
+		}
+
 
 		KeyBindings pressed = static_cast<KeyBindings>(ourGetCh());
 		switch (pressed) {
-			case KeyBindings::key8:
+			case KeyBindings::key8:  //TODO: transform to arrow keys (see if works)
 				this->onMove(Movement::Up);
 				renew = true;
 				break;
@@ -256,7 +260,7 @@ void CLIView::showGame()
 				this->onRotate();
 				renew = true;
 				break;
-			case KeyBindings::key0:
+			case KeyBindings::keyEnter:
 				this->onMoveEnter();
 				renew = true;
 				break;
@@ -348,7 +352,7 @@ char CLIView::calculatePlayer(int player)
 	return (char) (player + (player > 9 ? 55 : '0')); //55 is 'A' - 10 (numeric values)
 }
 
-char CLIView::ourGetCh()
+int CLIView::ourGetCh()
 {
 #if __linux__
 	int ch;
@@ -360,7 +364,7 @@ char CLIView::ourGetCh()
 	tcsetattr(STDIN_FILENO, TCSANOW, &newT); /*apply the new settings immediately */
 	ch = getchar(); /* standard getchar call */
 	tcsetattr(STDIN_FILENO, TCSANOW, &oldT); /*reapply the old settings */
-	return (char) ch; /*return received char */
+	return ch; /*return received char (as int) */
 #else
 	return getchar();
 #endif

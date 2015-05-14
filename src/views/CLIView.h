@@ -37,9 +37,9 @@ enum class KeyBindings: int {
 	key7 = 0x37,
 	key8 = 0x38,
 	key9 = 0x39,
-	keyS = 0x53,
-	keyL = 0x4c,
-	keyR = 0x52
+	keyS = 0x73,
+	keyL = 0x6c,
+	keyR = 0x72
 };
 
 
@@ -87,7 +87,7 @@ public:
 
 	int decodePlayer(char pixel);
 
-	char ourGetCh();
+	int ourGetCh();
 };
 
 
