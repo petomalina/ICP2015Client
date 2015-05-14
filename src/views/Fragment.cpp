@@ -7,7 +7,7 @@
 
 Fragment::Fragment(int x, int y, FragmentType type, FragmentRotation rotation): Type(type)
 {
-	this->setPosition(x, y);
+	Vector2::set(x, y);
 	this->rotate(rotation);
 }
 
@@ -24,12 +24,12 @@ FragmentRotation Fragment::getRotation() const
 
 int Fragment::getX() const
 {
-	return this->x;
+	return this->x();
 }
 
 int Fragment::getY() const
 {
-	return this->y;
+	return this->y();
 }
 
 bool Fragment::isOpenUp() const
@@ -82,18 +82,6 @@ bool Fragment::isOpenLeft() const
 	}
 
 	return false;
-}
-
-void Fragment::setPosition(int x, int y)
-{
-	this->x = x;
-	this->y = y;
-}
-
-void Fragment::move(int dx, int dy)
-{
-	this->x += dx;
-	this->y += dy;
 }
 
 void Fragment::rotate(FragmentRotation rotation)

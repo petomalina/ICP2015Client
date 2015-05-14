@@ -7,6 +7,7 @@
 #define ICP2015CLIENT_FRAGMENT_H
 
 #include <algorithm>
+#include "../math/Vector2.h"
 
 enum class FragmentType: int {
 	L = 0, T = 1, I = 2, Player = 3, Card = 4
@@ -16,13 +17,12 @@ enum class FragmentRotation: int {
 	Normal = 0, Right = 1, Flip = 2, Left = 3
 };
 
-class Fragment {
+class Fragment: public Vector2 {
 
 public:
 	const FragmentType Type;
 
 private:
-	int x, y;
 	FragmentRotation rotation;
 
 public:
@@ -43,10 +43,6 @@ public:
 	bool isOpenRight() const;
 
 	bool isOpenLeft() const;
-
-	virtual void setPosition(int x, int y);
-
-	virtual void move(int dx, int dy);
 
 	virtual void rotate(FragmentRotation rotation);
 };

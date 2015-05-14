@@ -197,7 +197,17 @@ void Game::saveGame()
 
 void Game::pushBlock()
 {
+	Fragment *current = this->data.MovingBlock;
 
+	if (current->getX() < 0) { // left
+
+	} else if (current->getY() < 0) { // up
+
+	} else if (current->getX() == this->data.PlaygroundSize) { // right
+
+	} else { // down
+
+	}
 }
 
 void Game::onMove(Movement mov)
@@ -279,7 +289,7 @@ void Game::onMove(Movement mov)
 			}
 		}
 
-		this->data.MovingBlock->setPosition(this->movingBlockPosition->x(), this->movingBlockPosition->y());
+		this->data.MovingBlock->set(this->movingBlockPosition->x(), this->movingBlockPosition->y());
 	}
 }
 
