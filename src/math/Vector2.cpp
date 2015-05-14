@@ -60,5 +60,5 @@ void Vector2::move(int dx, int dy)
 void Vector2::move(const Vector2 &vec)
 {
 	this->xpos += vec.x();
-	this->ypos += vec.x();
+	this->ypos += vec.y();
 }
