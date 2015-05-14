@@ -15,7 +15,7 @@ GUIView::GUIView()
 	this->playersInput = 4;
 	this->sizeInput = 7;
 	this->cardInput = 12;
-	this->savedScene = nullptr;
+	this->inGame = false;
 
 	this->menuScene = new QGraphicsScene{0, 0, 800, 600};
 	this->gameOptionsScene = new QGraphicsScene{0, 0, 800, 600};
@@ -166,6 +166,7 @@ void GUIView::reflect()
 
 void GUIView::showGame()
 {
+	this->inGame = true;
 	this->setScene(this->gameScene);
 }
 
@@ -176,6 +177,7 @@ void GUIView::showGameOptions()
 
 void GUIView::showMenu()
 {
+	this->inGame = false;
 	this->setScene(this->menuScene);
 }
 
@@ -242,6 +244,7 @@ void GUIView::handleExitButton()
 
 void GUIView::handleGameStartButton()
 {
+	this->game->Name = "SavedGame";
 	this->onGameStart.dispatch(this->playersInput, this->sizeInput, this->cardInput);
 
 	this->reflect(); // reflect fragments into game
@@ -272,13 +275,14 @@ void GUIView::keyPressEvent(QKeyEvent *event)
 	}
 
 	if (event->key() == Qt::Key_Escape) {
-		if (this->savedScene == nullptr) {
-			this->savedScene = this->scene();
-			this->setScene(this->menuScene);
+		if (this->game->running && !this->inGame) {
+			return;
 		}
-		else {
-			this->setScene(this->savedScene);
-			this->savedScene = nullptr;
+
+		if (this->inGame) {
+			this->showMenu();
+		} else {
+			this->showGame();
 		}
 	}
 
@@ -311,9 +315,9 @@ void GUIView::keyPressEvent(QKeyEvent *event)
 			return block->Frag == this->game->MovingBlock;
 		});
 
-		GUIBlock *tmp = *nextMovingBlock;
-		*nextMovingBlock = this->movingBlock;
-		this->movingBlock = tmp;
+		//GUIBlock *tmp = *nextMovingBlock;
+		//*nextMovingBlock = this->movingBlock;
+		//this->movingBlock = tmp;
 
 		for (GUIBlock *block : this->blocks) {
 			block->setPosition(block->Frag->x(), block->Frag->y());
@@ -321,5 +325,5 @@ void GUIView::keyPressEvent(QKeyEvent *event)
 	}
 
 	// refresh position
-	this->movingBlock->setPosition(this->movingBlock->Frag->x(), this->movingBlock->Frag->y());
+	//this->movingBlock->setPosition(this->movingBlock->Frag->x(), this->movingBlock->Frag->y());
 }

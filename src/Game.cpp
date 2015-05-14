@@ -181,10 +181,50 @@ void Game::generatePlayers()
 
 void Game::loadGame(std::string name)
 {
-	std::string line;
-	std::string savePath = "games/" + name + ".save";
+	// hardcode NewGame
+	std::string savePath = "games/SavedGame.save";
 	std::ifstream saveFile{savePath};
 
+	saveFile >> this->data.PlaygroundSize >> this->data.CardCount >> this->data.MovingPlayer;
+	for (Fragment *frag : this->data.Map) {
+		delete frag;
+	}
+	this->data.Map.clear();
+
+	int x, y, type, rotation;
+	for (int i = 0; i < this->data.PlaygroundSize * this->data.PlaygroundSize; i++) {
+		saveFile >> x >> y >> type >> rotation;
+		Fragment *frag = FragmentFactory::create(x, y, static_cast<FragmentType>(type), static_cast<FragmentRotation>(rotation));
+		this->data.Map.push_back(frag);
+	}
+	// moving fragment
+	delete this->data.MovingBlock;
+	saveFile >> x >> y >> type >> rotation;
+	this->data.MovingBlock = FragmentFactory::create(x, y, static_cast<FragmentType>(type), static_cast<FragmentRotation>(rotation));
+
+	// player counts
+	int playerOnMove;
+	saveFile >> this->data.PlayerCount >> playerOnMove;
+	// clear
+	for (Player *plr : this->data.Players) {
+		delete plr;
+	}
+	this->data.Players.clear();
+
+	for (int i = 0; i < this->data.PlayerCount; i++) {
+		int index, number, cards;
+		saveFile >> index >> number >> x >> y >> cards;
+		Player *plr = new Player(index, Vector2{x, y});
+		this->data.Players.push_back(plr);
+
+		for (int c = 0; c < cards; c++) {
+			int card;
+			saveFile >> card;
+			plr->Cards.push_back(static_cast<CardType>(card));
+		}
+	}
+
+	this->data.OnMove = this->data.Players[playerOnMove];
 
 	saveFile.close();
 }
@@ -196,24 +236,28 @@ void Game::saveGame()
 	}
 
 	if (this->data.Name == "") {
-		this->data.Name = "NewGame";
+		this->data.Name = "SavedGame";
 	}
 
 	std::string savePath = "games/" + this->data.Name + ".save";
 	std::ofstream saveFile{savePath};
 
 	// stream in
-	saveFile << this->data.PlaygroundSize << ";" << this->data.CardCount << ";" << this->data.MovingPlayer << "\n";
+	saveFile << this->data.PlaygroundSize << " " << this->data.CardCount << " " << this->data.MovingPlayer << "\n";
 	for (Fragment *frag : this->data.Map) {
-		saveFile << frag->x() << ";" << frag->y() << ";" << static_cast<int>(frag->Type) << ";" << static_cast<int>(frag->getRotation()) << "\n";
+		saveFile << frag->x() << " " << frag->y() << " " << static_cast<int>(frag->Type) << " " << static_cast<int>(frag->getRotation()) << "\n";
 	}
 
-	saveFile << this->data.PlayerCount << ";" << this->data.OnMove->Index << "\n";
+	Fragment *frag = this->data.MovingBlock;
+	saveFile << frag->x() << " " << frag->y() << " " << static_cast<int>(frag->Type) << " " << static_cast<int>(frag->getRotation()) << "\n";
+
+	saveFile << this->data.PlayerCount << " " << this->data.OnMove->Index << "\n";
 	for (Player *plr : this->data.Players) {
-		saveFile << plr->Number << ";" << plr->Index << ";" << plr->getPosition().x() << ";" << plr->getPosition().y() << ";";
+		saveFile << plr->Number << " " << plr->Index << " " << plr->getPosition().x() << " " << plr->getPosition().y() << " " << plr->Cards.size() << " ";
 		for (Card &c : plr->Cards) {
-			saveFile << static_cast<int>(c.getType()) << ";";
+			saveFile << static_cast<int>(c.getType()) << " ";
 		}
+		saveFile << "\n";
 	}
 
 	saveFile.close();
@@ -383,11 +427,11 @@ void Game::onGameStart(int players, int size, int cards)
 }
 
 void Game::onLoadGame(std::string name) {
-
+	this->loadGame(name);
 }
 
 void Game::onSaveGame() {
-
+	this->saveGame();
 }
 
 void Game::onUndo()
