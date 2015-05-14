@@ -1,15 +1,22 @@
 # Makefile
 # authors: xmasek15 xmalin26
 
-all: cli gui
+all:
+	@if [ -a Makefile_GUI ]; then make --makefile=Makefile_GUI clean 2>/dev/null ; fi;
+	qmake-qt5 icp2015cli.pro
+	make --makefile=Makefile_CLI
+	@chmod +x icp2015cli
+	@if [ -a Makefile_CLI ]; then make --makefile=Makefile_CLI clean 2>/dev/null ; fi;
+	qmake-qt5 icp2015gui.pro
+	make --makefile=Makefile_GUI
+	@chmod +x icp2015gui
 
-	
 cli:
-	qmake icp2015cli.pro
+	qmake-qt5 icp2015cli.pro
 	make --makefile=Makefile_CLI
 	@chmod +x icp2015cli
 gui:
-	qmake icp2015gui.pro
+	qmake-qt5 icp2015gui.pro
 	make --makefile=Makefile_GUI
 	@chmod +x icp2015gui
 	
