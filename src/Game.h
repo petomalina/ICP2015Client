@@ -26,8 +26,6 @@ class Game {
 protected:
 	IView *view;
 
-	int movingBlockIndex;
-
 #ifdef CLI_MODE
 	KeyBindings pressedKey;
 #endif
@@ -110,6 +108,10 @@ private:
 	 * Event fired when undo is requested
 	 */
 	void onUndo();
+
+	void onSaveGame();
+
+	void onLoadGame(std::string name);
 
 	/**
 	 * Event fired when redo is requested
