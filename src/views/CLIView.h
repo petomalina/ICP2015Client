@@ -80,13 +80,14 @@ public:
 
 	void prepareMap(std::vector<std::string> *map);
 
+	void prepareFirstLastRow(std::vector<std::string> *rows, CLIBlock *moving, CLIBlock *empty, int index);
+
+	void prepareFirstLastCol(std::string *first, std::string *second, std::string *third, CLIBlock *moving,
+							 CLIBlock *empty, int index, int row);
+
 	char insertPlayer(int player, char field);
 
-	void movePlayerFromIndex(char player, int x, int y);
-
 	void clearScreen();
-
-	void createMovingBlocks();
 
 	char calculatePlayer(int player);
 

@@ -66,26 +66,6 @@ void CLIView::showMenu()
 		}
 	} while (cond);
 
-	/*
-	bool cond=false;
-	do {
-		switch (pressed) {
-			case KeyBindings::keySpace:
-				//do smtng
-				break;
-			default:
-				cond = true;
-		}
-	} while (cond);*/
-
-
-/*
-    // T ODO: dispatch correct values
-	this->onGameStart.dispatch(4, 7);
-	this->reflect(); // reflect fragments to view
-	this->showGame();
- */
-
 }
 
 void CLIView::showOptions()
@@ -231,15 +211,13 @@ void CLIView::showGame()
 {
 	bool renew = true;
 	do {
-		if (renew)
-		{
+		if (renew) {
 			this->reflect();
 			this->showGameMap(); //displays the game view
 		}
 
 
 		KeyBindings pressed = static_cast<KeyBindings>(ourGetCh());
-		std::cout << static_cast<int>(pressed) << std::endl;
 		switch (pressed) {
 			case KeyBindings::keyW:  //TODO: transform to arrow keys (see if works)
 				this->onMove(Movement::Up);
@@ -303,15 +281,21 @@ void CLIView::clearScreen()
 	std::cout << std::string(50, '\n');
 }
 
-void CLIView::createMovingBlocks()
-{
-}
-
 void CLIView::prepareMap(std::vector<std::string> *rows)
 {
+	CLIBlock *movingBlock = new CLIBlock(this->game->MovingBlock);
+	movingBlock->rotate(this->game->MovingBlock->getRotation());
+
+	FragmentFactory *factory = new FragmentFactory();
+	CLIBlock *emptyBlock = new CLIBlock(factory->create(-1, -1, FragmentType::N));
+
+	prepareFirstLastRow(rows, movingBlock, emptyBlock, -1);
+
 	// for every row
 	for (int i = 0; i < this->game->PlaygroundSize; i++) {
 		std::string first, second, third, second_row;
+
+		prepareFirstLastCol(&first, &second, &third, movingBlock, emptyBlock, -1, i);
 
 		// for every column
 		for (int j = 0; j < this->game->PlaygroundSize; j++) {
@@ -327,21 +311,57 @@ void CLIView::prepareMap(std::vector<std::string> *rows)
 			third += this->blocks[i * this->game->PlaygroundSize + j]->getThirdRow();
 		}
 
+		prepareFirstLastCol(&first, &second, &third, movingBlock, emptyBlock, this->game->PlaygroundSize, i);
+
 		rows->push_back(first);
 		rows->push_back(second);
 		rows->push_back(third);
 	}
-};
+
+	prepareFirstLastRow(rows, movingBlock, emptyBlock, this->game->PlaygroundSize);
+}
+
+void CLIView::prepareFirstLastRow(std::vector<std::string> *rows, CLIBlock *moving, CLIBlock *empty, int index)
+{
+	std::string first, second, third;
+	for (int j = 0; j < this->game->PlaygroundSize + 2; j++) {
+		if (this->game->MovingBlock->getY() == index && this->game->MovingBlock->getX() + 1 == j) {
+			first += moving->getFirstRow();
+			second += moving->getSecondRow();
+			third += moving->getThirdRow();
+		}
+		else {
+			first += empty->getFirstRow();
+			second += empty->getSecondRow();
+			third += empty->getThirdRow();
+		}
+	}
+	rows->push_back(first);
+	rows->push_back(second);
+	rows->push_back(third);
+}
+
+void CLIView::prepareFirstLastCol(std::string *first, std::string *second, std::string *third, CLIBlock *moving,
+								  CLIBlock *empty, int index, int row)
+{
+	if (this->game->MovingBlock->getY() == row && this->game->MovingBlock->getX() == index) {
+		*first += moving->getFirstRow();
+		*second += moving->getSecondRow();
+		*third += moving->getThirdRow();
+	}
+	else {
+		*first += empty->getFirstRow();
+		*second += empty->getSecondRow();
+		*third += empty->getThirdRow();
+	}
+}
+
 
 char CLIView::insertPlayer(int player, char field)
 {
 	return field == ' ' ? (char) (player + '0') : calculatePlayer(decodePlayer(field) + (player - '0'));
 }
 
-void CLIView::movePlayerFromIndex(char player, int x, int y)
-{
-	this->blocks[x + y]->Pixels[4] = calculatePlayer(decodePlayer(this->blocks[x + y]->Pixels[4]) - (player - '0'));
-}
 
 int CLIView::decodePlayer(char pixel)
 {
@@ -370,3 +390,4 @@ int CLIView::ourGetCh()
 	return getchar();
 #endif
 }
+
