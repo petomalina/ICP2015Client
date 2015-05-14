@@ -24,7 +24,8 @@ struct GameData {
 	Player *OnMove;
 
 	std::vector<Fragment *> Map;
-	Fragment *MovingBlock;
+
+	Fragment *MovingBlock, *LastMovedBlock;
 
 	bool MovingPlayer;
 };
