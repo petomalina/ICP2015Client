@@ -13,14 +13,14 @@ Project Makefile
 
 
 Generating qMake Makefile
--------------------
+-------------------------
 run in project directory `qmake icp2015cli.pro` for CLI mode binary or `qmake icp2015gui.pro` for GUI mode binary.
 It will create linux like Makefile for exact mode in base directory. Then call `make --makefile=Makefile_CLI` or 
 `make --makefile=Makefile_GUI` to compile program binary.
 
 
 Generating cMake Makefile
--------------------
+-------------------------
 run `cmake-gui .` in project directory click on *Configure* if configuring was done right click on *Generate* button,
 it will create linux like Makefile in base directory.
 
