@@ -12,15 +12,25 @@
 #include <fstream>
 #include <iostream>
 
-#include "views/GUIView.h"
+#ifdef CLI_MODE
+
 #include "views/CLIView.h"
+
+#else
+
+#include "views/GUIView.h"
+
+#endif
 
 class Game {
 protected:
 	IView *view;
 
 	int movingBlockIndex;
+
+#ifdef CLI_MODE
 	KeyBindings pressedKey;
+#endif
 
 	std::vector<Vector2> movingBlockPositions;
 	std::vector<Vector2>::iterator movingBlockPosition;
