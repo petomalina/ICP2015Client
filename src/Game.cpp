@@ -281,6 +281,23 @@ void Game::onMove(Movement mov)
 void Game::onMoveEnter()
 {
 	this->data.MovingPlayer = !this->data.MovingPlayer;
+
+	// if block is on the move, switch player
+	if (!this->data.MovingPlayer) {
+		// find currently moving player
+		std::vector<Player*>::iterator it = this->data.Players.begin();
+		for (; it != this->data.Players.end(); it++) {
+			if ((*it) == this->data.OnMove) {
+				break;
+			}
+		}
+
+		if (++it == this->data.Players.end()) {
+			this->data.OnMove = this->data.Players.front();
+		} else {
+			this->data.OnMove = *(it++);
+		}
+	}
 }
 
 void Game::onRotate()
