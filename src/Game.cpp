@@ -195,14 +195,19 @@ void Game::saveGame()
 	saveFile.close();
 }
 
+void Game::pushBlock()
+{
+
+}
+
 void Game::onMove(Movement mov)
 {
 	if (this->data.MovingPlayer) {
 		Vector2 p = data.OnMove->getPosition();
-		if (p.y() + 1 == data.PlaygroundSize && mov == Movement::Down ||
-				p.y() == 0 && mov == Movement::Up ||
-				p.x() == 0 && mov == Movement::Left ||
-				p.x() + 1 == data.PlaygroundSize && mov == Movement::Right) {
+		if ((p.y() + 1 == data.PlaygroundSize && mov == Movement::Down) ||
+				(p.y() == 0 && mov == Movement::Up) ||
+				(p.x() == 0 && mov == Movement::Left) ||
+				(p.x() + 1 == data.PlaygroundSize && mov == Movement::Right)) {
 			return;
 		}
 

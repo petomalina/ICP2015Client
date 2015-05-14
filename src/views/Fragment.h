@@ -28,7 +28,7 @@ private:
 public:
 	Fragment(int x, int y, FragmentType type, FragmentRotation rotation);
 
-	~Fragment();
+	virtual ~Fragment();
 
 	FragmentRotation getRotation() const;
 

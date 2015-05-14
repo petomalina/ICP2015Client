@@ -9,7 +9,23 @@
 #include <array>
 #include <memory>
 #include <iostream>
+#include <exception>
+
 #include "../Fragment.h"
+
+class CLIException : public std::exception
+{
+private:
+	const std::string message;
+
+public:
+	CLIException(std::string msg) : message(msg) { }
+
+	const char * what () const throw () override
+	{
+		return this->message.c_str();
+	}
+};
 
 class CLIBlock {
 
