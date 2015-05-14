@@ -4,26 +4,42 @@
  */
 
 
-#include <QtWidgets/QApplication>
+
 
 #include "Game.h"
 
+
+#ifdef CLI_MODE //Preprocessor define macro must be set to run game in CLI mode, use -DCLI_MODE flag when compiling program
+
+int main()
+{
+	srand((unsigned) time(NULL)); //seed for pseudo random number generating
+
+	CLIView view{};
+
+	Game game{&view};
+	game.run();
+
+	return 0;
+}
+
+#else
+
+#include <QtWidgets/QApplication>
+
 int main(int argc, char *argv[])
 {
-	QApplication application{argc, argv}; //FIXME: will it be correct to use Qapp when cli is on ?
 
-	int playgroundSize = 7;
-	srand((unsigned)time(NULL)); //seed for pseudo random number generating
+	QApplication application{argc, argv};
 
-	//Preprocessor define macro must be set to run game in CLI mode, use -DCLI_MODE flag when compiling program
-#ifndef CLI_MODE
+	srand((unsigned) time(NULL)); //seed for pseudo random number generating
+
 	GUIView view{};
-#else
-	CLIView view{};
-#endif
 
 	Game game{&view};
 	game.run();
 
 	return application.exec();
 }
+
+#endif
