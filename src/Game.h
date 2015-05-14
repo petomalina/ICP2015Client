@@ -43,33 +43,77 @@ public:
 
 	~Game();
 
+	/**
+	 * Runs current game instance
+	 */
 	void run();
 
 private:
 
 	/* Main utilities*/
+
+	/**
+	 * Generates map based on game data
+	 */
 	void generateMap();
 
+	/**
+	 * Gemerates players based on game data
+	 */
 	void generatePlayers();
 
+	/**
+	 * Loads saved game
+	 * @param name [description]
+	 */
 	void loadGame(std::string name);
 
+	/**
+	 * Saves current game
+	 */
 	void saveGame();
 
 	/* Game logic helpers */
+
+	/**
+	 * Pushes current moving block into the game
+	 */
 	void pushBlock();
 
 	/* Events */
+
+	/**
+	 * Event fired when player or block moves
+	 * @param mov rotation of fragment
+	 */
 	void onMove(Movement mov);
 
+	/**
+	 * Event fired when move is finished
+	 */
 	void onMoveEnter();
 
+	/**
+	 * Event fired on fragment rotation
+	 */
 	void onRotate();
 
+	/**
+	 * Event fired on game start
+	 * @param players number of players in the Game
+	 * @param size    size of playground
+	 * @param cards   number of cards
+	 */
 	void onGameStart(int players, int size, int cards);
 
+	/**
+	 * Event fired when undo is requested
+	 */
 	void onUndo();
 
+	/**
+	 * Event fired when redo is requested
+	 */
 	void onRedo();
 };
 
