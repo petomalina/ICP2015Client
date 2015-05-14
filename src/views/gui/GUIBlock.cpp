@@ -39,7 +39,7 @@ void GUIBlock::initialize()
 void GUIBlock::setPosition(int x, int y)
 {
 	this->setPos(x * GUIBlock::Size, (y + 1) * GUIBlock::Size);
-	this->Frag->setPosition(x, y);
+	this->Frag->set(x, y);
 }
 
 void GUIBlock::move(int dx, int dy)

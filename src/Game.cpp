@@ -191,13 +191,54 @@ void Game::saveGame()
 	std::ofstream saveFile{savePath};
 
 	// stream in
+	saveFile << this->data.PlaygroundSize << ";" << this->data.CardCount << ";" << this->data.MovingPlayer << "\n";
+	for (Fragment *frag : this->data.Map) {
+		saveFile << frag->x() << ";" << frag->y() << ";" << static_cast<int>(frag->Type) << ";" << static_cast<int>(frag->getRotation()) << "\n";
+	}
+
+	saveFile << this->data.PlayerCount << ";" << this->data.OnMove->Index << "\n";
+	for (Player *plr : this->data.Players) {
+		saveFile << plr->Number << ";" << plr->Index << ";" << plr->getPosition().x() << ";" << plr->getPosition().y() << ";";
+		for (Card &c : plr->Cards) {
+			saveFile << static_cast<int>(c.getType()) << ";";
+		}
+	}
 
 	saveFile.close();
 }
 
 void Game::pushBlock()
 {
+	Fragment *current = this->data.MovingBlock;
+	this->data.LastMovedBlock = current;
 
+	Vector2 move{0, 0};
+	int row = -1, column = -1;
+
+	if (current->getX() < 0) { // left
+		move.set(1, 0);
+		row = current->getY();
+	} else if (current->getY() < 0) { // up
+		move.set(0, 1);
+		column = current->getX();
+	} else if (current->getX() == this->data.PlaygroundSize) { // right
+		move.set(-1, 0);
+		row = current->getY();
+	} else { // down
+		move.set(0, -1);
+		column = current->getX();
+	}
+
+	for (unsigned int i = 0; i < this->data.Map.size(); i++) {
+		Fragment *frag = this->data.Map[i];
+		if (frag->getX() == column || frag->getY() == row) {
+			current->move(move);
+			this->data.Map[i] = current;
+			current = frag;
+		}
+	}
+	// current is moving fragment
+	this->data.MovingBlock = current;
 }
 
 void Game::onMove(Movement mov)
@@ -279,16 +320,14 @@ void Game::onMove(Movement mov)
 			}
 		}
 
-		this->data.MovingBlock->setPosition(this->movingBlockPosition->x(), this->movingBlockPosition->y());
+		this->data.MovingBlock->set(this->movingBlockPosition->x(), this->movingBlockPosition->y());
 	}
 }
 
 void Game::onMoveEnter()
 {
-	this->data.MovingPlayer = !this->data.MovingPlayer;
-
 	// if block is on the move, switch player
-	if (!this->data.MovingPlayer) {
+	if (this->data.MovingPlayer) {
 		// find currently moving player
 		std::vector<Player*>::iterator it = this->data.Players.begin();
 		for (; it != this->data.Players.end(); it++) {
@@ -302,7 +341,11 @@ void Game::onMoveEnter()
 		} else {
 			this->data.OnMove = *(it++);
 		}
+	} else {
+		this->pushBlock();
 	}
+
+	this->data.MovingPlayer = !this->data.MovingPlayer;
 }
 
 void Game::onRotate()
