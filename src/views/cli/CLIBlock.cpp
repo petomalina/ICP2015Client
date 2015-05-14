@@ -26,7 +26,7 @@ void CLIBlock::initialize()
 
 		case FragmentType::I:
 			//this->Pixels = {'#', ' ', '#', '#', 'I', '#', '#', ' ', '#'};
-			this->Pixels = {'#', ' ', '#', '#', ' ', '#', '#', ' ', '#'};
+			this->Pixels = {'#', '#', '#', ' ', ' ', ' ', '#', '#', '#'};
 			break;
 
 		default:
