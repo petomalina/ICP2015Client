@@ -10,7 +10,7 @@
 #include "../math/Vector2.h"
 
 enum class FragmentType: int {
-	L = 0, T = 1, I = 2, Player = 3, Card = 4
+	L = 0, T = 1, I = 2, N = 3, Player = 4, Card = 5
 };
 
 enum class FragmentRotation: int {

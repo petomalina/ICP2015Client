@@ -7,11 +7,11 @@ all: cli gui
 cli:
 	qmake icp2015cli.pro
 	make --makefile=Makefile_CLI
-	chmod +x icp2015cli
+	@chmod +x icp2015cli
 gui:
 	qmake icp2015gui.pro
 	make --makefile=Makefile_GUI
-	chmod +x icp2015gui
+	@chmod +x icp2015gui
 	
 .PHONY: clean
 .PHONY: doxygen
@@ -19,8 +19,8 @@ gui:
 
 
 clean:
-	@make --makefile=Makefile_CLI clean
-	@make --makefile=Makefile_GUI clean
+	@if [ -a Makefile_GUI ]; then make --makefile=Makefile_GUI clean 2>/dev/null ; fi;
+	@if [ -a Makefile_CLI ]; then make --makefile=Makefile_CLI clean 2>/dev/null ; fi;
 	@rm -rf doc/* Makefile_CLI Makefile_GUI xmalin26-xmasek15.zip icp2015gui icp2015cli 2>/dev/null
 
 doxygen:

@@ -14,19 +14,17 @@
 
 
 #include <stdio.h>
+
+#if __linux__
+
 #include <sys/ioctl.h>
 #include <unistd.h>
 #include <termios.h>
 
+#endif
+
 enum class KeyBindings: int {
-	keyEscape = 0x01000000,
-	keyBackspace = 0x01000003,
-	keyEnter = 0x01000005,
 	keySpace = 0x20,
-	keyLeft = 0x01000012,
-	keyUp = 0x01000013,
-	keyRight = 0x01000014,
-	keyDown = 0x01000015,
 	key0 = 0x30,
 	key1 = 0x31,
 	key2 = 0x32,
@@ -37,9 +35,16 @@ enum class KeyBindings: int {
 	key7 = 0x37,
 	key8 = 0x38,
 	key9 = 0x39,
-	keyS = 0x53,
-	keyL = 0x4c,
-	keyR = 0x52
+	keyW = 0x77,
+	keyA = 0x61,
+	keyS = 0x73,
+	keyD = 0x64,
+	keyK = 0x6b,
+	keyL = 0x6c,
+	keyT = 0x74,
+	keyX = 0x78,
+	keyZ = 0x7a,
+	keyR = 0x72
 };
 
 
@@ -75,19 +80,20 @@ public:
 
 	void prepareMap(std::vector<std::string> *map);
 
+	void prepareFirstLastRow(std::vector<std::string> *rows, CLIBlock *moving, CLIBlock *empty, int index);
+
+	void prepareFirstLastCol(std::string *first, std::string *second, std::string *third, CLIBlock *moving,
+							 CLIBlock *empty, int index, int row);
+
 	char insertPlayer(int player, char field);
 
-	void movePlayerFromIndex(char player, int x, int y);
-
 	void clearScreen();
-
-	void createMovingBlocks();
 
 	char calculatePlayer(int player);
 
 	int decodePlayer(char pixel);
 
-	char ourGetCh();
+	int ourGetCh();
 };
 
 
