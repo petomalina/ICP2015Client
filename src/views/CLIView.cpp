@@ -252,7 +252,12 @@ void CLIView::showGame()
 				renew = true;
 				break;
 			case KeyBindings::keyK:
-				//TODO: Save game
+				this->onSave();
+				break;
+			case KeyBindings::keyL:
+				std::cout <<"loaded?\n";
+				this->onLoad("");
+				this->reflect();
 				break;
 			case KeyBindings::keyT:
 				exit(0);
@@ -266,6 +271,14 @@ void CLIView::showGame()
 void CLIView::showGameMap()
 {
 	this->clearScreen();
+
+	std::cout << "\tMovement: W, A, S, D keyboard keys\n";
+	std::cout << "\tActions: Space - end turn\n";
+	std::cout << "\t         R     - rotate block\n";
+	std::cout << "\t         L     - load game\n";
+	std::cout << "\t         S     - save game\n";
+	std::cout << "\t         T     - exit game\n";
+	std::cout << "\n\n";
 
 	std::vector<std::string> map;
 	this->prepareMap(&map);
