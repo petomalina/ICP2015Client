@@ -3,9 +3,6 @@
  * @authors xmalin26, xmasek15
  */
 
-
-
-
 #include "Game.h"
 
 
