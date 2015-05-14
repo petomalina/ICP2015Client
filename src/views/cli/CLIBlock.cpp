@@ -29,6 +29,11 @@ void CLIBlock::initialize()
 			this->Pixels = {'#', '#', '#', ' ', ' ', ' ', '#', '#', '#'};
 			break;
 
+		case FragmentType::N:
+			//this->Pixels = {' ', ' ', ' ', ' ', 'N', ' ', ' ', ' ', ' '};
+			this->Pixels = {' ', ' ', ' ', ' ', 'N', ' ', ' ', ' ', ' '};
+			break;
+
 		default:
 			throw new CLIException("Cannot initialize fragment block with specified type");
 	}
@@ -55,15 +60,16 @@ void CLIBlock::initialize()
 
 CLIBlock *CLIBlock::rotate(FragmentRotation rotation)
 {
-	// TODO: logic for each turn
 	if (this->Frag->getRotation() == FragmentRotation::Normal) {
-
-	} else if (this->Frag->getRotation() == FragmentRotation::Left) {
-
-	} else if (this->Frag->getRotation() == FragmentRotation::Right) {
-
-	} else { // flipped
-
+	}
+	else if (this->Frag->getRotation() == FragmentRotation::Left) {
+		this->rotateLeft();
+	}
+	else if (this->Frag->getRotation() == FragmentRotation::Right) {
+		this->rotateRight();
+	}
+	else { // flipped
+		this->rotateFlip();
 	}
 
 	this->Frag->rotate(rotation);
