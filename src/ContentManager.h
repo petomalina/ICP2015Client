@@ -18,10 +18,20 @@ protected:
 
 	Textures textures;
 public:
+	/**
+	 * Adds texture into collection
+	 * @param name name of the textures
+	 * @param path path to texture
+	 */
 	void addTexture(std::string name, std::string path);
 
 	void addTexture(std::string name, QPixmap pixmap);
 
+	/**
+	 * Returns given textures
+	 * @param  name texture name
+	 * @return      Texture
+	 */
 	QPixmap getTexture(std::string name);
 
 public: // Singleton

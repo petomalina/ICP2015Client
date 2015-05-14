@@ -22,6 +22,10 @@
 
 #endif
 
+/**
+ * Game class is main class which operates at given view (cli or gui)
+ * It encapsulates all game logic
+ */
 class Game {
 protected:
 	IView *view;

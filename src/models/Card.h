@@ -48,6 +48,10 @@ private:
 public:
 	Card(CardType type);
 
+	/**
+	 * Returns given card type
+	 * @return type of card
+	 */
 	CardType getType();
 };
 

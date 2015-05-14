@@ -30,8 +30,10 @@ public:
 class CLIBlock {
 
 public:
+	// Fragment for block
 	Fragment *Frag;
 
+	// array of chars that represents block in console view
 	std::array<char, 9> Pixels;
 
 public:
@@ -46,10 +48,22 @@ public:
 
 	CLIBlock *rotate(FragmentRotation rotation);
 
+	/**
+	 * Returns first row of the pixel area in string
+	 * @return pixel area
+	 */
 	std::string getFirstRow();
 
+	/**
+	 * Returns second row of the pixel area in string
+	 * @return pixel area
+	 */
 	std::string getSecondRow();
 
+	/**
+	 * Returns third row of the pixel area in string
+	 * @return pixel area
+	 */
 	std::string getThirdRow();
 };
 

@@ -229,7 +229,7 @@ void Game::loadGame(std::string name)
 
 	for (int i = 0; i < this->data.PlayerCount; i++) {
 		int index, number, cards;
-		saveFile >> index >> number >> x >> y >> cards;
+		saveFile >> number >> index >> x >> y >> cards;
 		Player *plr = new Player(index, Vector2{x, y});
 		this->data.Players.push_back(plr);
 
@@ -241,6 +241,35 @@ void Game::loadGame(std::string name)
 	}
 
 	this->data.OnMove = this->data.Players[playerOnMove];
+
+	// index generation for moving block
+	x = 1;
+	y = 1;
+	for (; x < this->data.PlaygroundSize-1; x++) {
+		if (x % 2 == 1) {
+			this->movingBlockPositions.push_back(Vector2{x, -1});
+		}
+	}
+
+	for (; y < this->data.PlaygroundSize-1; y++) {
+		if (y % 2 == 1) {
+			this->movingBlockPositions.push_back(Vector2{this->data.PlaygroundSize, y});
+		}
+	}
+
+	for (; x > 0; x--) {
+		if (x % 2 == 1) {
+			this->movingBlockPositions.push_back(Vector2{x, this->data.PlaygroundSize});
+		}
+	}
+
+	for (; y > 0; y--) {
+		if (y % 2 == 1) {
+			this->movingBlockPositions.push_back(Vector2{-1, y});
+		}
+	}
+
+	this->movingBlockPosition = this->movingBlockPositions.begin();
 
 	saveFile.close();
 }
@@ -304,13 +333,14 @@ void Game::pushBlock()
 	for (unsigned int i = 0; i < this->data.Map.size(); i++) {
 		Fragment *frag = this->data.Map[i];
 		if (frag->getX() == column || frag->getY() == row) {
+
 			current->move(move);
 			this->data.Map[i] = current;
 			current = frag;
 		}
 	}
 	// current is moving fragment
-	this->data.MovingBlock = current;
+	//this->data.MovingBlock = current;
 }
 
 void Game::onMove(Movement mov)

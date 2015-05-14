@@ -14,6 +14,7 @@ class GUIBlock: public QObject, public QGraphicsPixmapItem {
 Q_OBJECT
 
 public:
+	// Size in pixels for each Block
 	static const int Size = 40;
 
 public:
@@ -27,13 +28,30 @@ public:
 	virtual ~GUIBlock();
 
 private:
+	/**
+	 * Initializes the block (internal use)
+	 */
 	void initialize();
 
 public:
+	/**
+	 * Sets the position for the block
+	 * @param x position
+	 * @param y position
+	 */
 	void setPosition(int x, int y);
 
+	/**
+	 * Moves the block in the given direction
+	 * @param dx direction
+	 * @param dy direction
+	 */
 	void move(int dx, int dy);
 
+	/**
+	 * Rotates the block to the given rotation
+	 * @param rot FragmentRotation
+	 */
 	void rotate(FragmentRotation rot);
 };
 
