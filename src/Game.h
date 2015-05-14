@@ -60,6 +60,8 @@ private:
 	 */
 	void generatePlayers();
 
+	void generateTreasures();
+
 	/**
 	 * Loads saved game
 	 * @param name [description]

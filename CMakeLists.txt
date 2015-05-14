@@ -46,6 +46,8 @@ set(SOURCE_FILES
 
     src/models/Card.h
     src/models/Card.cpp
+    src/models/Treasure.h
+    src/models/Treasure.cpp
     src/models/CardPackGenerator.h
     src/models/CardPackGenerator.cpp
     src/models/Player.h

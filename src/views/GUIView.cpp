@@ -230,6 +230,9 @@ void GUIView::handleNewGameButton()
 void GUIView::handleLoadGameButton()
 {
 	this->onLoad(this->loadInput);
+	this->reflect();
+	this->showGame();
+	this->game->running = true;
 }
 
 void GUIView::handleSaveGameButton()
@@ -325,5 +328,5 @@ void GUIView::keyPressEvent(QKeyEvent *event)
 	}
 
 	// refresh position
-	//this->movingBlock->setPosition(this->movingBlock->Frag->x(), this->movingBlock->Frag->y());
+	this->movingBlock->setPosition(this->movingBlock->Frag->x(), this->movingBlock->Frag->y());
 }

@@ -179,6 +179,22 @@ void Game::generatePlayers()
 	}
 }
 
+void Game::generateTreasures()
+{
+	int i = 0;
+	do {
+		int x = rand() % this->data.PlaygroundSize;
+		int y = rand() % this->data.PlaygroundSize;
+
+		if (x == 0 || y == 0 || x == this->data.PlaygroundSize -1 || y == this->data.PlaygroundSize -1) {
+			continue;
+		}
+
+		this->data.Treasures.push_back(Treasure{static_cast<CardType>(i), Vector2{x, y}});
+
+	} while(i < 0);
+}
+
 void Game::loadGame(std::string name)
 {
 	// hardcode NewGame
@@ -423,6 +439,7 @@ void Game::onGameStart(int players, int size, int cards)
 	this->data.CardCount = cards;
 	this->generateMap();
 	this->generatePlayers();
+	this->generateTreasures();
 	this->data.OnMove = *this->data.Players.begin();
 }
 
