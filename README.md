@@ -12,6 +12,11 @@ Project Makefile
 - `make clean` clean all products of make
 
 
+Project Makefile MERLIN 
+----------------
+- `make --makefile=Makefile_Merlin` this makefile should be ok on merlin school server
+
+
 Generating qMake Makefile
 -------------------------
 run in project directory `qmake icp2015cli.pro` for CLI mode binary or `qmake icp2015gui.pro` for GUI mode binary.
