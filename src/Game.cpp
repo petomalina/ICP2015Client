@@ -241,7 +241,35 @@ void Game::loadGame(std::string name)
 	}
 
 	this->data.OnMove = this->data.Players[playerOnMove];
-	Player *plr = this->data.OnMove;
+
+	// index generation for moving block
+	x = 1;
+	y = 1;
+	for (; x < this->data.PlaygroundSize-1; x++) {
+		if (x % 2 == 1) {
+			this->movingBlockPositions.push_back(Vector2{x, -1});
+		}
+	}
+
+	for (; y < this->data.PlaygroundSize-1; y++) {
+		if (y % 2 == 1) {
+			this->movingBlockPositions.push_back(Vector2{this->data.PlaygroundSize, y});
+		}
+	}
+
+	for (; x > 0; x--) {
+		if (x % 2 == 1) {
+			this->movingBlockPositions.push_back(Vector2{x, this->data.PlaygroundSize});
+		}
+	}
+
+	for (; y > 0; y--) {
+		if (y % 2 == 1) {
+			this->movingBlockPositions.push_back(Vector2{-1, y});
+		}
+	}
+
+	this->movingBlockPosition = this->movingBlockPositions.begin();
 
 	saveFile.close();
 }
