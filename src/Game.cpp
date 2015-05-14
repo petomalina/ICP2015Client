@@ -198,7 +198,7 @@ void Game::generateTreasures()
 void Game::loadGame(std::string name)
 {
 	// hardcode NewGame
-	std::string savePath = "games/SavedGame.save";
+	std::string savePath = "examples/SavedGame.save";
 	std::ifstream saveFile{savePath};
 
 	saveFile >> this->data.PlaygroundSize >> this->data.CardCount >> this->data.MovingPlayer;
@@ -284,7 +284,7 @@ void Game::saveGame()
 		this->data.Name = "SavedGame";
 	}
 
-	std::string savePath = "games/" + this->data.Name + ".save";
+	std::string savePath = "examples/" + this->data.Name + ".save";
 	std::ofstream saveFile{savePath};
 
 	// stream in
