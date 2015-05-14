@@ -14,9 +14,14 @@
 
 
 #include <stdio.h>
+
+#if __linux__
+
 #include <sys/ioctl.h>
 #include <unistd.h>
 #include <termios.h>
+
+#endif
 
 enum class KeyBindings: int {
 	keyEscape = 0x01000000,
