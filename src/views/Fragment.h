@@ -32,16 +32,40 @@ public:
 
 	FragmentRotation getRotation() const;
 
+	/**
+	 * Returns X value of position
+	 * @return x pos
+	 */
 	int getX() const;
 
+	/**
+	 * Returns Y value of position
+	 * @return y pos
+	 */
 	int getY() const;
 
+	/**
+	 * Returns true if is open on up side
+	 * @return bool
+	 */
 	bool isOpenUp() const;
 
+	/**
+	 * Returns true if object is open down
+	 * @return bool
+	 */
 	bool isOpenDown() const;
 
+	/**
+	 * Returns true if object is open to the righ
+	 * @return bool
+	 */
 	bool isOpenRight() const;
 
+	/**
+	 * Retusn true if is open on the left side
+	 * @return bool
+	 */
 	bool isOpenLeft() const;
 
 	virtual void rotate(FragmentRotation rotation);

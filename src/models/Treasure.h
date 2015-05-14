@@ -8,6 +8,9 @@
 #include "Card.h"
 #include "../math/Vector2.h"
 
+/**
+ * Treasure represents each treasure displayed on the map
+ */
 class Treasure: public Vector2 {
 
 public:
@@ -19,6 +22,10 @@ private:
 public:
 	Treasure(CardType type, Vector2 pos);
 
+	/**
+	 * Returns current position of the treasure
+	 * @return Vector2 position
+	 */
 	Vector2 getPosition();
 };
 

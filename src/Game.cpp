@@ -241,6 +241,7 @@ void Game::loadGame(std::string name)
 	}
 
 	this->data.OnMove = this->data.Players[playerOnMove];
+	Player *plr = this->data.OnMove;
 
 	saveFile.close();
 }
@@ -304,13 +305,14 @@ void Game::pushBlock()
 	for (unsigned int i = 0; i < this->data.Map.size(); i++) {
 		Fragment *frag = this->data.Map[i];
 		if (frag->getX() == column || frag->getY() == row) {
+
 			current->move(move);
 			this->data.Map[i] = current;
 			current = frag;
 		}
 	}
 	// current is moving fragment
-	this->data.MovingBlock = current;
+	//this->data.MovingBlock = current;
 }
 
 void Game::onMove(Movement mov)

@@ -8,7 +8,9 @@
 
 #include "Card.h"
 
-
+/**
+ * CardPackGenerator is generator for card packs for players
+ */
 class CardPackGenerator {
 
 private:
@@ -17,6 +19,10 @@ private:
 public:
 	CardPackGenerator(int size);
 
+	/**
+	 * Generates new pack of shuffled cards
+	 * @param pack of cards to be populated
+	 */
 	void generatePack(CardPack &pack);
 };
 

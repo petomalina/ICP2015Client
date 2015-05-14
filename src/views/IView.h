@@ -14,6 +14,9 @@
 #include "../models/CardPackGenerator.h"
 #include "../models/Player.h"
 
+/**
+ * Main game data structure holding all entities for each game
+ */
 struct GameData {
 	bool running;
 
@@ -34,18 +37,32 @@ struct GameData {
 	bool MovingPlayer;
 };
 
+/**
+ * Rotation for given object (or movement)
+ */
 enum class Rotation {
 	Up, Down, Left, Right
 };
 
+/**
+ * Interface class which encapsulates View functionality and
+ * events used for the game logic
+ */
 class IView {
 
 public:
 	GameData *game;
 
 public:
+	/**
+	 * Initializes the View with the GameData structure
+	 * @param data GameData structure to operate with
+	 */
 	virtual void initialize(GameData *data) = 0;
 
+	/**
+	 * Shows the main view of the View
+	 */
 	virtual void show() = 0;
 
 public:
@@ -58,10 +75,13 @@ public:
 	// number of players, size of playground
 	Event<int, int, int> onGameStart;
 
+	// event fired on undo
 	Event<> onUndo;
 
+	// event fired on redo
 	Event<> onRedo;
 
+	// event fired on save
 	Event<> onSave;
 
 	Event<std::string> onLoad;

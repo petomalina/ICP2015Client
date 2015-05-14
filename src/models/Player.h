@@ -33,8 +33,15 @@ public:
 
 	Card &card();
 
+	/**
+	 * Draws the new card destroying the current one
+	 */
 	void drawCard();
 
+	/**
+	 * Moves the player in the direction
+	 * @param type Movement
+	 */
 	void move(Movement type);
 };
 
