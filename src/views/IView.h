@@ -10,6 +10,7 @@
 #include "../event/Event.h"
 #include "Fragment.h"
 
+#include "../models/Treasure.h"
 #include "../models/CardPackGenerator.h"
 #include "../models/Player.h"
 
@@ -26,6 +27,7 @@ struct GameData {
 	Player *OnMove;
 
 	std::vector<Fragment *> Map;
+	std::vector<Treasure> Treasures;
 
 	Fragment *MovingBlock, *LastMovedBlock;
 

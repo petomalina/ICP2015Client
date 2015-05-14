@@ -36,6 +36,8 @@ protected:
 	int playersInput, sizeInput, cardInput;
 	std::string loadInput;
 
+	bool inGame;
+
 public:
 	GUIView();
 
