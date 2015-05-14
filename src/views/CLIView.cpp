@@ -239,43 +239,44 @@ void CLIView::showGame()
 
 
 		KeyBindings pressed = static_cast<KeyBindings>(ourGetCh());
+		std::cout << static_cast<int>(pressed) << std::endl;
 		switch (pressed) {
-			case KeyBindings::key8:  //TODO: transform to arrow keys (see if works)
+			case KeyBindings::keyW:  //TODO: transform to arrow keys (see if works)
 				this->onMove(Movement::Up);
 				renew = true;
 				break;
-			case KeyBindings::key2:
+			case KeyBindings::keyS:
 				this->onMove(Movement::Down);
 				renew = true;
 				break;
-			case KeyBindings::key4:
+			case KeyBindings::keyA:
 				this->onMove(Movement::Left);
 				renew = true;
 				break;
-			case KeyBindings::key6:
+			case KeyBindings::keyD:
 				this->onMove(Movement::Right);
 				renew = true;
 				break;
-			case KeyBindings::key5:
+			case KeyBindings::keyR:
 				this->onRotate();
 				renew = true;
 				break;
-			case KeyBindings::keyEnter:
+			case KeyBindings::keySpace:
 				this->onMoveEnter();
 				renew = true;
 				break;
-			case KeyBindings::keyBackspace:
+			case KeyBindings::keyZ:
 				//TODO: UNDO
 				renew = true;
 				break;
-			case KeyBindings::keySpace:
+			case KeyBindings::keyX:
 				//TODO: REDO
 				renew = true;
 				break;
-			case KeyBindings::keyS:
+			case KeyBindings::keyK:
 				//TODO: Save game
 				break;
-			case KeyBindings::keyEscape:
+			case KeyBindings::keyT:
 				exit(0);
 			default:
 				renew = false;
