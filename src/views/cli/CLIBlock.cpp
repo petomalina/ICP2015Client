@@ -28,6 +28,9 @@ void CLIBlock::initialize()
 			//this->Pixels = {'#', ' ', '#', '#', 'I', '#', '#', ' ', '#'};
 			this->Pixels = {'#', ' ', '#', '#', ' ', '#', '#', ' ', '#'};
 			break;
+
+		default:
+			throw new CLIException("Cannot initialize fragment block with specified type");
 	}
 
 

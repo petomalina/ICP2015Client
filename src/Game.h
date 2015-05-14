@@ -43,7 +43,11 @@ public:
 
 	~Game();
 
+	void run();
+
 private:
+
+	/* Main utilities*/
 	void generateMap();
 
 	void generatePlayers();
@@ -52,10 +56,10 @@ private:
 
 	void saveGame();
 
-public:
-	void run();
+	/* Game logic helpers */
+	void pushBlock();
 
-public:
+	/* Events */
 	void onMove(Movement mov);
 
 	void onMoveEnter();
