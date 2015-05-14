@@ -29,6 +29,11 @@ GUIView::GUIView()
 	SContentManager.addTexture("P2", "graphics/P2.png");
 	SContentManager.addTexture("P3", "graphics/P3.png");
 	SContentManager.addTexture("P4", "graphics/P4.png");
+
+	for (int i = 1; i <= 24; i++) {
+		std::string name = "treasure" + std::to_string(i);
+		SContentManager.addTexture(name, "graphics/" + name);
+	}
 }
 
 GUIView::~GUIView()
@@ -48,6 +53,10 @@ void GUIView::initialize(GameData *data)
 	QPushButton *loadGameButton = new QPushButton{"Load Game"};
 	connect(loadGameButton, SIGNAL(released()), this, SLOT(handleLoadGameButton()));
 	this->menuElements.push_back(loadGameButton);
+
+	QPushButton *saveGameButton = new QPushButton{"Save Game"};
+	connect(saveGameButton, SIGNAL(released()), this, SLOT(handleSaveGameButton()));
+	this->menuElements.push_back(saveGameButton);
 
 	QPushButton *exitButton = new QPushButton{"Exit"};
 	connect(exitButton, SIGNAL(released()), this, SLOT(handleExitButton()));
@@ -216,10 +225,14 @@ void GUIView::handleNewGameButton()
 	this->showGameOptions();
 }
 
-
 void GUIView::handleLoadGameButton()
 {
+	this->onLoad(this->loadInput);
+}
 
+void GUIView::handleSaveGameButton()
+{
+	this->onSave();
 }
 
 void GUIView::handleExitButton()
@@ -233,6 +246,7 @@ void GUIView::handleGameStartButton()
 
 	this->reflect(); // reflect fragments into game
 	this->showGame();
+	this->game->running = true;
 }
 
 void GUIView::handlePlayersChange(const QString &text)
@@ -253,6 +267,10 @@ void GUIView::handleCardsChange(const QString &text)
 
 void GUIView::keyPressEvent(QKeyEvent *event)
 {
+	if (!this->game->running) {
+		return;
+	}
+
 	if (event->key() == Qt::Key_Escape) {
 		if (this->savedScene == nullptr) {
 			this->savedScene = this->scene();
@@ -283,10 +301,25 @@ void GUIView::keyPressEvent(QKeyEvent *event)
 		GUIBlock *playerBlock = this->playerBlocks[this->game->OnMove->Index];
 		playerBlock->setPosition(this->game->OnMove->getPosition().x(), this->game->OnMove->getPosition().y());
 	} else {
-		this->movingBlock->setPosition(this->game->MovingBlock->getX(), this->game->MovingBlock->getY());this->movingBlock->rotate(this->game->MovingBlock->getRotation());
+		this->movingBlock->rotate(this->game->MovingBlock->getRotation());
 	}
 
 	if (event->key() == Qt::Key_Enter) {
 		this->onMoveEnter();
+
+		std::vector<GUIBlock*>::iterator nextMovingBlock = std::find_if(this->blocks.begin(), this->blocks.end(), [&](const GUIBlock *block) {
+			return block->Frag == this->game->MovingBlock;
+		});
+
+		GUIBlock *tmp = *nextMovingBlock;
+		*nextMovingBlock = this->movingBlock;
+		this->movingBlock = tmp;
+
+		for (GUIBlock *block : this->blocks) {
+			block->setPosition(block->Frag->x(), block->Frag->y());
+		}
 	}
+
+	// refresh position
+	this->movingBlock->setPosition(this->movingBlock->Frag->x(), this->movingBlock->Frag->y());
 }

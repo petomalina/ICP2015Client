@@ -9,6 +9,7 @@ using namespace std::placeholders;
 
 Game::Game(IView *view)
 {
+	this->data.running = false;
 	this->view = view;
 
 	this->data.MovingBlock = nullptr;
@@ -20,6 +21,9 @@ Game::Game(IView *view)
 	this->view->onMoveEnter(std::bind(&Game::onMoveEnter, this));
 	this->view->onRotate(std::bind(&Game::onRotate, this));
 	this->view->onGameStart(std::bind(&Game::onGameStart, this, _1, _2, _3));
+
+	this->view->onSave(std::bind(&Game::onSaveGame, this));
+	this->view->onLoad(std::bind(&Game::onLoadGame, this, _1));
 
 	this->view->onUndo(std::bind(&Game::onUndo, this));
 	this->view->onRedo(std::bind(&Game::onRedo, this));
@@ -187,6 +191,14 @@ void Game::loadGame(std::string name)
 
 void Game::saveGame()
 {
+	if (!this->data.running) {
+		return;
+	}
+
+	if (this->data.Name == "") {
+		this->data.Name = "NewGame";
+	}
+
 	std::string savePath = "games/" + this->data.Name + ".save";
 	std::ofstream saveFile{savePath};
 
@@ -368,6 +380,14 @@ void Game::onGameStart(int players, int size, int cards)
 	this->generateMap();
 	this->generatePlayers();
 	this->data.OnMove = *this->data.Players.begin();
+}
+
+void Game::onLoadGame(std::string name) {
+
+}
+
+void Game::onSaveGame() {
+
 }
 
 void Game::onUndo()

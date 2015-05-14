@@ -14,6 +14,8 @@
 #include "../models/Player.h"
 
 struct GameData {
+	bool running;
+
 	std::string Name;
 
 	int PlayerCount;
@@ -59,6 +61,8 @@ public:
 	Event<> onRedo;
 
 	Event<> onSave;
+
+	Event<std::string> onLoad;
 };
 
 

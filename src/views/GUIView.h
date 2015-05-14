@@ -34,6 +34,7 @@ protected:
 
 	// menu inputs
 	int playersInput, sizeInput, cardInput;
+	std::string loadInput;
 
 public:
 	GUIView();
@@ -63,6 +64,8 @@ private slots:
 	void handleNewGameButton();
 
 	void handleLoadGameButton();
+
+	void handleSaveGameButton();
 
 	void handleExitButton();
 
