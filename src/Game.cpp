@@ -229,7 +229,7 @@ void Game::loadGame(std::string name)
 
 	for (int i = 0; i < this->data.PlayerCount; i++) {
 		int index, number, cards;
-		saveFile >> index >> number >> x >> y >> cards;
+		saveFile >> number >> index >> x >> y >> cards;
 		Player *plr = new Player(index, Vector2{x, y});
 		this->data.Players.push_back(plr);
 
