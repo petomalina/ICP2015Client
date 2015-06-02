@@ -20,7 +20,7 @@
 struct GameData {
 	bool running, initialized;
 
-	std::string Name;
+	std::string Name = "SaveGame";
 
 	int PlayerCount;
 	int PlaygroundSize;
