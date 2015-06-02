@@ -3,8 +3,10 @@
  * @authors xmalin26, xmasek15
  */
 
+#include <src/views/CLIView.h>
 #include "Game.h"
 
+//#define CLI_MODE
 
 #ifdef CLI_MODE //Preprocessor define macro must be set to run game in CLI mode, use -DCLI_MODE flag when compiling program
 
