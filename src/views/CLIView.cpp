@@ -403,7 +403,7 @@ char CLIView::insertPlayer(int player, const char field)
 
 char CLIView::insertTreasure(CardType type, const char field)
 {
-	return static_cast<char>(type) + (field == ' ' ? 'A' : 'a');
+	return static_cast<char>(type) + (field == ' ' ? 'A' : 'a') - (char)1;
 }
 
 int CLIView::decodePlayer(char pixel)
