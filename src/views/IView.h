@@ -18,7 +18,7 @@
  * Main game data structure holding all entities for each game
  */
 struct GameData {
-	bool running;
+	bool running, initialized;
 
 	std::string Name;
 
