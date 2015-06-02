@@ -154,9 +154,16 @@ void GUIView::reflect()
 		playerIndex++;
 	}
 
-
-	// init moving block
 	this->gameScene->addItem(new GUIBlock(this->game->MovingBlock));
+
+	// information widgets
+	int x = this->game->PlaygroundSize * GUIBlock::Size + 100;
+	int y = this->game->PlaygroundSize * GUIBlock::Size - 100;
+	QLabel *label = new QLabel{"Player on move: "};
+	label->pos().rx() = x;
+	label->pos().ry() = y;
+
+	this->gameScene->addWidget(label);
 }
 
 void GUIView::showGame()

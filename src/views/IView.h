@@ -27,7 +27,7 @@ struct GameData {
 	int CardCount;
 
 	std::vector<Player *> Players;
-	Player *OnMove;
+	Player *OnMove, *Winner;
 
 	std::vector<std::shared_ptr<Fragment>> Map;
 	std::vector<Treasure> Treasures;
