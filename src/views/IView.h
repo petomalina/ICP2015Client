@@ -29,10 +29,10 @@ struct GameData {
 	std::vector<Player *> Players;
 	Player *OnMove;
 
-	std::vector<Fragment *> Map;
+	std::vector<std::shared_ptr<Fragment>> Map;
 	std::vector<Treasure> Treasures;
 
-	Fragment *MovingBlock, *LastMovedBlock;
+	std::shared_ptr<Fragment> MovingBlock, LastMovedBlock;
 
 	bool MovingPlayer;
 };

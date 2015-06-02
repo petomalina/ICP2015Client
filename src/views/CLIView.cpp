@@ -30,7 +30,7 @@ void CLIView::reflect()
 	}
 	this->blocks.clear();
 
-	for (Fragment *frag : this->game->Map) {
+	for (auto frag : this->game->Map) {
 		this->blocks.push_back(new CLIBlock(frag));
 	}
 }

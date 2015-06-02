@@ -31,13 +31,13 @@ class CLIBlock {
 
 public:
 	// Fragment for block
-	Fragment *Frag;
+	std::shared_ptr<Fragment> Frag;
 
 	// array of chars that represents block in console view
 	std::array<char, 9> Pixels;
 
 public:
-	CLIBlock(Fragment *frag);
+	CLIBlock(std::shared_ptr<Fragment> frag);
 
 private:
 	void initialize();

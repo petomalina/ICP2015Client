@@ -42,13 +42,9 @@ void Game::run()
 void Game::generateMap()
 {
 	// clear map before generating
-	for (Fragment *fragment : this->data.Map) {
-		delete fragment;
-	}
 	this->data.Map.clear();
 
 	if (this->data.MovingBlock != nullptr) {
-		delete this->data.MovingBlock;
 		this->data.MovingBlock = nullptr;
 	}
 	this->data.MovingBlock = FragmentFactory::createRandom(1, -1);
@@ -210,19 +206,15 @@ void Game::loadGame(std::string name)
 	std::ifstream saveFile{savePath};
 
 	saveFile >> this->data.PlaygroundSize >> this->data.CardCount >> this->data.MovingPlayer;
-	for (Fragment *frag : this->data.Map) {
-		delete frag;
-	}
 	this->data.Map.clear();
 
 	int x, y, type, rotation;
 	for (int i = 0; i < this->data.PlaygroundSize * this->data.PlaygroundSize; i++) {
 		saveFile >> x >> y >> type >> rotation;
-		Fragment *frag = FragmentFactory::create(x, y, static_cast<FragmentType>(type), static_cast<FragmentRotation>(rotation));
+		auto frag = FragmentFactory::create(x, y, static_cast<FragmentType>(type), static_cast<FragmentRotation>(rotation));
 		this->data.Map.push_back(frag);
 	}
 	// moving fragment
-	delete this->data.MovingBlock;
 	saveFile >> x >> y >> type >> rotation;
 	this->data.MovingBlock = FragmentFactory::create(x, y, static_cast<FragmentType>(type), static_cast<FragmentRotation>(rotation));
 
@@ -297,11 +289,11 @@ void Game::saveGame()
 
 	// stream in
 	saveFile << this->data.PlaygroundSize << " " << this->data.CardCount << " " << this->data.MovingPlayer << "\n";
-	for (Fragment *frag : this->data.Map) {
+	for (auto frag : this->data.Map) {
 		saveFile << frag->x() << " " << frag->y() << " " << static_cast<int>(frag->Type) << " " << static_cast<int>(frag->getRotation()) << "\n";
 	}
 
-	Fragment *frag = this->data.MovingBlock;
+	auto frag = this->data.MovingBlock;
 	saveFile << frag->x() << " " << frag->y() << " " << static_cast<int>(frag->Type) << " " << static_cast<int>(frag->getRotation()) << "\n";
 
 	saveFile << this->data.PlayerCount << " " << this->data.OnMove->Index << "\n";
@@ -319,7 +311,7 @@ void Game::saveGame()
 void Game::pushBlock()
 {
 	// calculation of movement
-	Fragment *movingBlock = this->data.MovingBlock;
+	auto movingBlock = this->data.MovingBlock;
 	this->data.LastMovedBlock = movingBlock;
 
 	Vector2 move{0, 0};
@@ -342,10 +334,10 @@ void Game::pushBlock()
 	// fragment movements
 	if (move.x() > 0 || move.y() > 0) {
 		int fragIndex = 0;
-		Fragment *mov = nullptr;
+		std::shared_ptr<Fragment> mov = nullptr;
 
 		for (unsigned long i = 0; i < this->data.Map.size(); ++i) {
-			Fragment *frag = this->data.Map[i];
+			auto frag = this->data.Map[i];
 			if (frag->getX() == column || frag->getY() == row) {
 				fragIndex++;
 
@@ -365,10 +357,10 @@ void Game::pushBlock()
 		}
 	} else {
 		int fragIndex = 0;
-		Fragment *mov = nullptr;
+		std::shared_ptr<Fragment> mov = nullptr;
 
 		for (unsigned long i = this->data.Map.size() -1; i > 0; --i) {
-			Fragment *frag = this->data.Map[i];
+			auto frag = this->data.Map[i];
 			if (frag->getX() == column || frag->getY() == row) {
 				fragIndex++;
 
@@ -408,7 +400,7 @@ void Game::onMove(Movement mov)
 		}
 
 		// next fragment calculation
-		Fragment *nextFragment = nullptr, *thisFragment = this->data.Map[this->data.PlaygroundSize * p.y() + p.x()];
+		std::shared_ptr<Fragment> nextFragment = nullptr, thisFragment = this->data.Map[this->data.PlaygroundSize * p.y() + p.x()];
 		switch (mov) {
 			case Movement::Down:
 				nextFragment = this->data.Map[this->data.PlaygroundSize * (p.y() + 1) + p.x()];

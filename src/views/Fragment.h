@@ -7,6 +7,7 @@
 #define ICP2015CLIENT_FRAGMENT_H
 
 #include <algorithm>
+#include <memory>
 #include "../math/Vector2.h"
 
 enum class FragmentType: int {
@@ -74,19 +75,19 @@ public:
 class FragmentFactory {
 
 public:
-	static Fragment *create(int x, int y, FragmentType type, FragmentRotation rot = FragmentRotation::Normal)
+	static std::shared_ptr<Fragment> create(int x, int y, FragmentType type, FragmentRotation rot = FragmentRotation::Normal)
 	{
-		return new Fragment(x, y, type, rot);
-	}
+		return std::shared_ptr<Fragment>{new Fragment{x, y, type, rot}};
+	};
 
-	static Fragment *createRandom(int x, int y)
+	static std::shared_ptr<Fragment> createRandom(int x, int y)
 	{
 
 		FragmentType type = static_cast<FragmentType>(rand() % 3);
 		FragmentRotation rot = static_cast<FragmentRotation>(rand() % 4);
 
-		return new Fragment(x, y, type, rot);
-	}
+		return std::shared_ptr<Fragment>{new Fragment{x, y, type, rot}};
+	};
 };
 
 

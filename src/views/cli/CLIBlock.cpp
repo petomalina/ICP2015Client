@@ -5,7 +5,7 @@
 
 #include "CLIBlock.h"
 
-CLIBlock::CLIBlock(Fragment *frag)
+CLIBlock::CLIBlock(std::shared_ptr<Fragment> frag)
 {
 	this->Frag = frag;
 	this->initialize();

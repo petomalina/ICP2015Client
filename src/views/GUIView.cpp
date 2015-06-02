@@ -128,23 +128,23 @@ void GUIView::reflect()
 
 	this->gameScene = new QGraphicsScene{0, 0, pixelWidth, pixelHeight};
 
-	for (Fragment *frag : this->game->Map) {
+	for (auto frag : this->game->Map) {
 		this->gameScene->addItem(new GUIBlock(frag));
 	}
 
 	for (Treasure &t : this->game->Treasures) {
-		Fragment *tf = new Fragment(t.x(), t.y(), FragmentType::Card, FragmentRotation::Normal);
+		std::shared_ptr<Fragment> tf{new Fragment{t.x(), t.y(), FragmentType::Card, FragmentRotation::Normal}};
 		this->gameScene->addItem(
 				new GUIBlock(tf, SContentManager.getTexture(
 						"treasure" + std::to_string(static_cast<int>(t.Type))
 				))
 		);
-	}
+	};
 
 	int playerIndex = 1;
 	for (Player *player : this->game->Players) {
 		auto block = new GUIBlock(
-				new Fragment(player->getPosition().x(), player->getPosition().y(), FragmentType::Player,
+				FragmentFactory::create(player->getPosition().x(), player->getPosition().y(), FragmentType::Player,
 										 FragmentRotation::Normal),
 				SContentManager.getTexture("P" + std::to_string(playerIndex))
 		);

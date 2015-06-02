@@ -18,12 +18,12 @@ public:
 	static const int Size = 40;
 
 public:
-	Fragment *Frag; // linked fragment
+	std::shared_ptr<Fragment> Frag; // linked fragment
 
 public:
-	GUIBlock(Fragment *frag);
+	GUIBlock(std::shared_ptr<Fragment> frag);
 
-	GUIBlock(Fragment *frag, QPixmap pixmap);
+	GUIBlock(std::shared_ptr<Fragment> frag, QPixmap pixmap);
 
 	virtual ~GUIBlock();
 
