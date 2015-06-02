@@ -84,19 +84,24 @@ void Game::generateMap()
 				else { // all other (even col/row crossings)
 					switch (rand() % 4) { // randomize T rotation
 						case 0 :
-							this->data.Map.push_back(FragmentFactory::create(x, y, FragmentType::T, FragmentRotation::Normal));
+							this->data.Map.push_back(
+									FragmentFactory::create(x, y, FragmentType::T, FragmentRotation::Normal));
 							break;
 						case 1 :
-							this->data.Map.push_back(FragmentFactory::create(x, y, FragmentType::T, FragmentRotation::Right));
+							this->data.Map.push_back(
+									FragmentFactory::create(x, y, FragmentType::T, FragmentRotation::Right));
 							break;
 						case 2 :
-							this->data.Map.push_back(FragmentFactory::create(x, y, FragmentType::T, FragmentRotation::Left));
+							this->data.Map.push_back(
+									FragmentFactory::create(x, y, FragmentType::T, FragmentRotation::Left));
 							break;
 						case 3 :
-							this->data.Map.push_back(FragmentFactory::create(x, y, FragmentType::T, FragmentRotation::Flip));
+							this->data.Map.push_back(
+									FragmentFactory::create(x, y, FragmentType::T, FragmentRotation::Flip));
 							break;
 						default:
-							this->data.Map.push_back(FragmentFactory::create(x, y, FragmentType::T, FragmentRotation::Normal));
+							this->data.Map.push_back(
+									FragmentFactory::create(x, y, FragmentType::T, FragmentRotation::Normal));
 							break;
 					}
 				}
@@ -109,13 +114,13 @@ void Game::generateMap()
 
 	// index generation for moving block
 	int x = 1, y = 1;
-	for (; x < this->data.PlaygroundSize-1; x++) {
+	for (; x < this->data.PlaygroundSize - 1; x++) {
 		if (x % 2 == 1) {
 			this->movingBlockPositions.push_back(Vector2{x, -1});
 		}
 	}
 
-	for (; y < this->data.PlaygroundSize-1; y++) {
+	for (; y < this->data.PlaygroundSize - 1; y++) {
 		if (y % 2 == 1) {
 			this->movingBlockPositions.push_back(Vector2{this->data.PlaygroundSize, y});
 		}
@@ -156,24 +161,24 @@ void Game::generatePlayers()
 				break;
 
 			case 2:
-				position.setX(this->data.PlaygroundSize-1);
-				position.setY(this->data.PlaygroundSize-1);
+				position.setX(this->data.PlaygroundSize - 1);
+				position.setY(this->data.PlaygroundSize - 1);
 				break;
 
 			case 3:
 				position.setX(0);
-				position.setY(this->data.PlaygroundSize-1);
+				position.setY(this->data.PlaygroundSize - 1);
 				break;
 
 			case 4:
-				position.setX(this->data.PlaygroundSize-1);
+				position.setX(this->data.PlaygroundSize - 1);
 				position.setY(0);
 
 			default:
 				break;
 		}
 
-		Player *p = new Player(i-1, position);
+		Player *p = new Player(i - 1, position);
 		cardPackGenerator.generatePack(p->Cards);
 		this->data.Players.push_back(p);
 	}
@@ -186,19 +191,18 @@ void Game::generateTreasures()
 		int x = rand() % this->data.PlaygroundSize;
 		int y = rand() % this->data.PlaygroundSize;
 
-		if (x == 0 || y == 0 || x == this->data.PlaygroundSize -1 || y == this->data.PlaygroundSize -1) {
+		if (x == 0 || y == 0 || x == this->data.PlaygroundSize - 1 || y == this->data.PlaygroundSize - 1) {
 			continue;
 		}
 
 		this->data.Treasures.push_back(Treasure{static_cast<CardType>(i), Vector2{x, y}});
 
-	} while(i < 0);
+	} while (i < 0);
 }
 
 void Game::loadGame(std::string name)
 {
-	// hardcode NewGame
-	std::string savePath = "examples/SavedGame.save";
+	std::string savePath = "examples/" + name + ".save";
 	std::ifstream saveFile{savePath};
 
 	saveFile >> this->data.PlaygroundSize >> this->data.CardCount >> this->data.MovingPlayer;
@@ -210,13 +214,15 @@ void Game::loadGame(std::string name)
 	int x, y, type, rotation;
 	for (int i = 0; i < this->data.PlaygroundSize * this->data.PlaygroundSize; i++) {
 		saveFile >> x >> y >> type >> rotation;
-		Fragment *frag = FragmentFactory::create(x, y, static_cast<FragmentType>(type), static_cast<FragmentRotation>(rotation));
+		Fragment *frag = FragmentFactory::create(x, y, static_cast<FragmentType>(type),
+												 static_cast<FragmentRotation>(rotation));
 		this->data.Map.push_back(frag);
 	}
 	// moving fragment
 	delete this->data.MovingBlock;
 	saveFile >> x >> y >> type >> rotation;
-	this->data.MovingBlock = FragmentFactory::create(x, y, static_cast<FragmentType>(type), static_cast<FragmentRotation>(rotation));
+	this->data.MovingBlock = FragmentFactory::create(x, y, static_cast<FragmentType>(type),
+													 static_cast<FragmentRotation>(rotation));
 
 	// player counts
 	int playerOnMove;
@@ -245,13 +251,13 @@ void Game::loadGame(std::string name)
 	// index generation for moving block
 	x = 1;
 	y = 1;
-	for (; x < this->data.PlaygroundSize-1; x++) {
+	for (; x < this->data.PlaygroundSize - 1; x++) {
 		if (x % 2 == 1) {
 			this->movingBlockPositions.push_back(Vector2{x, -1});
 		}
 	}
 
-	for (; y < this->data.PlaygroundSize-1; y++) {
+	for (; y < this->data.PlaygroundSize - 1; y++) {
 		if (y % 2 == 1) {
 			this->movingBlockPositions.push_back(Vector2{this->data.PlaygroundSize, y});
 		}
@@ -290,15 +296,18 @@ void Game::saveGame()
 	// stream in
 	saveFile << this->data.PlaygroundSize << " " << this->data.CardCount << " " << this->data.MovingPlayer << "\n";
 	for (Fragment *frag : this->data.Map) {
-		saveFile << frag->x() << " " << frag->y() << " " << static_cast<int>(frag->Type) << " " << static_cast<int>(frag->getRotation()) << "\n";
+		saveFile << frag->x() << " " << frag->y() << " " << static_cast<int>(frag->Type) << " " <<
+		static_cast<int>(frag->getRotation()) << "\n";
 	}
 
 	Fragment *frag = this->data.MovingBlock;
-	saveFile << frag->x() << " " << frag->y() << " " << static_cast<int>(frag->Type) << " " << static_cast<int>(frag->getRotation()) << "\n";
+	saveFile << frag->x() << " " << frag->y() << " " << static_cast<int>(frag->Type) << " " <<
+	static_cast<int>(frag->getRotation()) << "\n";
 
 	saveFile << this->data.PlayerCount << " " << this->data.OnMove->Index << "\n";
 	for (Player *plr : this->data.Players) {
-		saveFile << plr->Number << " " << plr->Index << " " << plr->getPosition().x() << " " << plr->getPosition().y() << " " << plr->Cards.size() << " ";
+		saveFile << plr->Number << " " << plr->Index << " " << plr->getPosition().x() << " " <<
+		plr->getPosition().y() << " " << plr->Cards.size() << " ";
 		for (Card &c : plr->Cards) {
 			saveFile << static_cast<int>(c.getType()) << " ";
 		}
@@ -319,13 +328,16 @@ void Game::pushBlock()
 	if (current->getX() < 0) { // left
 		move.set(1, 0);
 		row = current->getY();
-	} else if (current->getY() < 0) { // up
+	}
+	else if (current->getY() < 0) { // up
 		move.set(0, 1);
 		column = current->getX();
-	} else if (current->getX() == this->data.PlaygroundSize) { // right
+	}
+	else if (current->getX() == this->data.PlaygroundSize) { // right
 		move.set(-1, 0);
 		row = current->getY();
-	} else { // down
+	}
+	else { // down
 		move.set(0, -1);
 		column = current->getX();
 	}
@@ -336,7 +348,8 @@ void Game::pushBlock()
 
 			if (move.x() == 1 || move.y() == 1) {
 
-			} else { // move.y() == -1 || move.y() == -1
+			}
+			else { // move.y() == -1 || move.y() == -1
 
 			}
 
@@ -352,9 +365,9 @@ void Game::onMove(Movement mov)
 	if (this->data.MovingPlayer) {
 		Vector2 p = data.OnMove->getPosition();
 		if ((p.y() + 1 == data.PlaygroundSize && mov == Movement::Down) ||
-				(p.y() == 0 && mov == Movement::Up) ||
-				(p.x() == 0 && mov == Movement::Left) ||
-				(p.x() + 1 == data.PlaygroundSize && mov == Movement::Right)) {
+			(p.y() == 0 && mov == Movement::Up) ||
+			(p.x() == 0 && mov == Movement::Left) ||
+			(p.x() + 1 == data.PlaygroundSize && mov == Movement::Right)) {
 			return;
 		}
 
@@ -407,20 +420,24 @@ void Game::onMove(Movement mov)
 				this->data.OnMove->move(Movement::Right);
 				break;
 		}
-	} else { // moving block
+	}
+	else { // moving block
 		if (mov == Movement::Right || mov == Movement::Left) {
 			int direction = mov == Movement::Right ? 1 : -1;
 
 			if (direction == -1) {
 				if (this->movingBlockPosition == this->movingBlockPositions.begin()) {
 					this->movingBlockPosition = --this->movingBlockPositions.end();
-				} else {
+				}
+				else {
 					this->movingBlockPosition--;
 				}
-			} else {
+			}
+			else {
 				if (this->movingBlockPosition == --this->movingBlockPositions.end()) {
 					this->movingBlockPosition = this->movingBlockPositions.begin();
-				} else {
+				}
+				else {
 					this->movingBlockPosition++;
 				}
 			}
@@ -435,7 +452,7 @@ void Game::onMoveEnter()
 	// if block is on the move, switch player
 	if (this->data.MovingPlayer) {
 		// find currently moving player
-		std::vector<Player*>::iterator it = this->data.Players.begin();
+		std::vector<Player *>::iterator it = this->data.Players.begin();
 		for (; it != this->data.Players.end(); it++) {
 			if ((*it) == this->data.OnMove) {
 				break;
@@ -444,10 +461,12 @@ void Game::onMoveEnter()
 
 		if (++it == this->data.Players.end()) {
 			this->data.OnMove = this->data.Players.front();
-		} else {
+		}
+		else {
 			this->data.OnMove = *(it++);
 		}
-	} else {
+	}
+	else {
 		this->pushBlock();
 	}
 
@@ -478,11 +497,13 @@ void Game::onGameStart(int players, int size, int cards)
 	this->data.running = true;
 }
 
-void Game::onLoadGame(std::string name) {
+void Game::onLoadGame(std::string name)
+{
 	this->loadGame(name);
 }
 
-void Game::onSaveGame() {
+void Game::onSaveGame()
+{
 	this->saveGame();
 }
 
