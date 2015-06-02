@@ -82,7 +82,7 @@ private:
 	/**
 	 * Pushes current moving block into the game
 	 */
-	void pushBlock();
+	bool pushBlock();
 
 	/* Events */
 

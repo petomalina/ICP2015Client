@@ -32,7 +32,8 @@ struct GameData {
 	std::vector<std::shared_ptr<Fragment>> Map;
 	std::vector<Treasure> Treasures;
 
-	std::shared_ptr<Fragment> MovingBlock, LastMovedBlock;
+	std::shared_ptr<Fragment> MovingBlock;
+	Vector2 LockedPosition;
 
 	bool MovingPlayer;
 };
