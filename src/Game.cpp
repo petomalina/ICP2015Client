@@ -181,7 +181,7 @@ void Game::generatePlayers()
 
 void Game::generateTreasures()
 {
-	int i = 0;
+	int i = this->data.CardCount;
 	do {
 		int x = rand() % this->data.PlaygroundSize;
 		int y = rand() % this->data.PlaygroundSize;
@@ -192,7 +192,8 @@ void Game::generateTreasures()
 
 		this->data.Treasures.push_back(Treasure{static_cast<CardType>(i), Vector2{x, y}});
 
-	} while(i < 0);
+		i--;
+	} while(i > 0);
 }
 
 void Game::loadGame(std::string name)
@@ -309,6 +310,7 @@ void Game::saveGame()
 
 void Game::pushBlock()
 {
+	// calculation of movement
 	Fragment *movingBlock = this->data.MovingBlock;
 	this->data.LastMovedBlock = movingBlock;
 
@@ -329,26 +331,59 @@ void Game::pushBlock()
 		column = movingBlock->getX();
 	}
 
-	int fragIndex = 0;
-	Fragment *mov = nullptr;
-	for (unsigned int i = 0; i < this->data.Map.size(); i++) {
-		Fragment *frag = this->data.Map[i];
-		if (frag->getX() == column || frag->getY() == row) {
-			fragIndex++;
+	// fragment movements
+	if (move.x() > 0 || move.y() > 0) {
+		int fragIndex = 0;
+		Fragment *mov = nullptr;
 
-			frag->move(move);
-			this->data.Map[i] = mov;
+		for (unsigned long i = 0; i < this->data.Map.size(); ++i) {
+			Fragment *frag = this->data.Map[i];
+			if (frag->getX() == column || frag->getY() == row) {
+				fragIndex++;
 
-			if ((move.x() > 0 && fragIndex == 1) || ((move.x() < 0 && fragIndex == data.PlaygroundSize)) ||
-					((move.y() > 0 && fragIndex == 1)) || ((move.y() < 0 && fragIndex == data.PlaygroundSize))){
-				this->data.Map[i] = movingBlock;
-				movingBlock->move(move);
-			} else if ((move.x() > 0 && fragIndex == data.PlaygroundSize) || ((move.x() < 0 && fragIndex == 1)) ||
-					((move.y() > 0 && fragIndex == data.PlaygroundSize)) || ((move.y() < 0 && fragIndex == 1))){
-				this->data.MovingBlock = frag;
+				frag->move(move);
+				this->data.Map[i] = mov;
+
+				if (fragIndex == 1) {
+					this->data.Map[i] = movingBlock;
+					movingBlock->move(move);
+				}
+				else if (fragIndex == data.PlaygroundSize) {
+					this->data.MovingBlock = frag;
+				}
+
+				mov = frag;
 			}
+		}
+	} else {
+		int fragIndex = 0;
+		Fragment *mov = nullptr;
 
-			mov = frag;
+		for (unsigned long i = this->data.Map.size() -1; i > 0; --i) {
+			Fragment *frag = this->data.Map[i];
+			if (frag->getX() == column || frag->getY() == row) {
+				fragIndex++;
+
+				frag->move(move);
+				this->data.Map[i] = mov;
+
+				if (fragIndex == data.PlaygroundSize) {
+					this->data.MovingBlock = frag;
+				}
+				else if (fragIndex == 1) {
+					this->data.Map[i] = movingBlock;
+					movingBlock->move(move);
+				}
+
+				mov = frag;
+			}
+		}
+	}
+
+	// correction of iterator
+	for (std::vector<Vector2>::iterator it = this->movingBlockPositions.begin(); it != this->movingBlockPositions.end(); it++) {
+		if (*this->data.MovingBlock == *it) {
+			this->movingBlockPosition = it;
 		}
 	}
 }
