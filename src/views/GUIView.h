@@ -25,12 +25,9 @@ class GUIView: public QGraphicsView, public IView {
 Q_OBJECT
 
 protected:
-	QGraphicsScene *savedScene, *menuScene, *gameScene, *gameOptionsScene;
+	QGraphicsScene *menuScene, *gameScene, *gameOptionsScene;
 	// menu elements
 	std::vector<QWidget *> menuElements, gameOptionsElements;
-
-	std::vector<GUIBlock*> blocks, playerBlocks;
-	GUIBlock *movingBlock;
 
 	// menu inputs
 	int playersInput, sizeInput, cardInput;

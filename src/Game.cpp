@@ -334,13 +334,17 @@ void Game::pushBlock()
 		Fragment *frag = this->data.Map[i];
 		if (frag->getX() == column || frag->getY() == row) {
 
+			if (move.x() == 1 || move.y() == 1) {
+
+			} else { // move.y() == -1 || move.y() == -1
+
+			}
+
 			current->move(move);
 			this->data.Map[i] = current;
 			current = frag;
 		}
 	}
-	// current is moving fragment
-	//this->data.MovingBlock = current;
 }
 
 void Game::onMove(Movement mov)
@@ -471,6 +475,7 @@ void Game::onGameStart(int players, int size, int cards)
 	this->generatePlayers();
 	this->generateTreasures();
 	this->data.OnMove = *this->data.Players.begin();
+	this->data.running = true;
 }
 
 void Game::onLoadGame(std::string name) {
