@@ -253,12 +253,11 @@ void CLIView::showGame()
 				renew = true;
 				break;
 			case KeyBindings::keyK:
-				std::cout <<"saved?\n";
+				std::cout << "Game saved.\n";
 				this->onSave();
 				renew = false;
 				break;
 			case KeyBindings::keyL:
-				std::cout <<"loaded?\n";
 				this->onLoad(this->game->Name);
 				renew = true;
 				break;
