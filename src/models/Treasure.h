@@ -16,17 +16,9 @@ class Treasure: public Vector2 {
 public:
 	const CardType Type;
 
-private:
-	Vector2 position;
-
 public:
 	Treasure(CardType type, Vector2 pos);
 
-	/**
-	 * Returns current position of the treasure
-	 * @return Vector2 position
-	 */
-	Vector2 getPosition();
 };
 
 
