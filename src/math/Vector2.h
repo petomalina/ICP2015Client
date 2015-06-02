@@ -31,6 +31,12 @@ public:
 	bool operator==(const Vector2 &comp) {
 		return this->x() == comp.x() && this->y() == comp.y();
 	}
+
+	Vector2& operator*(const int x) {
+		this->rx() = this->x() * x;
+		this->ry() = this->y() * x;
+		return *this;
+	}
 };
 
 
