@@ -303,12 +303,7 @@ void CLIView::prepareMap(std::vector<std::string> *rows)
 	CLIBlock *emptyBlock = new CLIBlock(factory->create(-1, -1, FragmentType::N));
 
 	prepareFirstLastRow(rows, movingBlock, emptyBlock, -1);
-/*
-	for (int t = 0; t < this->game->CardCount; ++t) {
-		auto treasure = this->game->Treasures[t];
-		std::cout << insertTreasure(treasure.Type) << " suradnice: " << treasure.x() << "\t" << treasure.y() << std::endl;
-	}
-*/
+
 	// for every row
 	for (int i = 0; i < this->game->PlaygroundSize; i++) {
 		std::string first, second, third, second_row;
@@ -329,7 +324,8 @@ void CLIView::prepareMap(std::vector<std::string> *rows)
 			for (int t = 0; t < this->game->CardCount; ++t) {
 				auto treasure = this->game->Treasures[t];
 				if (treasure.y() == i && treasure.x() == j)
-					second_row[2] = this->insertTreasure(treasure.Type);
+					second_row[2] = this->insertTreasure(treasure.Type, second_row[2]);
+				//TODO: maybe upgrade player/treasure collision
 			}
 
 			second += second_row;
@@ -386,9 +382,9 @@ char CLIView::insertPlayer(int player, char field)
 	return field == ' ' ? (char) (player + '0') : calculatePlayer(decodePlayer(field) + player);
 }
 
-char CLIView::insertTreasure(CardType type)
+char CLIView::insertTreasure(CardType type, char field)
 {
-	return static_cast<char>(type) + 'A';
+	return static_cast<char>(type) + (field == ' ' ? 'A' : 'a');
 }
 
 int CLIView::decodePlayer(char pixel)
