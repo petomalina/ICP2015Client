@@ -22,16 +22,28 @@ public:
 	const int Index;
 	const int Number;
 	CardPack Cards;
+	bool Moved;
+
+public:
+	int points;
 
 public:
 	Player(int index, Vector2 position);
 
 	Card &card();
 
+	using Vector2::move;
+
+	void captureCard();
+
+	int getPoints() { return this->points; }
+
 	/**
 	 * Draws the new card destroying the current one
 	 */
 	void drawCard();
+
+	void eraseCard(CardType c);
 
 	/**
 	 * Moves the player in the direction

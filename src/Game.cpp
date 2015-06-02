@@ -388,6 +388,10 @@ void Game::pushBlock()
 			this->movingBlockPosition = it;
 		}
 	}
+
+	for (Player *p : this->data.Players) {
+		p->Moved = false; // reset
+	}
 }
 
 void Game::onMove(Movement mov)
@@ -471,6 +475,8 @@ void Game::onMove(Movement mov)
 
 		this->data.MovingBlock->set(this->movingBlockPosition->x(), this->movingBlockPosition->y());
 	}
+
+	this->calculateCollisions();
 }
 
 void Game::onMoveEnter()
@@ -495,6 +501,7 @@ void Game::onMoveEnter()
 	}
 
 	this->data.MovingPlayer = !this->data.MovingPlayer;
+	this->calculateCollisions();
 }
 
 void Game::onRotate()
@@ -542,8 +549,39 @@ void Game::onRedo()
 void Game::movePlayersOnFragment(std::shared_ptr<Fragment> frag, Vector2 &mov)
 {
 	for (Player *p : this->data.Players) {
-		if (*p == *frag) {
+		if (!p->Moved && *p == *frag) {
+			p->move(mov);
+			if (p->x() < 0) {
+				p->rx() = this->data.PlaygroundSize-1;
+			} else if (p->x() >= this->data.PlaygroundSize) {
+				p->rx() = 0;
+			} else if (p->y() < 0) {
+				p->ry() = this->data.PlaygroundSize-1;
+			} else if (p->ry() >= this->data.PlaygroundSize) {
+				p->ry() = 0;
+			}
 
+			p->Moved = true;
+		}
+	}
+}
+
+void Game::calculateCollisions() {
+	for (Player *p: this->data.Players) {
+		std::vector<Treasure>::iterator tr = std::find_if(this->data.Treasures.begin(), this->data.Treasures.end(), [&](Treasure &t) {
+			return p->card().getType() == t.Type && *p == t;
+		});
+
+		if (tr != this->data.Treasures.end()) {
+			CardType type = p->card().getType();
+			p->captureCard(); // adds points and draws new
+
+			for (Player *er: this->data.Players) {
+				er->eraseCard(type);
+			}
+
+			// remove from treasures on map
+			this->data.Treasures.erase(tr);
 		}
 	}
 }
