@@ -27,6 +27,15 @@ void Player::drawCard()
 	this->Cards.pop_back();
 }
 
+void Player::eraseCard(CardType t)
+{
+	CardPack::iterator it = std::find_if(this->Cards.begin(), this->Cards.end(), [&](Card &c) {
+		return c.getType() == t;
+	});
+
+	this->Cards.erase(it);
+}
+
 void Player::move(Movement type)
 {
 	switch (type) {

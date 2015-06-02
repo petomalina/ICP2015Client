@@ -43,6 +43,8 @@ public:
 	 */
 	void drawCard();
 
+	void eraseCard(CardType c);
+
 	/**
 	 * Moves the player in the direction
 	 * @param type Movement

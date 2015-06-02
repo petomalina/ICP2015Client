@@ -14,7 +14,7 @@
 class Treasure: public Vector2 {
 
 public:
-	const CardType Type;
+	CardType Type;
 
 public:
 	Treasure(CardType type, Vector2 pos);
