@@ -158,12 +158,20 @@ void GUIView::reflect()
 
 	// information widgets
 	int x = this->game->PlaygroundSize * GUIBlock::Size + 100;
-	int y = this->game->PlaygroundSize * GUIBlock::Size - 100;
-	QLabel *label = new QLabel{"Player on move: "};
-	label->pos().rx() = x;
-	label->pos().ry() = y;
-
+	int y = -200;
+	QLabel *label = new QLabel{"Movement: "};
+	label->setGeometry(x, y, label->width(), label->height());
 	this->gameScene->addWidget(label);
+
+	QLabel *playerIcon = new QLabel{};
+	playerIcon->setGeometry(x, y + 250, GUIBlock::Size, GUIBlock::Size);
+	playerIcon->setPixmap(SContentManager.getTexture("P" + std::to_string(this->game->OnMove->Index + 1)));
+	this->gameScene->addWidget(playerIcon);
+
+	QLabel *findIcon = new QLabel{};
+	findIcon->setGeometry(x + 40, y + 250, GUIBlock::Size, GUIBlock::Size);
+	findIcon->setPixmap(SContentManager.getTexture("treasure" + std::to_string(static_cast<int>(this->game->OnMove->card().getType()))));
+	this->gameScene->addWidget(findIcon);
 }
 
 void GUIView::showGame()
