@@ -197,8 +197,7 @@ void Game::generateTreasures()
 
 void Game::loadGame(std::string name)
 {
-	// hardcode NewGame
-	std::string savePath = "examples/SavedGame.save";
+	std::string savePath = "examples/" + name + ".save";
 	std::ifstream saveFile{savePath};
 
 	saveFile >> this->data.PlaygroundSize >> this->data.CardCount >> this->data.MovingPlayer;
