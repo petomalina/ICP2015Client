@@ -309,39 +309,46 @@ void Game::saveGame()
 
 void Game::pushBlock()
 {
-	Fragment *current = this->data.MovingBlock;
-	this->data.LastMovedBlock = current;
+	Fragment *movingBlock = this->data.MovingBlock;
+	this->data.LastMovedBlock = movingBlock;
 
 	Vector2 move{0, 0};
 	int row = -1, column = -1;
 
-	if (current->getX() < 0) { // left
+	if (movingBlock->getX() < 0) { // left
 		move.set(1, 0);
-		row = current->getY();
-	} else if (current->getY() < 0) { // up
+		row = movingBlock->getY();
+	} else if (movingBlock->getY() < 0) { // up
 		move.set(0, 1);
-		column = current->getX();
-	} else if (current->getX() == this->data.PlaygroundSize) { // right
+		column = movingBlock->getX();
+	} else if (movingBlock->getX() == this->data.PlaygroundSize) { // right
 		move.set(-1, 0);
-		row = current->getY();
+		row = movingBlock->getY();
 	} else { // down
 		move.set(0, -1);
-		column = current->getX();
+		column = movingBlock->getX();
 	}
 
+	int fragIndex = 0;
+	Fragment *mov = nullptr;
 	for (unsigned int i = 0; i < this->data.Map.size(); i++) {
 		Fragment *frag = this->data.Map[i];
 		if (frag->getX() == column || frag->getY() == row) {
+			fragIndex++;
 
-			if (move.x() == 1 || move.y() == 1) {
+			frag->move(move);
+			this->data.Map[i] = mov;
 
-			} else { // move.y() == -1 || move.y() == -1
-
+			if ((move.x() > 0 && fragIndex == 1) || ((move.x() < 0 && fragIndex == data.PlaygroundSize)) ||
+					((move.y() > 0 && fragIndex == 1)) || ((move.y() < 0 && fragIndex == data.PlaygroundSize))){
+				this->data.Map[i] = movingBlock;
+				movingBlock->move(move);
+			} else if ((move.x() > 0 && fragIndex == data.PlaygroundSize) || ((move.x() < 0 && fragIndex == 1)) ||
+					((move.y() > 0 && fragIndex == data.PlaygroundSize)) || ((move.y() < 0 && fragIndex == 1))){
+				this->data.MovingBlock = frag;
 			}
 
-			current->move(move);
-			this->data.Map[i] = current;
-			current = frag;
+			mov = frag;
 		}
 	}
 }
