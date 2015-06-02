@@ -190,6 +190,14 @@ void Game::generateTreasures()
 			continue;
 		}
 
+		auto occupied = std::find_if(this->data.Treasures.begin(), this->data.Treasures.end(), [&] (Treasure& t) {
+			return t == Vector2{x, y};
+		});
+
+		if (occupied != this->data.Treasures.end()) {
+			continue;
+		}
+
 		this->data.Treasures.push_back(Treasure{static_cast<CardType>(i), Vector2{x, y}});
 
 		i--;
