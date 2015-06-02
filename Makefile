@@ -28,7 +28,7 @@ gui:
 clean:
 	@if [ -a Makefile_GUI ]; then make --makefile=Makefile_GUI clean 2>/dev/null ; fi;
 	@if [ -a Makefile_CLI ]; then make --makefile=Makefile_CLI clean 2>/dev/null ; fi;
-	@rm -rf doc/* Makefile_CLI Makefile_GUI xmalin26-xmasek15.zip icp2015gui icp2015cli 2>/dev/null
+	@rm -rf doc/* Makefile_CLI Makefile_GUI xmalin26-xmasek15.zip icp2015gui icp2015cli xmalin26-xmasek15.zip 2>/dev/null
 
 doxygen:
 	@doxygen
