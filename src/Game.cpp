@@ -329,28 +329,51 @@ void Game::pushBlock()
 		column = movingBlock->getX();
 	}
 
-	int fragIndex = 0;
-	Fragment *mov = nullptr;
-	for (unsigned int i = 0; i < this->data.Map.size(); i++) {
-		Fragment *frag = this->data.Map[i];
-		if (frag->getX() == column || frag->getY() == row) {
-			fragIndex++;
+	if (move.x() > 0 || move.y() > 0) {
+		int fragIndex = 0;
+		Fragment *mov = nullptr;
 
-			frag->move(move);
-			this->data.Map[i] = mov;
+		for (unsigned long i = 0; i < this->data.Map.size(); ++i) {
+			Fragment *frag = this->data.Map[i];
+			if (frag->getX() == column || frag->getY() == row) {
+				fragIndex++;
 
-			if (move.x() > 0 || move.y() > 0){
+				frag->move(move);
+				this->data.Map[i] = mov;
+
 				if (fragIndex == 1) {
 					this->data.Map[i] = movingBlock;
 					movingBlock->move(move);
-				} else if (fragIndex == data.PlaygroundSize) {
+				}
+				else if (fragIndex == data.PlaygroundSize) {
 					this->data.MovingBlock = frag;
 				}
-			} else if (move.x() < 0 || move.y() < 0) {
 
+				mov = frag;
 			}
+		}
+	} else {
+		int fragIndex = 0;
+		Fragment *mov = nullptr;
 
-			mov = frag;
+		for (unsigned long i = this->data.Map.size() -1; i > 0; --i) {
+			Fragment *frag = this->data.Map[i];
+			if (frag->getX() == column || frag->getY() == row) {
+				fragIndex++;
+
+				frag->move(move);
+				this->data.Map[i] = mov;
+
+				if (fragIndex == data.PlaygroundSize) {
+					this->data.MovingBlock = frag;
+				}
+				else if (fragIndex == 1) {
+					this->data.Map[i] = movingBlock;
+					movingBlock->move(move);
+				}
+
+				mov = frag;
+			}
 		}
 	}
 }
