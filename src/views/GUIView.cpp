@@ -238,7 +238,6 @@ void GUIView::handleGameStartButton()
 
 	this->reflect(); // reflect fragments into game
 	this->showGame();
-	this->game->running = true;
 }
 
 void GUIView::handlePlayersChange(const QString &text)
