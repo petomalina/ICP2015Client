@@ -127,6 +127,7 @@ void CLIView::showLoadDialog()
 
 	//TODO: load game
 
+
 	//after correct loading run game
 	this->showGame();
 }
@@ -252,12 +253,14 @@ void CLIView::showGame()
 				renew = true;
 				break;
 			case KeyBindings::keyK:
+				std::cout <<"saved?\n";
 				this->onSave();
+				renew = false;
 				break;
 			case KeyBindings::keyL:
 				std::cout <<"loaded?\n";
-				this->onLoad("");
-				this->reflect();
+				this->onLoad(this->game->Name);
+				renew = true;
 				break;
 			case KeyBindings::keyT:
 				exit(0);
@@ -276,7 +279,7 @@ void CLIView::showGameMap()
 	std::cout << "\tActions: Space - end turn\n";
 	std::cout << "\t         R     - rotate block\n";
 	std::cout << "\t         L     - load game\n";
-	std::cout << "\t         S     - save game\n";
+	std::cout << "\t         K     - save game\n";
 	std::cout << "\t         T     - exit game\n";
 	std::cout << "\n\n";
 
