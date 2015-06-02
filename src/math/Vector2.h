@@ -27,6 +27,10 @@ public:
 	void set(int x, int y);
 	void move(int dx, int dy);
 	void move(const Vector2 &vec);
+
+	bool operator==(const Vector2 &comp) {
+		return this->x() == comp.x() && this->y() == comp.y();
+	}
 };
 
 
