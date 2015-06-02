@@ -125,6 +125,8 @@ private:
 	void onRedo();
 
 	void movePlayersOnFragment(std::shared_ptr<Fragment> frag, Vector2 &mov);
+
+	void calculateCollisions();
 };
 
 
