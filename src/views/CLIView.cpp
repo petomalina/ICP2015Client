@@ -23,7 +23,6 @@ void CLIView::show()
 	this->showMenu();
 }
 
-
 void CLIView::reflect()
 {
 	for (CLIBlock *block : this->blocks) {
@@ -207,7 +206,6 @@ void CLIView::showSetSize()
 	this->showOptions();
 }
 
-
 void CLIView::showGame()
 {
 	bool renew = true;
@@ -305,7 +303,12 @@ void CLIView::prepareMap(std::vector<std::string> *rows)
 	CLIBlock *emptyBlock = new CLIBlock(factory->create(-1, -1, FragmentType::N));
 
 	prepareFirstLastRow(rows, movingBlock, emptyBlock, -1);
-
+/*
+	for (int t = 0; t < this->game->CardCount; ++t) {
+		auto treasure = this->game->Treasures[t];
+		std::cout << insertTreasure(treasure.Type) << " suradnice: " << treasure.x() << "\t" << treasure.y() << std::endl;
+	}
+*/
 	// for every row
 	for (int i = 0; i < this->game->PlaygroundSize; i++) {
 		std::string first, second, third, second_row;
@@ -322,6 +325,13 @@ void CLIView::prepareMap(std::vector<std::string> *rows)
 				if (playerPosition.y() == i && playerPosition.x() == j)
 					second_row[2] = this->insertPlayer(player->Number, second_row[2]);
 			}
+
+			for (int t = 0; t < this->game->CardCount; ++t) {
+				auto treasure = this->game->Treasures[t];
+				if (treasure.y() == i && treasure.x() == j)
+					second_row[2] = this->insertTreasure(treasure.Type);
+			}
+
 			second += second_row;
 			third += this->blocks[i * this->game->PlaygroundSize + j]->getThirdRow();
 		}
@@ -371,12 +381,15 @@ void CLIView::prepareFirstLastCol(std::string *first, std::string *second, std::
 	}
 }
 
-
 char CLIView::insertPlayer(int player, char field)
 {
 	return field == ' ' ? (char) (player + '0') : calculatePlayer(decodePlayer(field) + player);
 }
 
+char CLIView::insertTreasure(CardType type)
+{
+	return static_cast<char>(type) + 'A';
+}
 
 int CLIView::decodePlayer(char pixel)
 {
