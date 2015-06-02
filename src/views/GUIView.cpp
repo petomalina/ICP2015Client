@@ -132,6 +132,15 @@ void GUIView::reflect()
 		this->gameScene->addItem(new GUIBlock(frag));
 	}
 
+	for (Treasure &t : this->game->Treasures) {
+		Fragment *tf = new Fragment(t.x(), t.y(), FragmentType::Card, FragmentRotation::Normal);
+		this->gameScene->addItem(
+				new GUIBlock(tf, SContentManager.getTexture(
+						"treasure" + std::to_string(static_cast<int>(t.Type))
+				))
+		);
+	}
+
 	int playerIndex = 1;
 	for (Player *player : this->game->Players) {
 		auto block = new GUIBlock(
