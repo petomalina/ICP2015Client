@@ -215,7 +215,6 @@ void CLIView::showGame()
 			this->showGameMap(); //displays the game view
 		}
 
-
 		KeyBindings pressed = static_cast<KeyBindings>(ourGetCh());
 		switch (pressed) {
 			case KeyBindings::keyW:
@@ -280,6 +279,8 @@ void CLIView::showGameMap()
 	std::cout << "\t         T     - exit game\n";
 	std::cout << "\n\n";
 
+	std::cout << "Player " << this->game->OnMove->Number << " is on move\n\n";
+
 	std::vector<std::string> map;
 	this->prepareMap(&map);
 
@@ -287,6 +288,10 @@ void CLIView::showGameMap()
 	for (std::string row : map) {
 		std::cout << row << std::endl;
 	}
+
+	std::cout << "TASK: Capture '" << insertTreasure(this->game->OnMove->card().getType(), ' ') << "' treasure.\n";
+	std::cout << "Treasures captured: '" << "#howMany" << "\n";
+	std::cout << "\n\n";
 }
 
 void CLIView::clearScreen()
@@ -324,7 +329,6 @@ void CLIView::prepareMap(std::vector<std::string> *rows)
 				auto treasure = this->game->Treasures[t];
 				if (treasure.y() == i && treasure.x() == j)
 					second_row[2] = this->insertTreasure(treasure.Type, second_row[2]);
-				//TODO: maybe upgrade player/treasure collision
 			}
 
 			second += second_row;
@@ -376,12 +380,12 @@ void CLIView::prepareFirstLastCol(std::string *first, std::string *second, std::
 	}
 }
 
-char CLIView::insertPlayer(int player, char field)
+char CLIView::insertPlayer(int player, const char field)
 {
 	return field == ' ' ? (char) (player + '0') : calculatePlayer(decodePlayer(field) + player);
 }
 
-char CLIView::insertTreasure(CardType type, char field)
+char CLIView::insertTreasure(CardType type, const char field)
 {
 	return static_cast<char>(type) + (field == ' ' ? 'A' : 'a');
 }

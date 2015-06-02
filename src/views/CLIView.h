@@ -159,7 +159,7 @@ public:
 	 *  
 	 * @return symbol '[0-9A-F]' (sum of players)
 	 */
-	char insertPlayer(int player, char field);
+	char insertPlayer(int player, const char field);
 
 	/**
 	 * @brief method is inserting representation of treasures as lowercase characters
@@ -168,7 +168,7 @@ public:
 	 *
 	 * @return lowercase character representation of treasure
 	 */
-	char insertTreasure(CardType type, char field);
+	char insertTreasure(CardType type, const char field);
 
 	/**
 	 * @brief clears screen
