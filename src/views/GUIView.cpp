@@ -240,6 +240,10 @@ void GUIView::handleNewGameButton()
 void GUIView::handleLoadGameButton()
 {
 	this->onLoad(this->loadInput);
+	if (!this->game->initialized) {
+		return;
+	}
+
 	this->reflect();
 	this->showGame();
 	this->game->running = true;
@@ -282,20 +286,18 @@ void GUIView::handleCardsChange(const QString &text)
 
 void GUIView::keyPressEvent(QKeyEvent *event)
 {
-	if (!this->game->running) {
+	if (event->key() == Qt::Key_Escape) {
+		if (!this->inGame && this->game->running) {
+			this->showGame();
+		} else {
+			this->showMenu();
+		}
+
 		return;
 	}
 
-	if (event->key() == Qt::Key_Escape) {
-		if (this->game->running && !this->inGame) {
-			return;
-		}
-
-		if (this->inGame) {
-			this->showMenu();
-		} else {
-			this->showGame();
-		}
+	if (!this->game->running) {
+		return;
 	}
 
 	// event binsings
