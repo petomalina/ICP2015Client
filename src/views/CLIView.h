@@ -25,8 +25,7 @@
 
 /**
  * @brief Enumeration for keys
- * @details used for keybindings in cli
- * 
+ * @details used for key bindings in CLI mode
  */
 enum class KeyBindings: int {
 	keySpace = 0x20,
@@ -54,8 +53,8 @@ enum class KeyBindings: int {
 
 /**
  * @brief CLI view class
- * @details Provides command line simple gui
- * @return view
+ * @details Provides command line simple gui over separated game logic
+ * @return view that will be reflected as game
  */
 class CLIView: public IView {
 
@@ -90,6 +89,12 @@ public:
 	 * @details draws a map and basic instructions for playing game
 	 */
 	void showGameMap();
+
+	/**
+	 * @brief view called at the end of game
+	 * @details shows message about end of the game and player who has won it.
+	 */
+	void showEndGame();
 
 	/**
 	 * @brief shows game options
@@ -159,7 +164,7 @@ public:
 	 *  
 	 * @return symbol '[0-9A-F]' (sum of players)
 	 */
-	char insertPlayer(int player, char field);
+	char insertPlayer(int player, const char field);
 
 	/**
 	 * @brief method is inserting representation of treasures as lowercase characters
@@ -168,7 +173,7 @@ public:
 	 *
 	 * @return lowercase character representation of treasure
 	 */
-	char insertTreasure(CardType type, char field);
+	char insertTreasure(CardType type, const char field);
 
 	/**
 	 * @brief clears screen

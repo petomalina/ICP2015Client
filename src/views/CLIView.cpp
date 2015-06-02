@@ -109,6 +109,7 @@ void CLIView::showOptions()
 				this->onGameStart.dispatch(this->game->PlayerCount, this->game->PlaygroundSize, this->game->CardCount);
 				this->reflect(); // reflect fragments to view
 				this->showGame();
+				break;
 			default:
 				cond = true;
 		}
@@ -210,11 +211,15 @@ void CLIView::showGame()
 {
 	bool renew = true;
 	do {
+		if (this->game->Winner != nullptr) {
+			this->showEndGame();
+			break;
+		}
+
 		if (renew) {
 			this->reflect();
 			this->showGameMap(); //displays the game view
 		}
-
 
 		KeyBindings pressed = static_cast<KeyBindings>(ourGetCh());
 		switch (pressed) {
@@ -266,6 +271,7 @@ void CLIView::showGame()
 		}
 	} while (true);
 
+
 }
 
 void CLIView::showGameMap()
@@ -280,6 +286,8 @@ void CLIView::showGameMap()
 	std::cout << "\t         T     - exit game\n";
 	std::cout << "\n\n";
 
+	std::cout << "Player " << this->game->OnMove->Number << " is on move\n\n";
+
 	std::vector<std::string> map;
 	this->prepareMap(&map);
 
@@ -287,6 +295,17 @@ void CLIView::showGameMap()
 	for (std::string row : map) {
 		std::cout << row << std::endl;
 	}
+
+	std::cout << "TASK: Capture '" << insertTreasure(this->game->OnMove->card().getType(), ' ') << "' treasure.\n";
+	std::cout << "Treasures captured: " << this->game->OnMove->points << " of " <<
+	this->game->CardCount / this->game->PlayerCount << "\n\n";
+}
+
+void CLIView::showEndGame()
+{
+	this->clearScreen();
+
+	std::cout << "\tPlayer " << this->game->OnMove->Number << " has WON this game\n\n\n\n\n\n";
 }
 
 void CLIView::clearScreen()
@@ -324,7 +343,6 @@ void CLIView::prepareMap(std::vector<std::string> *rows)
 				auto treasure = this->game->Treasures[t];
 				if (treasure.y() == i && treasure.x() == j)
 					second_row[2] = this->insertTreasure(treasure.Type, second_row[2]);
-				//TODO: maybe upgrade player/treasure collision
 			}
 
 			second += second_row;
@@ -376,12 +394,12 @@ void CLIView::prepareFirstLastCol(std::string *first, std::string *second, std::
 	}
 }
 
-char CLIView::insertPlayer(int player, char field)
+char CLIView::insertPlayer(int player, const char field)
 {
 	return field == ' ' ? (char) (player + '0') : calculatePlayer(decodePlayer(field) + player);
 }
 
-char CLIView::insertTreasure(CardType type, char field)
+char CLIView::insertTreasure(CardType type, const char field)
 {
 	return static_cast<char>(type) + (field == ' ' ? 'A' : 'a');
 }
