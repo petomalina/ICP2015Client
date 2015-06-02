@@ -50,6 +50,9 @@ void GUIView::initialize(GameData *data)
 	connect(newGameButton, SIGNAL(released()), this, SLOT(handleNewGameButton()));
 	this->menuElements.push_back(newGameButton);
 
+	QLineEdit *loadName = new QLineEdit{};
+	this->menuElements.push_back(loadName);
+
 	QPushButton *loadGameButton = new QPushButton{"Load Game"};
 	connect(loadGameButton, SIGNAL(released()), this, SLOT(handleLoadGameButton()));
 	this->menuElements.push_back(loadGameButton);
