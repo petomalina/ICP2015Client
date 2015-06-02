@@ -91,6 +91,12 @@ public:
 	void showGameMap();
 
 	/**
+	 * @brief view called at the end of game
+	 * @details shows message about end of the game and player who has won it.
+	 */
+	void showEndGame();
+
+	/**
 	 * @brief shows game options
 	 */
 	void showOptions();

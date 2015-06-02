@@ -109,6 +109,7 @@ void CLIView::showOptions()
 				this->onGameStart.dispatch(this->game->PlayerCount, this->game->PlaygroundSize, this->game->CardCount);
 				this->reflect(); // reflect fragments to view
 				this->showGame();
+				break;
 			default:
 				cond = true;
 		}
@@ -210,6 +211,11 @@ void CLIView::showGame()
 {
 	bool renew = true;
 	do {
+		if (this->game->Winner != nullptr) {
+			this->showEndGame();
+			break;
+		}
+
 		if (renew) {
 			this->reflect();
 			this->showGameMap(); //displays the game view
@@ -265,6 +271,7 @@ void CLIView::showGame()
 		}
 	} while (true);
 
+
 }
 
 void CLIView::showGameMap()
@@ -290,7 +297,15 @@ void CLIView::showGameMap()
 	}
 
 	std::cout << "TASK: Capture '" << insertTreasure(this->game->OnMove->card().getType(), ' ') << "' treasure.\n";
-	std::cout << "Treasures captured: " << this->game->OnMove->points << " of " << this->game->CardCount/this->game->PlayerCount << "\n\n";
+	std::cout << "Treasures captured: " << this->game->OnMove->points << " of " <<
+	this->game->CardCount / this->game->PlayerCount << "\n\n";
+}
+
+void CLIView::showEndGame()
+{
+	this->clearScreen();
+
+	std::cout << "\tPlayer " << this->game->OnMove->Number << " has WON this game\n\n\n\n\n\n";
 }
 
 void CLIView::clearScreen()
