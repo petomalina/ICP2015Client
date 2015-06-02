@@ -17,6 +17,7 @@ Game::Game(IView *view)
 	this->data.OnMove = nullptr;
 	this->data.Winner = nullptr;
 	this->data.MovingPlayer = false;
+	this->data.LockedPosition.set(0, 0);
 	this->view->initialize(&this->data);
 
 	this->view->onMove(std::bind(&Game::onMove, this, _1));
@@ -316,11 +317,14 @@ void Game::saveGame()
 	saveFile.close();
 }
 
-void Game::pushBlock()
+bool Game::pushBlock()
 {
 	// calculation of movement
 	auto movingBlock = this->data.MovingBlock;
-	this->data.LastMovedBlock = movingBlock;
+
+	if (*movingBlock == this->data.LockedPosition) {
+		return false;
+	}
 
 	Vector2 move{0, 0};
 	int row = -1, column = -1;
@@ -390,6 +394,8 @@ void Game::pushBlock()
 		}
 	}
 
+	this->data.LockedPosition.set(this->data.MovingBlock->x(), this->data.MovingBlock->y());
+
 	// correction of iterator
 	for (std::vector<Vector2>::iterator it = this->movingBlockPositions.begin(); it != this->movingBlockPositions.end(); it++) {
 		if (*this->data.MovingBlock == *it) {
@@ -400,6 +406,8 @@ void Game::pushBlock()
 	for (Player *p : this->data.Players) {
 		p->Moved = false; // reset
 	}
+
+	return true;
 }
 
 void Game::onMove(Movement mov)
@@ -505,7 +513,9 @@ void Game::onMoveEnter()
 			this->data.OnMove = *(it++);
 		}
 	} else {
-		this->pushBlock();
+		if (!this->pushBlock()) {
+			return; // skip collisions and moving when push was rejected
+		}
 	}
 
 	this->data.MovingPlayer = !this->data.MovingPlayer;
