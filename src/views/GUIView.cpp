@@ -117,16 +117,6 @@ void GUIView::show()
 
 void GUIView::reflect()
 {
-	for (GUIBlock *block : this->blocks) {
-		delete block;
-	}
-	this->blocks.clear();
-
-	for (GUIBlock *player : this->playerBlocks) {
-		delete player;
-	}
-	this->playerBlocks.clear();
-
 	if (this->gameScene != nullptr) {
 		delete this->gameScene; // clear game scene
 	}
@@ -139,9 +129,7 @@ void GUIView::reflect()
 	this->gameScene = new QGraphicsScene{0, 0, pixelWidth, pixelHeight};
 
 	for (Fragment *frag : this->game->Map) {
-		auto block = new GUIBlock(frag);
-		this->blocks.push_back(block);
-		this->gameScene->addItem(block);
+		this->gameScene->addItem(new GUIBlock(frag));
 	}
 
 	int playerIndex = 1;
@@ -152,7 +140,6 @@ void GUIView::reflect()
 				SContentManager.getTexture("P" + std::to_string(playerIndex))
 		);
 
-		this->playerBlocks.push_back(block);
 		this->gameScene->addItem(block);
 
 		playerIndex++;
@@ -160,8 +147,7 @@ void GUIView::reflect()
 
 
 	// init moving block
-	this->movingBlock = new GUIBlock(this->game->MovingBlock);
-	this->gameScene->addItem(this->movingBlock);
+	this->gameScene->addItem(new GUIBlock(this->game->MovingBlock));
 }
 
 void GUIView::showGame()
@@ -304,29 +290,10 @@ void GUIView::keyPressEvent(QKeyEvent *event)
 		this->onRotate();
 	}
 
-	if (this->game->MovingPlayer) {
-		GUIBlock *playerBlock = this->playerBlocks[this->game->OnMove->Index];
-		playerBlock->setPosition(this->game->OnMove->getPosition().x(), this->game->OnMove->getPosition().y());
-	} else {
-		this->movingBlock->rotate(this->game->MovingBlock->getRotation());
-	}
-
 	if (event->key() == Qt::Key_Enter) {
 		this->onMoveEnter();
-
-		std::vector<GUIBlock*>::iterator nextMovingBlock = std::find_if(this->blocks.begin(), this->blocks.end(), [&](const GUIBlock *block) {
-			return block->Frag == this->game->MovingBlock;
-		});
-
-		//GUIBlock *tmp = *nextMovingBlock;
-		//*nextMovingBlock = this->movingBlock;
-		//this->movingBlock = tmp;
-
-		for (GUIBlock *block : this->blocks) {
-			block->setPosition(block->Frag->x(), block->Frag->y());
-		}
 	}
 
-	// refresh position
-	this->movingBlock->setPosition(this->movingBlock->Frag->x(), this->movingBlock->Frag->y());
+	this->reflect();
+	this->showGame();
 }
