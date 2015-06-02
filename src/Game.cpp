@@ -181,7 +181,7 @@ void Game::generatePlayers()
 
 void Game::generateTreasures()
 {
-	int i = 0;
+	int i = this->data.CardCount;
 	do {
 		int x = rand() % this->data.PlaygroundSize;
 		int y = rand() % this->data.PlaygroundSize;
@@ -192,7 +192,8 @@ void Game::generateTreasures()
 
 		this->data.Treasures.push_back(Treasure{static_cast<CardType>(i), Vector2{x, y}});
 
-	} while(i < 0);
+		i--;
+	} while(i > 0);
 }
 
 void Game::loadGame(std::string name)
