@@ -168,7 +168,7 @@ public:
 	 *
 	 * @return lowercase character representation of treasure
 	 */
-	char insertTreasure(CardType type);
+	char insertTreasure(CardType type, char field);
 
 	/**
 	 * @brief clears screen
