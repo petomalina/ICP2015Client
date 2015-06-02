@@ -309,6 +309,7 @@ void Game::saveGame()
 
 void Game::pushBlock()
 {
+	// calculation of movement
 	Fragment *movingBlock = this->data.MovingBlock;
 	this->data.LastMovedBlock = movingBlock;
 
@@ -329,6 +330,7 @@ void Game::pushBlock()
 		column = movingBlock->getX();
 	}
 
+	// fragment movements
 	if (move.x() > 0 || move.y() > 0) {
 		int fragIndex = 0;
 		Fragment *mov = nullptr;
@@ -374,6 +376,13 @@ void Game::pushBlock()
 
 				mov = frag;
 			}
+		}
+	}
+
+	// correction of iterator
+	for (std::vector<Vector2>::iterator it = this->movingBlockPositions.begin(); it != this->movingBlockPositions.end(); it++) {
+		if (*this->data.MovingBlock == *it) {
+			this->movingBlockPosition = it;
 		}
 	}
 }
