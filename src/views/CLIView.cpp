@@ -290,8 +290,7 @@ void CLIView::showGameMap()
 	}
 
 	std::cout << "TASK: Capture '" << insertTreasure(this->game->OnMove->card().getType(), ' ') << "' treasure.\n";
-	std::cout << "Treasures captured: '" << "#howMany" << "\n";
-	std::cout << "\n\n";
+	std::cout << "Treasures captured: " << this->game->OnMove->points << " of " << this->game->CardCount/this->game->PlayerCount << "\n\n";
 }
 
 void CLIView::clearScreen()

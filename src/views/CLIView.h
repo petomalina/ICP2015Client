@@ -25,8 +25,7 @@
 
 /**
  * @brief Enumeration for keys
- * @details used for keybindings in cli
- * 
+ * @details used for key bindings in CLI mode
  */
 enum class KeyBindings: int {
 	keySpace = 0x20,
@@ -54,8 +53,8 @@ enum class KeyBindings: int {
 
 /**
  * @brief CLI view class
- * @details Provides command line simple gui
- * @return view
+ * @details Provides command line simple gui over separated game logic
+ * @return view that will be reflected as game
  */
 class CLIView: public IView {
 
