@@ -339,13 +339,15 @@ void Game::pushBlock()
 			frag->move(move);
 			this->data.Map[i] = mov;
 
-			if ((move.x() > 0 && fragIndex == 1) || ((move.x() < 0 && fragIndex == data.PlaygroundSize)) ||
-					((move.y() > 0 && fragIndex == 1)) || ((move.y() < 0 && fragIndex == data.PlaygroundSize))){
-				this->data.Map[i] = movingBlock;
-				movingBlock->move(move);
-			} else if ((move.x() > 0 && fragIndex == data.PlaygroundSize) || ((move.x() < 0 && fragIndex == 1)) ||
-					((move.y() > 0 && fragIndex == data.PlaygroundSize)) || ((move.y() < 0 && fragIndex == 1))){
-				this->data.MovingBlock = frag;
+			if (move.x() > 0 || move.y() > 0){
+				if (fragIndex == 1) {
+					this->data.Map[i] = movingBlock;
+					movingBlock->move(move);
+				} else if (fragIndex == data.PlaygroundSize) {
+					this->data.MovingBlock = frag;
+				}
+			} else if (move.x() < 0 || move.y() < 0) {
+
 			}
 
 			mov = frag;
