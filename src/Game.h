@@ -127,6 +127,8 @@ private:
 	void movePlayersOnFragment(std::shared_ptr<Fragment> frag, Vector2 &mov);
 
 	void calculateCollisions();
+
+	void calculateMatchEndingConditions();
 };
 
 

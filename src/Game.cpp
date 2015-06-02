@@ -14,6 +14,7 @@ Game::Game(IView *view)
 
 	this->data.MovingBlock = nullptr;
 	this->data.OnMove = nullptr;
+	this->data.Winner = nullptr;
 	this->data.MovingPlayer = false;
 	this->view->initialize(&this->data);
 
@@ -582,6 +583,20 @@ void Game::calculateCollisions() {
 
 			// remove from treasures on map
 			this->data.Treasures.erase(tr);
+		}
+	}
+
+	this->calculateMatchEndingConditions();
+}
+
+void Game::calculateMatchEndingConditions()
+{
+	int winCondition = this->data.CardCount / this->data.PlayerCount;
+
+	for (Player *p: this->data.Players) {
+		if (p->getPoints() >= winCondition) {
+			this->data.Winner = p;
+			break;
 		}
 	}
 }
