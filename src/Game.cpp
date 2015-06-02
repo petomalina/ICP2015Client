@@ -388,6 +388,10 @@ void Game::pushBlock()
 			this->movingBlockPosition = it;
 		}
 	}
+
+	for (Player *p : this->data.Players) {
+		p->Moved = false; // reset
+	}
 }
 
 void Game::onMove(Movement mov)
@@ -542,8 +546,19 @@ void Game::onRedo()
 void Game::movePlayersOnFragment(std::shared_ptr<Fragment> frag, Vector2 &mov)
 {
 	for (Player *p : this->data.Players) {
-		if (*p == *frag) {
+		if (!p->Moved && *p == *frag) {
+			p->move(mov);
+			if (p->x() < 0) {
+				p->rx() = this->data.PlaygroundSize-1;
+			} else if (p->x() >= this->data.PlaygroundSize) {
+				p->rx() = 0;
+			} else if (p->y() < 0) {
+				p->ry() = this->data.PlaygroundSize-1;
+			} else if (p->ry() >= this->data.PlaygroundSize) {
+				p->ry() = 0;
+			}
 
+			p->Moved = true;
 		}
 	}
 }

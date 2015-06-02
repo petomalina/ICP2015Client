@@ -22,11 +22,14 @@ public:
 	const int Index;
 	const int Number;
 	CardPack Cards;
+	bool Moved;
 
 public:
 	Player(int index, Vector2 position);
 
 	Card &card();
+
+	using Vector2::move;
 
 	/**
 	 * Draws the new card destroying the current one
