@@ -119,16 +119,18 @@ void CLIView::showOptions()
 void CLIView::showLoadDialog()
 {
 	std::cout << "Enter the name of the save to Load:\n";
-	std::cout << "(use format without extension [example: mysavegame42])\n\n\n";
+	std::cout << "(use format without extension [example: SaveGame])\n\n\n";
 	std::string gameName;
 	std::cin >> gameName;
 	gameName.resize(128);
 	gameName.shrink_to_fit();
 
-	//TODO: load game
+	this->game->Name = gameName;
 
+	this->onLoad(gameName);
 
 	//after correct loading run game
+	this->reflect(); // reflect fragments to view
 	this->showGame();
 }
 
