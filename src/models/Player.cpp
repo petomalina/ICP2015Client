@@ -8,11 +8,18 @@
 Player::Player(int index, Vector2 pos): Vector2(pos), Index(index), Number(std::pow(2, index))
 {
 	this->Moved = false;
+	this->points = 0;
 }
 
 Card &Player::card()
 {
 	return this->Cards.back();
+}
+
+void Player::captureCard()
+{
+	this->points++;
+	this->drawCard();
 }
 
 void Player::drawCard()

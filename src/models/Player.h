@@ -25,11 +25,18 @@ public:
 	bool Moved;
 
 public:
+	int points;
+
+public:
 	Player(int index, Vector2 position);
 
 	Card &card();
 
 	using Vector2::move;
+
+	void captureCard();
+
+	int getPoints() { return this->points; }
 
 	/**
 	 * Draws the new card destroying the current one
