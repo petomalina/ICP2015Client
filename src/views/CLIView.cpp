@@ -23,7 +23,6 @@ void CLIView::show()
 	this->showMenu();
 }
 
-
 void CLIView::reflect()
 {
 	for (CLIBlock *block : this->blocks) {
@@ -207,7 +206,6 @@ void CLIView::showSetSize()
 	this->showOptions();
 }
 
-
 void CLIView::showGame()
 {
 	bool renew = true;
@@ -322,6 +320,15 @@ void CLIView::prepareMap(std::vector<std::string> *rows)
 				if (playerPosition.y() == i && playerPosition.x() == j)
 					second_row[2] = this->insertPlayer(player->Number, second_row[2]);
 			}
+
+			for (int t = 0; t < this->game->CardCount; ++t) {
+				std::cout << "treasures size: " << this->game->Treasures.size() << std::endl;
+				std::cout << "card count: " << this->game->CardCount << std::endl;
+				auto treasure = this->game->Treasures[t];
+				if (treasure.y() == i && treasure.x() == j)
+					second_row[2] = this->insertTreasure(treasure.Type);
+			}
+
 			second += second_row;
 			third += this->blocks[i * this->game->PlaygroundSize + j]->getThirdRow();
 		}
@@ -371,12 +378,15 @@ void CLIView::prepareFirstLastCol(std::string *first, std::string *second, std::
 	}
 }
 
-
 char CLIView::insertPlayer(int player, char field)
 {
 	return field == ' ' ? (char) (player + '0') : calculatePlayer(decodePlayer(field) + player);
 }
 
+char CLIView::insertTreasure(CardType type)
+{
+	return static_cast<char>(type) + 'A';
+}
 
 int CLIView::decodePlayer(char pixel)
 {

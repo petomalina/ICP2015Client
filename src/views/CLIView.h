@@ -162,6 +162,15 @@ public:
 	char insertPlayer(int player, char field);
 
 	/**
+	 * @brief method is inserting representation of treasures as lowercase characters
+	 *
+	 * @param type treasure to be inserted
+	 *
+	 * @return lowercase character representation of treasure
+	 */
+	char insertTreasure(CardType type);
+
+	/**
 	 * @brief clears screen
 	 * @details just inserts 50 newlines
 	 */
