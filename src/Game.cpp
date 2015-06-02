@@ -298,7 +298,7 @@ void Game::saveGame()
 
 	saveFile << this->data.PlayerCount << " " << this->data.OnMove->Index << "\n";
 	for (Player *plr : this->data.Players) {
-		saveFile << plr->Number << " " << plr->Index << " " << plr->getPosition().x() << " " << plr->getPosition().y() << " " << plr->Cards.size() << " ";
+		saveFile << plr->Number << " " << plr->Index << " " << plr->x() << " " << plr->y() << " " << plr->Cards.size() << " ";
 		for (Card &c : plr->Cards) {
 			saveFile << static_cast<int>(c.getType()) << " ";
 		}
@@ -339,6 +339,7 @@ void Game::pushBlock()
 		for (unsigned long i = 0; i < this->data.Map.size(); ++i) {
 			auto frag = this->data.Map[i];
 			if (frag->getX() == column || frag->getY() == row) {
+				this->movePlayersOnFragment(frag, move);
 				fragIndex++;
 
 				frag->move(move);
@@ -362,6 +363,7 @@ void Game::pushBlock()
 		for (unsigned long i = this->data.Map.size() -1; i > 0; --i) {
 			auto frag = this->data.Map[i];
 			if (frag->getX() == column || frag->getY() == row) {
+				this->movePlayersOnFragment(frag, move);
 				fragIndex++;
 
 				frag->move(move);
@@ -391,7 +393,7 @@ void Game::pushBlock()
 void Game::onMove(Movement mov)
 {
 	if (this->data.MovingPlayer) {
-		Vector2 p = data.OnMove->getPosition();
+		Player &p = *this->data.OnMove;
 		if ((p.y() + 1 == data.PlaygroundSize && mov == Movement::Down) ||
 				(p.y() == 0 && mov == Movement::Up) ||
 				(p.x() == 0 && mov == Movement::Left) ||
@@ -535,4 +537,13 @@ void Game::onUndo()
 void Game::onRedo()
 {
 
+}
+
+void Game::movePlayersOnFragment(std::shared_ptr<Fragment> frag, Vector2 &mov)
+{
+	for (Player *p : this->data.Players) {
+		if (*p == *frag) {
+
+		}
+	}
 }

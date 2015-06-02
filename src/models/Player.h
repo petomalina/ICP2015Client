@@ -16,20 +16,15 @@ enum class Movement {
 	Up, Down, Left, Right
 };
 
-class Player {
+class Player: public Vector2 {
 
 public:
 	const int Index;
 	const int Number;
 	CardPack Cards;
 
-private:
-	Vector2 position;
-
 public:
 	Player(int index, Vector2 position);
-
-	Vector2 &getPosition() { return this->position; }
 
 	Card &card();
 

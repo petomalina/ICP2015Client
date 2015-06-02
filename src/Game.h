@@ -123,6 +123,8 @@ private:
 	 * Event fired when redo is requested
 	 */
 	void onRedo();
+
+	void movePlayersOnFragment(std::shared_ptr<Fragment> frag, Vector2 &mov);
 };
 
 

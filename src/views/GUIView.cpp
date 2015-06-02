@@ -144,7 +144,7 @@ void GUIView::reflect()
 	int playerIndex = 1;
 	for (Player *player : this->game->Players) {
 		auto block = new GUIBlock(
-				FragmentFactory::create(player->getPosition().x(), player->getPosition().y(), FragmentType::Player,
+				FragmentFactory::create(player->x(), player->y(), FragmentType::Player,
 										 FragmentRotation::Normal),
 				SContentManager.getTexture("P" + std::to_string(playerIndex))
 		);

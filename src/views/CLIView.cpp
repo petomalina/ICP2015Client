@@ -321,8 +321,7 @@ void CLIView::prepareMap(std::vector<std::string> *rows)
 			second_row = this->blocks[i * this->game->PlaygroundSize + j]->getSecondRow();
 			for (int p = 0; p < this->game->PlayerCount; ++p) {
 				auto player = this->game->Players[p];
-				auto playerPosition = player->getPosition();
-				if (playerPosition.y() == i && playerPosition.x() == j)
+				if (player->y() == i && player->x() == j)
 					second_row[2] = this->insertPlayer(player->Number, second_row[2]);
 			}
 

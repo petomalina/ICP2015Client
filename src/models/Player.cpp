@@ -5,9 +5,8 @@
 
 #include "Player.h"
 
-Player::Player(int index, Vector2 pos): Index(index), Number(std::pow(2, index))
+Player::Player(int index, Vector2 pos): Vector2(pos), Index(index), Number(std::pow(2, index))
 {
-	this->position = pos;
 }
 
 Card &Player::card()
@@ -24,16 +23,16 @@ void Player::move(Movement type)
 {
 	switch (type) {
 		case Movement::Up:
-			this->position.ry() -= 1;
+			this->ry() -= 1;
 			break;
 		case Movement::Down:
-			this->position.ry() += 1;
+			this->ry() += 1;
 			break;
 		case Movement::Left:
-			this->position.rx() -= 1;
+			this->rx() -= 1;
 			break;
 		case Movement::Right:
-			this->position.rx() += 1;
+			this->rx() += 1;
 			break;
 	}
 }
