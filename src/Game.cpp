@@ -10,6 +10,7 @@ using namespace std::placeholders;
 Game::Game(IView *view)
 {
 	this->data.running = false;
+	this->data.initialized = false;
 	this->view = view;
 
 	this->data.MovingBlock = nullptr;
@@ -203,8 +204,13 @@ void Game::generateTreasures()
 
 void Game::loadGame(std::string name)
 {
+	this->data.initialized = false;
+
 	std::string savePath = "examples/" + name + ".save";
 	std::ifstream saveFile{savePath};
+	if (saveFile.fail()) {
+		return; // cant load game
+	}
 
 	saveFile >> this->data.PlaygroundSize >> this->data.CardCount >> this->data.MovingPlayer;
 	this->data.Map.clear();
@@ -273,6 +279,7 @@ void Game::loadGame(std::string name)
 	this->movingBlockPosition = this->movingBlockPositions.begin();
 
 	saveFile.close();
+	this->data.initialized = true;
 }
 
 void Game::saveGame()
