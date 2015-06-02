@@ -134,11 +134,11 @@ void GUIView::reflect()
 
 	for (Treasure &t : this->game->Treasures) {
 		std::shared_ptr<Fragment> tf{new Fragment{t.x(), t.y(), FragmentType::Card, FragmentRotation::Normal}};
-		this->gameScene->addItem(
-				new GUIBlock(tf, SContentManager.getTexture(
-						"treasure" + std::to_string(static_cast<int>(t.Type))
-				))
-		);
+		GUIBlock *block = new GUIBlock(tf, SContentManager.getTexture(
+				"treasure" + std::to_string(static_cast<int>(t.Type))
+		));
+		block->setScale(0.5);
+		this->gameScene->addItem(block);
 	};
 
 	int playerIndex = 1;
