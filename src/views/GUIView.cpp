@@ -289,6 +289,8 @@ void GUIView::handleCardsChange(const QString &text)
 
 void GUIView::keyPressEvent(QKeyEvent *event)
 {
+	QGraphicsView::keyPressEvent(event);
+
 	if (event->key() == Qt::Key_Escape) {
 		if (!this->inGame && this->game->running) {
 			this->showGame();
