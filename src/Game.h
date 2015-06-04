@@ -54,6 +54,10 @@ private:
 
 	/* Main utilities*/
 
+	void clearGameData();
+
+	void initGameData();
+
 	/**
 	 * Generates map based on game data
 	 */
