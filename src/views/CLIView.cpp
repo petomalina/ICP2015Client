@@ -126,7 +126,6 @@ void CLIView::showLoadDialog()
 	this->onLoad(this->gameName);
 
 	//after correct loading run game
-	//this->onGameStart.dispatch(this->gameName, this->PlayerCount, this->PlaygroundSize, this->CardCount);
 	this->reflect(); // reflect fragments to view
 	this->showGame();
 }
@@ -241,10 +240,6 @@ void CLIView::showGame()
 				//TODO: UNDO
 				renew = true;
 				break;
-			case KeyBindings::keyX:
-				//TODO: REDO
-				renew = true;
-				break;
 			case KeyBindings::keyK:
 				std::cout << "Game saved.\n";
 				this->onSave();
@@ -271,6 +266,7 @@ void CLIView::showGameMap()
 	std::cout << "\tMovement: W, A, S, D keyboard keys\n";
 	std::cout << "\tActions: Space - end turn\n";
 	std::cout << "\t         R     - rotate block\n";
+	std::cout << "\t         Z     - undo last change/move\n";
 	std::cout << "\t         L     - load game\n";
 	std::cout << "\t         K     - save game\n";
 	std::cout << "\t         T     - exit game\n";
@@ -329,7 +325,7 @@ void CLIView::prepareMap(std::vector<std::string> *rows)
 					second_row[2] = this->insertPlayer(player->Number, second_row[2]);
 			}
 
-			for (int t = 0; t < this->game->CardCount; ++t) {
+			for (unsigned int t = 0; t < this->game->Treasures.size(); ++t) {
 				auto treasure = this->game->Treasures[t];
 				if (treasure.y() == i && treasure.x() == j)
 					second_row[2] = this->insertTreasure(treasure.Type, second_row[2]);
