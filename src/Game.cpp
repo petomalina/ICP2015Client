@@ -43,10 +43,16 @@ void Game::clearGameData()
 
 	this->data.Name = "";
 	this->data.MovingBlock = nullptr;
+
+	for (Player *plr: this->data.Players) {
+		delete plr;
+	}
 	this->data.OnMove = nullptr;
 	this->data.Winner = nullptr;
 	this->data.MovingPlayer = false;
 	this->data.LockedPosition.set(0, 0);
+
+	this->data.Map.clear();
 }
 
 void Game::initGameData()
