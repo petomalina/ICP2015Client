@@ -23,7 +23,7 @@ Game::Game(IView *view)
 	this->view->onMove(std::bind(&Game::onMove, this, _1));
 	this->view->onMoveEnter(std::bind(&Game::onMoveEnter, this));
 	this->view->onRotate(std::bind(&Game::onRotate, this));
-	this->view->onGameStart(std::bind(&Game::onGameStart, this, _1, _2, _3));
+	this->view->onGameStart(std::bind(&Game::onGameStart, this, _1, _2, _3, _4));
 
 	this->view->onSave(std::bind(&Game::onSaveGame, this));
 	this->view->onLoad(std::bind(&Game::onLoadGame, this, _1));
@@ -534,8 +534,9 @@ void Game::onRotate()
 	}
 }
 
-void Game::onGameStart(int players, int size, int cards)
+void Game::onGameStart(std::string name, int players, int size, int cards)
 {
+	this->data.Name = name;
 	this->data.PlayerCount = players;
 	this->data.PlaygroundSize = size;
 	this->data.CardCount = cards;

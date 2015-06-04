@@ -106,7 +106,8 @@ void CLIView::showOptions()
 				this->showMenu();
 				break;
 			case KeyBindings::key6:
-				this->onGameStart.dispatch(this->game->PlayerCount, this->game->PlaygroundSize, this->game->CardCount);
+				// @TODO: set game name
+				this->onGameStart.dispatch("", this->game->PlayerCount, this->game->PlaygroundSize, this->game->CardCount);
 				this->reflect(); // reflect fragments to view
 				this->showGame();
 				break;

@@ -74,7 +74,7 @@ public:
 
 	Event<> onRotate;
 	// number of players, size of playground
-	Event<int, int, int> onGameStart;
+	Event<std::string, int, int, int> onGameStart;
 
 	// event fired on undo
 	Event<> onUndo;

@@ -108,7 +108,7 @@ private:
 	 * @param size    size of playground
 	 * @param cards   number of cards
 	 */
-	void onGameStart(int players, int size, int cards);
+	void onGameStart(std::string name, int players, int size, int cards);
 
 	/**
 	 * Event fired when undo is requested

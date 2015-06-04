@@ -242,6 +242,9 @@ void GUIView::handleNewGameButton()
 
 void GUIView::handleLoadGameButton()
 {
+	QLineEdit *line = (QLineEdit*)this->menuElements[1];
+	this->loadInput = line->text().toStdString();
+
 	this->onLoad(this->loadInput);
 	if (!this->game->initialized) {
 		return;
@@ -264,8 +267,10 @@ void GUIView::handleExitButton()
 
 void GUIView::handleGameStartButton()
 {
-	this->game->Name = "SavedGame";
-	this->onGameStart.dispatch(this->playersInput, this->sizeInput, this->cardInput);
+	QLineEdit *line = (QLineEdit*)this->gameOptionsElements[1];
+	std::string gameName = line->text().toStdString();
+
+	this->onGameStart.dispatch(gameName, this->playersInput, this->sizeInput, this->cardInput);
 
 	this->reflect(); // reflect fragments into game
 	this->showGame();
