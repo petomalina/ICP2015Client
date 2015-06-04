@@ -536,6 +536,10 @@ void Game::onRotate()
 
 void Game::onGameStart(std::string name, int players, int size, int cards)
 {
+	if (name == "") {
+		name = "NewGame";
+	}
+
 	this->data.Name = name;
 	this->data.PlayerCount = players;
 	this->data.PlaygroundSize = size;
