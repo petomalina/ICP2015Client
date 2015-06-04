@@ -9,15 +9,7 @@ using namespace std::placeholders;
 
 Game::Game(IView *view)
 {
-	this->data.running = false;
-	this->data.initialized = false;
 	this->view = view;
-
-	this->data.MovingBlock = nullptr;
-	this->data.OnMove = nullptr;
-	this->data.Winner = nullptr;
-	this->data.MovingPlayer = false;
-	this->data.LockedPosition.set(0, 0);
 	this->view->initialize(&this->data);
 
 	this->view->onMove(std::bind(&Game::onMove, this, _1));
@@ -30,6 +22,8 @@ Game::Game(IView *view)
 
 	this->view->onUndo(std::bind(&Game::onUndo, this));
 	this->view->onRedo(std::bind(&Game::onRedo, this));
+
+	this->initGameData();
 }
 
 Game::~Game()
@@ -41,6 +35,26 @@ void Game::run()
 	this->view->show();
 }
 
+
+void Game::clearGameData()
+{
+	this->data.running = false;
+	this->data.initialized = false;
+
+	this->data.Name = "";
+	this->data.MovingBlock = nullptr;
+	this->data.OnMove = nullptr;
+	this->data.Winner = nullptr;
+	this->data.MovingPlayer = false;
+	this->data.LockedPosition.set(0, 0);
+}
+
+void Game::initGameData()
+{
+	this->clearGameData();
+
+	this->data.initialized = true;
+}
 
 void Game::generateMap()
 {
@@ -252,6 +266,8 @@ void Game::loadGame(std::string name)
 			saveFile >> card;
 			plr->Cards.push_back(static_cast<CardType>(card));
 		}
+
+		plr->points = static_cast<int>(this->data.CardCount - plr->Cards.size());
 	}
 
 	int treasures;
@@ -273,10 +289,6 @@ void Game::saveGame()
 {
 	if (!this->data.running) {
 		return;
-	}
-
-	if (this->data.Name == "") {
-		this->data.Name = "SavedGame";
 	}
 
 	std::string savePath = "examples/" + this->data.Name + ".save";
