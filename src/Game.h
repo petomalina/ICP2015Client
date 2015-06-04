@@ -59,6 +59,8 @@ private:
 	 */
 	void generateMap();
 
+	void generateMovingBlockPositions();
+
 	/**
 	 * Gemerates players based on game data
 	 */

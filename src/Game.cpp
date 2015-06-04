@@ -107,6 +107,13 @@ void Game::generateMap()
 	}
 
 	// index generation for moving block
+	this->generateMovingBlockPositions();
+}
+
+
+void Game::generateMovingBlockPositions()
+{
+	// index generation for moving block
 	int x = 1, y = 1;
 	for (; x < this->data.PlaygroundSize-1; x++) {
 		if (x % 2 == 1) {
@@ -134,7 +141,6 @@ void Game::generateMap()
 
 	this->movingBlockPosition = this->movingBlockPositions.begin();
 }
-
 
 void Game::generatePlayers()
 {
@@ -248,36 +254,16 @@ void Game::loadGame(std::string name)
 		}
 	}
 
+	int treasures;
+	saveFile >> treasures;
+	for (int i = 0; i < treasures; i++) {
+		int cardType, tx, ty;
+		saveFile >> tx >> ty >> cardType;
+		this->data.Treasures.push_back(Treasure{static_cast<CardType>(cardType), Vector2{tx, ty}});
+	}
+
 	this->data.OnMove = this->data.Players[playerOnMove];
-
-	// index generation for moving block
-	x = 1;
-	y = 1;
-	for (; x < this->data.PlaygroundSize-1; x++) {
-		if (x % 2 == 1) {
-			this->movingBlockPositions.push_back(Vector2{x, -1});
-		}
-	}
-
-	for (; y < this->data.PlaygroundSize-1; y++) {
-		if (y % 2 == 1) {
-			this->movingBlockPositions.push_back(Vector2{this->data.PlaygroundSize, y});
-		}
-	}
-
-	for (; x > 0; x--) {
-		if (x % 2 == 1) {
-			this->movingBlockPositions.push_back(Vector2{x, this->data.PlaygroundSize});
-		}
-	}
-
-	for (; y > 0; y--) {
-		if (y % 2 == 1) {
-			this->movingBlockPositions.push_back(Vector2{-1, y});
-		}
-	}
-
-	this->movingBlockPosition = this->movingBlockPositions.begin();
+	this->generateMovingBlockPositions();
 
 	saveFile.close();
 	this->data.initialized = true;
@@ -298,7 +284,7 @@ void Game::saveGame()
 
 	// stream in
 	saveFile << this->data.PlaygroundSize << " " << this->data.CardCount << " " << this->data.MovingPlayer << "\n";
-	for (auto frag : this->data.Map) {
+	for (auto frag: this->data.Map) {
 		saveFile << frag->x() << " " << frag->y() << " " << static_cast<int>(frag->Type) << " " << static_cast<int>(frag->getRotation()) << "\n";
 	}
 
@@ -306,12 +292,17 @@ void Game::saveGame()
 	saveFile << frag->x() << " " << frag->y() << " " << static_cast<int>(frag->Type) << " " << static_cast<int>(frag->getRotation()) << "\n";
 
 	saveFile << this->data.PlayerCount << " " << this->data.OnMove->Index << "\n";
-	for (Player *plr : this->data.Players) {
+	for (Player *plr: this->data.Players) {
 		saveFile << plr->Number << " " << plr->Index << " " << plr->x() << " " << plr->y() << " " << plr->Cards.size() << " ";
 		for (Card &c : plr->Cards) {
 			saveFile << static_cast<int>(c.getType()) << " ";
 		}
 		saveFile << "\n";
+	}
+
+	saveFile << this->data.Treasures.size() << "\n";
+	for (Treasure &t: this->data.Treasures) {
+		saveFile << t.x() << " " << t.y() << " " << static_cast<int>(t.Type) << "\n";
 	}
 
 	saveFile.close();
@@ -536,6 +527,10 @@ void Game::onRotate()
 
 void Game::onGameStart(std::string name, int players, int size, int cards)
 {
+	if (name == "") {
+		name = "NewGame";
+	}
+
 	this->data.Name = name;
 	this->data.PlayerCount = players;
 	this->data.PlaygroundSize = size;
