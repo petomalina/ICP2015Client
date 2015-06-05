@@ -162,7 +162,8 @@ void GUIView::reflect()
 	// information widgets
 	int x = this->game->PlaygroundSize * GUIBlock::Size + 100;
 	int y = -200;
-	QLabel *label = new QLabel{"Movement: "};
+
+	QLabel *label = new QLabel{"TASK: "};
 	label->setGeometry(x, y, label->width(), label->height());
 	this->gameScene->addWidget(label);
 
@@ -175,6 +176,10 @@ void GUIView::reflect()
 	findIcon->setGeometry(x + 40, y + 250, GUIBlock::Size, GUIBlock::Size);
 	findIcon->setPixmap(SContentManager.getTexture("treasure" + std::to_string(static_cast<int>(this->game->OnMove->card().getType()))));
 	this->gameScene->addWidget(findIcon);
+
+	QLabel *task = new QLabel{("Captured: " + std::to_string(this->game->OnMove->points) + " of " + std::to_string(this->game->CardCount / this->game->PlayerCount)).c_str()};
+	task->setGeometry(x, y + 290, task->width(), task->height());
+	this->gameScene->addWidget(task);
 }
 
 void GUIView::showGame()
@@ -310,14 +315,14 @@ void GUIView::keyPressEvent(QKeyEvent *event)
 		return;
 	}
 
-	// event binsings
-	if (event->key() == Qt::Key_Down) {
+	// event bindings
+	if (event->key() == Qt::Key_S) {
 		this->onMove(Movement::Down);
-	} else if (event->key() == Qt::Key_Up) {
+	} else if (event->key() == Qt::Key_W) {
 		this->onMove(Movement::Up);
-	} else if (event->key() == Qt::Key_Left) {
+	} else if (event->key() == Qt::Key_A) {
 		this->onMove(Movement::Left);
-	} else if (event->key() == Qt::Key_Right) {
+	} else if (event->key() == Qt::Key_D) {
 		this->onMove(Movement::Right);
 	}
 
@@ -325,7 +330,7 @@ void GUIView::keyPressEvent(QKeyEvent *event)
 		this->onRotate();
 	}
 
-	if (event->key() == Qt::Key_Enter) {
+	if (event->key() == Qt::Key_Space) {
 		this->onMoveEnter();
 	}
 
