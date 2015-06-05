@@ -411,16 +411,22 @@ bool Game::pushBlock()
 
 void Game::undo()
 {
-
+	if (this->history.size() > 0 && this->historian != this->history.begin()) {
+		this->data = *std::prev(this->historian);
+	}
 }
 
 void Game::redo()
 {
-
+	if (this->history.size() > 0 && this->historian != std::prev(this->history.end())) {
+		this->data = *std::next(this->historian);
+	}
 }
 
 void Game::onMove(Movement mov)
 {
+	this->pushHistory();
+
 	if (this->data->MovingPlayer) {
 		Player &p = *this->data->OnMove;
 		if ((p.y() + 1 == data->PlaygroundSize && mov == Movement::Down) ||
@@ -522,6 +528,7 @@ void Game::onMoveEnter()
 			this->data->OnMove = *(it++);
 		}
 	} else {
+		this->pushHistory();
 		if (!this->pushBlock()) {
 			return; // skip collisions and moving when push was rejected
 		}
@@ -533,6 +540,7 @@ void Game::onMoveEnter()
 
 void Game::onRotate()
 {
+	this->pushHistory();
 	if (!this->data->MovingPlayer) {
 		int rotation = static_cast<int>(this->data->MovingBlock->getRotation()) + 1;
 		if (rotation > 3) {
@@ -558,6 +566,24 @@ void Game::onGameStart(std::string name, int players, int size, int cards)
 	this->generateTreasures();
 	this->data->OnMove = *this->data->Players.begin();
 	this->data->running = true;
+}
+
+
+void Game::pushHistory()
+{
+	if (history.size() > 1 && historian != std::prev(this->history.end())) {
+		// delete all history after historian
+		for (std::vector<GameData*>::iterator it = historian; it != this->history.end(); it++) {
+			(*it)->clear();
+			delete (*it);
+		}
+
+		// erase from vector
+		this->history.erase(std::next(this->historian), this->history.end());
+	}
+
+	this->history.push_back(this->data->deepCopy());
+	this->historian = std::prev(this->history.end());
 }
 
 void Game::onLoadGame(std::string name) {

@@ -39,7 +39,9 @@ protected:
 
 public:
 	GameData *data; // this should be only for friends
+
 	std::vector<GameData*> history;
+	std::vector<GameData*>::iterator historian;
 
 public:
 	Game(IView *view);
@@ -121,6 +123,9 @@ private:
 	 * @param cards   number of cards
 	 */
 	void onGameStart(std::string name, int players, int size, int cards);
+
+
+	void pushHistory();
 
 	/**
 	 * @brief Event fired when undo is requested
