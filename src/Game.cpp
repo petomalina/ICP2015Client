@@ -27,6 +27,10 @@ Game::Game(IView *view): data(nullptr)
 
 Game::~Game()
 {
+	if (this->data != nullptr) {
+		this->data->clear();
+		delete this->data;
+	}
 }
 
 void Game::run()
