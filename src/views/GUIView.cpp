@@ -19,6 +19,7 @@ GUIView::GUIView()
 
 	this->menuScene = new QGraphicsScene{0, 0, 800, 600};
 	this->gameOptionsScene = new QGraphicsScene{0, 0, 800, 600};
+	this->winScene = new QGraphicsScene{0, 0, 800, 600};
 	this->gameScene = nullptr;
 	this->scale(1.5, 1.5);
 
@@ -38,6 +39,10 @@ GUIView::GUIView()
 
 GUIView::~GUIView()
 {
+	delete this->menuScene;
+	delete this->gameOptionsScene;
+	delete this->winScene;
+	delete this->gameScene;
 }
 
 
@@ -107,6 +112,15 @@ void GUIView::initialize(GameData *data)
 	this->gameOptionsElements.push_back(startButton);
 
 	this->createDoubleMenu(this->gameOptionsScene, this->gameOptionsElements);
+
+	// win scene
+	QLabel *winLabel = new QLabel{};
+	this->winSceneElements.push_back(winLabel);
+	winLabel->setGeometry(200, 200, 200, 50);
+
+	for (QWidget *w: this->winSceneElements) {
+		this->winScene->addWidget(w);
+	}
 
 	this->showMenu();
 };
@@ -197,6 +211,13 @@ void GUIView::showMenu()
 {
 	this->inGame = false;
 	this->setScene(this->menuScene);
+}
+
+
+void GUIView::showWin()
+{
+	this->inGame = false;
+	this->setScene(this->winScene);
 }
 
 void GUIView::createSimpleMenu(QGraphicsScene *scene, std::vector<QWidget *> &elements)
@@ -324,6 +345,10 @@ void GUIView::keyPressEvent(QKeyEvent *event)
 		this->onMove(Movement::Left);
 	} else if (event->key() == Qt::Key_D) {
 		this->onMove(Movement::Right);
+	} else if (event->key() == Qt::Key_Z) {
+		this->onUndo();
+	} else if (event->key() == Qt::Key_R) {
+		this->onRedo();
 	}
 
 	if (event->key() == Qt::Key_R) {
@@ -334,6 +359,13 @@ void GUIView::keyPressEvent(QKeyEvent *event)
 		this->onMoveEnter();
 	}
 
-	this->reflect();
-	this->showGame();
+	if (this->game->Winner != nullptr) {
+		QLabel *winLabel = (QLabel*)this->winSceneElements[0];
+		std::string win = "Winner is player: " + std::to_string(this->game->Winner->Number);
+		winLabel->setText(win.c_str());
+		this->showWin();
+	} else {
+		this->reflect();
+		this->showGame();
+	}
 }

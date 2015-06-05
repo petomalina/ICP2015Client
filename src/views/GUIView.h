@@ -30,9 +30,9 @@ class GUIView: public QGraphicsView, public IView {
 Q_OBJECT
 
 protected:
-	QGraphicsScene *menuScene, *gameScene, *gameOptionsScene;
+	QGraphicsScene *menuScene, *gameScene, *gameOptionsScene, *winScene;
 	// menu elements
-	std::vector<QWidget *> menuElements, gameOptionsElements;
+	std::vector<QWidget *> menuElements, gameOptionsElements, winSceneElements;
 
 	// menu inputs
 	int playersInput, sizeInput, cardInput;
@@ -72,6 +72,11 @@ public:
 	 * @brief Shows menu scene
 	 */
 	void showMenu();
+
+	/**
+	 * @brief Shows win scene
+	 */
+	void showWin();
 
 protected: // geometry utils
 

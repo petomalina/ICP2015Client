@@ -36,6 +36,44 @@ struct GameData {
 	Vector2 LockedPosition;
 
 	bool MovingPlayer;
+
+	void clear() {
+		this->running = false;
+		this->initialized = false;
+
+		this->Name = "";
+		this->MovingBlock = nullptr;
+
+		for (Player *plr: this->Players) {
+			delete plr;
+		}
+		this->OnMove = nullptr;
+		this->Winner = nullptr;
+		this->MovingPlayer = false;
+		this->LockedPosition.set(0, 0);
+
+		this->Map.clear();
+	}
+
+	GameData *deepCopy() {
+		GameData *data = new GameData();
+
+		data->running = this->running;
+		data->initialized = this->initialized;
+		data->Name = this->Name;
+		data->PlayerCount = this->PlayerCount;
+		data->PlaygroundSize = this->PlaygroundSize;
+		data->CardCount = this->CardCount;
+		data->Players = this->Players;
+		data->OnMove = this->OnMove;
+		data->Winner = this->Winner;
+		data->Map = this->Map;
+		data->Treasures = this->Treasures;
+		data->MovingBlock = this->MovingBlock;
+		data->LockedPosition = this->LockedPosition;
+
+		return data;
+	}
 };
 
 /**
