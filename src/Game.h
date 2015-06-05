@@ -38,8 +38,8 @@ protected:
 	std::vector<Vector2>::iterator movingBlockPosition;
 
 public:
-	GameData data; // this should be only for friends
-	GameData undoData; //backup of game data used when undoing change
+	GameData *data; // this should be only for friends
+	std::vector<GameData*> history;
 
 public:
 	Game(IView *view);
@@ -87,6 +87,8 @@ private:
 	 */
 	void undo();
 
+	void redo();
+
 	/* Game logic helpers */
 
 	/**
@@ -124,6 +126,8 @@ private:
 	 * @brief Event fired when undo is requested
 	 */
 	void onUndo();
+
+	void onRedo();
 
 	void onSaveGame();
 

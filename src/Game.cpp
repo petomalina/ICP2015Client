@@ -7,10 +7,11 @@
 
 using namespace std::placeholders;
 
-Game::Game(IView *view)
+Game::Game(IView *view): data(nullptr)
 {
+	this->initGameData();
 	this->view = view;
-	this->view->initialize(&this->data);
+	this->view->initialize(this->data);
 
 	this->view->onMove(std::bind(&Game::onMove, this, _1));
 	this->view->onMoveEnter(std::bind(&Game::onMoveEnter, this));
@@ -21,8 +22,7 @@ Game::Game(IView *view)
 	this->view->onLoad(std::bind(&Game::onLoadGame, this, _1));
 
 	this->view->onUndo(std::bind(&Game::onUndo, this));
-
-	this->initGameData();
+	this->view->onRedo(std::bind(&Game::onRedo, this));
 }
 
 Game::~Game()
@@ -36,70 +36,75 @@ void Game::run()
 
 void Game::initGameData()
 {
-	this->data.clear();
-	this->data.initialized = true;
+	if (this->data != nullptr) {
+		this->data->clear();
+		delete this->data;
+	}
+
+	this->data = new GameData();
+	this->data->initialized = true;
 }
 
 void Game::generateMap()
 {
 	// clear map before generating
-	this->data.Map.clear();
+	this->data->Map.clear();
 
-	if (this->data.MovingBlock != nullptr) {
-		this->data.MovingBlock = nullptr;
+	if (this->data->MovingBlock != nullptr) {
+		this->data->MovingBlock = nullptr;
 	}
-	this->data.MovingBlock = FragmentFactory::createRandom(1, -1);
+	this->data->MovingBlock = FragmentFactory::createRandom(1, -1);
 
-	for (int y = 0; y < this->data.PlaygroundSize; y++) {
-		for (int x = 0; x < this->data.PlaygroundSize; x++) {
+	for (int y = 0; y < this->data->PlaygroundSize; y++) {
+		for (int x = 0; x < this->data->PlaygroundSize; x++) {
 			if (x == 0 && y == 0) {
-				this->data.Map.push_back(FragmentFactory::create(x, y, FragmentType::L, FragmentRotation::Normal));
+				this->data->Map.push_back(FragmentFactory::create(x, y, FragmentType::L, FragmentRotation::Normal));
 			}
-			else if (x == 0 && y == this->data.PlaygroundSize - 1) {
-				this->data.Map.push_back(FragmentFactory::create(x, y, FragmentType::L, FragmentRotation::Left));
+			else if (x == 0 && y == this->data->PlaygroundSize - 1) {
+				this->data->Map.push_back(FragmentFactory::create(x, y, FragmentType::L, FragmentRotation::Left));
 			}
-			else if (x == this->data.PlaygroundSize - 1 && y == 0) {
-				this->data.Map.push_back(FragmentFactory::create(x, y, FragmentType::L, FragmentRotation::Right));
+			else if (x == this->data->PlaygroundSize - 1 && y == 0) {
+				this->data->Map.push_back(FragmentFactory::create(x, y, FragmentType::L, FragmentRotation::Right));
 			}
-			else if (x == this->data.PlaygroundSize - 1 && y == this->data.PlaygroundSize - 1) {
-				this->data.Map.push_back(FragmentFactory::create(x, y, FragmentType::L, FragmentRotation::Flip));
+			else if (x == this->data->PlaygroundSize - 1 && y == this->data->PlaygroundSize - 1) {
+				this->data->Map.push_back(FragmentFactory::create(x, y, FragmentType::L, FragmentRotation::Flip));
 			}
 			else if (x % 2 == 0 && y % 2 == 0) {
 				// calculate T-s
 				if (x == 0) { // left
-					this->data.Map.push_back(FragmentFactory::create(x, y, FragmentType::T, FragmentRotation::Left));
+					this->data->Map.push_back(FragmentFactory::create(x, y, FragmentType::T, FragmentRotation::Left));
 				}
 				else if (y == 0) { // up
-					this->data.Map.push_back(FragmentFactory::create(x, y, FragmentType::T, FragmentRotation::Normal));
+					this->data->Map.push_back(FragmentFactory::create(x, y, FragmentType::T, FragmentRotation::Normal));
 				}
-				else if (x == this->data.PlaygroundSize - 1) { // right
-					this->data.Map.push_back(FragmentFactory::create(x, y, FragmentType::T, FragmentRotation::Right));
+				else if (x == this->data->PlaygroundSize - 1) { // right
+					this->data->Map.push_back(FragmentFactory::create(x, y, FragmentType::T, FragmentRotation::Right));
 				}
-				else if (y == this->data.PlaygroundSize - 1) { // down
-					this->data.Map.push_back(FragmentFactory::create(x, y, FragmentType::T, FragmentRotation::Flip));
+				else if (y == this->data->PlaygroundSize - 1) { // down
+					this->data->Map.push_back(FragmentFactory::create(x, y, FragmentType::T, FragmentRotation::Flip));
 				}
 				else { // all other (even col/row crossings)
 					switch (rand() % 4) { // randomize T rotation
 						case 0 :
-							this->data.Map.push_back(FragmentFactory::create(x, y, FragmentType::T, FragmentRotation::Normal));
+							this->data->Map.push_back(FragmentFactory::create(x, y, FragmentType::T, FragmentRotation::Normal));
 							break;
 						case 1 :
-							this->data.Map.push_back(FragmentFactory::create(x, y, FragmentType::T, FragmentRotation::Right));
+							this->data->Map.push_back(FragmentFactory::create(x, y, FragmentType::T, FragmentRotation::Right));
 							break;
 						case 2 :
-							this->data.Map.push_back(FragmentFactory::create(x, y, FragmentType::T, FragmentRotation::Left));
+							this->data->Map.push_back(FragmentFactory::create(x, y, FragmentType::T, FragmentRotation::Left));
 							break;
 						case 3 :
-							this->data.Map.push_back(FragmentFactory::create(x, y, FragmentType::T, FragmentRotation::Flip));
+							this->data->Map.push_back(FragmentFactory::create(x, y, FragmentType::T, FragmentRotation::Flip));
 							break;
 						default:
-							this->data.Map.push_back(FragmentFactory::create(x, y, FragmentType::T, FragmentRotation::Normal));
+							this->data->Map.push_back(FragmentFactory::create(x, y, FragmentType::T, FragmentRotation::Normal));
 							break;
 					}
 				}
 			}
 			else { // all other (odd rows/cols)
-				this->data.Map.push_back(FragmentFactory::createRandom(x, y));
+				this->data->Map.push_back(FragmentFactory::createRandom(x, y));
 			}
 		}
 	}
@@ -112,21 +117,21 @@ void Game::generateMovingBlockPositions()
 {
 	// index generation for moving block
 	int x = 1, y = 1;
-	for (; x < this->data.PlaygroundSize-1; x++) {
+	for (; x < this->data->PlaygroundSize-1; x++) {
 		if (x % 2 == 1) {
 			this->movingBlockPositions.push_back(Vector2{x, -1});
 		}
 	}
 
-	for (; y < this->data.PlaygroundSize-1; y++) {
+	for (; y < this->data->PlaygroundSize-1; y++) {
 		if (y % 2 == 1) {
-			this->movingBlockPositions.push_back(Vector2{this->data.PlaygroundSize, y});
+			this->movingBlockPositions.push_back(Vector2{this->data->PlaygroundSize, y});
 		}
 	}
 
 	for (; x > 0; x--) {
 		if (x % 2 == 1) {
-			this->movingBlockPositions.push_back(Vector2{x, this->data.PlaygroundSize});
+			this->movingBlockPositions.push_back(Vector2{x, this->data->PlaygroundSize});
 		}
 	}
 
@@ -142,14 +147,14 @@ void Game::generateMovingBlockPositions()
 void Game::generatePlayers()
 {
 	// clear all players
-	for (Player *player : this->data.Players) {
+	for (Player *player : this->data->Players) {
 		delete player;
 	}
-	this->data.Players.clear();
+	this->data->Players.clear();
 
 	CardPackGenerator cardPackGenerator{12};
 
-	for (int i = 1; i <= this->data.PlayerCount; i++) {
+	for (int i = 1; i <= this->data->PlayerCount; i++) {
 		Vector2 position{};
 		switch (i) {
 			case 1:
@@ -158,17 +163,17 @@ void Game::generatePlayers()
 				break;
 
 			case 2:
-				position.setX(this->data.PlaygroundSize-1);
-				position.setY(this->data.PlaygroundSize-1);
+				position.setX(this->data->PlaygroundSize-1);
+				position.setY(this->data->PlaygroundSize-1);
 				break;
 
 			case 3:
 				position.setX(0);
-				position.setY(this->data.PlaygroundSize-1);
+				position.setY(this->data->PlaygroundSize-1);
 				break;
 
 			case 4:
-				position.setX(this->data.PlaygroundSize-1);
+				position.setX(this->data->PlaygroundSize-1);
 				position.setY(0);
 
 			default:
@@ -177,30 +182,30 @@ void Game::generatePlayers()
 
 		Player *p = new Player(i-1, position);
 		cardPackGenerator.generatePack(p->Cards);
-		this->data.Players.push_back(p);
+		this->data->Players.push_back(p);
 	}
 }
 
 void Game::generateTreasures()
 {
-	int i = this->data.CardCount;
+	int i = this->data->CardCount;
 	do {
-		int x = rand() % this->data.PlaygroundSize;
-		int y = rand() % this->data.PlaygroundSize;
+		int x = rand() % this->data->PlaygroundSize;
+		int y = rand() % this->data->PlaygroundSize;
 
-		if (x == 0 || y == 0 || x == this->data.PlaygroundSize -1 || y == this->data.PlaygroundSize -1) {
+		if (x == 0 || y == 0 || x == this->data->PlaygroundSize -1 || y == this->data->PlaygroundSize -1) {
 			continue;
 		}
 
-		auto occupied = std::find_if(this->data.Treasures.begin(), this->data.Treasures.end(), [&] (Treasure& t) {
+		auto occupied = std::find_if(this->data->Treasures.begin(), this->data->Treasures.end(), [&] (Treasure& t) {
 			return t == Vector2{x, y};
 		});
 
-		if (occupied != this->data.Treasures.end()) {
+		if (occupied != this->data->Treasures.end()) {
 			continue;
 		}
 
-		this->data.Treasures.push_back(Treasure{static_cast<CardType>(i), Vector2{x, y}});
+		this->data->Treasures.push_back(Treasure{static_cast<CardType>(i), Vector2{x, y}});
 
 		i--;
 	} while(i > 0);
@@ -208,7 +213,7 @@ void Game::generateTreasures()
 
 void Game::loadGame(std::string name)
 {
-	this->data.initialized = false;
+	this->data->initialized = false;
 
 	std::string savePath = "examples/" + name + ".save";
 	std::ifstream saveFile{savePath};
@@ -216,35 +221,35 @@ void Game::loadGame(std::string name)
 		return; // cant load game
 	}
 
-	this->data.Name = name; // save the new game name to data structure
+	this->data->Name = name; // save the new game name to data structure
 
-	saveFile >> this->data.PlaygroundSize >> this->data.CardCount >> this->data.MovingPlayer;
-	this->data.Map.clear();
+	saveFile >> this->data->PlaygroundSize >> this->data->CardCount >> this->data->MovingPlayer;
+	this->data->Map.clear();
 
 	int x, y, type, rotation;
-	for (int i = 0; i < this->data.PlaygroundSize * this->data.PlaygroundSize; i++) {
+	for (int i = 0; i < this->data->PlaygroundSize * this->data->PlaygroundSize; i++) {
 		saveFile >> x >> y >> type >> rotation;
 		auto frag = FragmentFactory::create(x, y, static_cast<FragmentType>(type), static_cast<FragmentRotation>(rotation));
-		this->data.Map.push_back(frag);
+		this->data->Map.push_back(frag);
 	}
 	// moving fragment
 	saveFile >> x >> y >> type >> rotation;
-	this->data.MovingBlock = FragmentFactory::create(x, y, static_cast<FragmentType>(type), static_cast<FragmentRotation>(rotation));
+	this->data->MovingBlock = FragmentFactory::create(x, y, static_cast<FragmentType>(type), static_cast<FragmentRotation>(rotation));
 
 	// player counts
 	int playerOnMove;
-	saveFile >> this->data.PlayerCount >> playerOnMove;
+	saveFile >> this->data->PlayerCount >> playerOnMove;
 	// clear
-	for (Player *plr : this->data.Players) {
+	for (Player *plr : this->data->Players) {
 		delete plr;
 	}
-	this->data.Players.clear();
+	this->data->Players.clear();
 
-	for (int i = 0; i < this->data.PlayerCount; i++) {
+	for (int i = 0; i < this->data->PlayerCount; i++) {
 		int index, number, cards, points;
 		saveFile >> number >> points >> index >> x >> y >> cards;
 		Player *plr = new Player(index, Vector2{x, y});
-		this->data.Players.push_back(plr);
+		this->data->Players.push_back(plr);
 
 		for (int c = 0; c < cards; c++) {
 			int card;
@@ -258,40 +263,40 @@ void Game::loadGame(std::string name)
 	int treasures;
 
 	saveFile >> treasures;
-	this->data.Treasures.clear(); // Vector needed to be erased
+	this->data->Treasures.clear(); // Vector needed to be erased
 	for (int i = 0; i < treasures; i++) {
 		int cardType, tx, ty;
 		saveFile >> tx >> ty >> cardType;
-		this->data.Treasures.push_back(Treasure{static_cast<CardType>(cardType), Vector2{tx, ty}});
+		this->data->Treasures.push_back(Treasure{static_cast<CardType>(cardType), Vector2{tx, ty}});
 	}
 
-	this->data.OnMove = this->data.Players[playerOnMove];
+	this->data->OnMove = this->data->Players[playerOnMove];
 	this->generateMovingBlockPositions();
 
 	saveFile.close();
-	this->data.initialized = true;
+	this->data->initialized = true;
 }
 
 void Game::saveGame()
 {
-	if (!this->data.running) {
+	if (!this->data->running) {
 		return;
 	}
 
-	std::string savePath = "examples/" + this->data.Name + ".save";
+	std::string savePath = "examples/" + this->data->Name + ".save";
 	std::ofstream saveFile{savePath};
 
 	// stream in
-	saveFile << this->data.PlaygroundSize << " " << this->data.CardCount << " " << this->data.MovingPlayer << "\n";
-	for (auto frag: this->data.Map) {
+	saveFile << this->data->PlaygroundSize << " " << this->data->CardCount << " " << this->data->MovingPlayer << "\n";
+	for (auto frag: this->data->Map) {
 		saveFile << frag->x() << " " << frag->y() << " " << static_cast<int>(frag->Type) << " " << static_cast<int>(frag->getRotation()) << "\n";
 	}
 
-	auto frag = this->data.MovingBlock;
+	auto frag = this->data->MovingBlock;
 	saveFile << frag->x() << " " << frag->y() << " " << static_cast<int>(frag->Type) << " " << static_cast<int>(frag->getRotation()) << "\n";
 
-	saveFile << this->data.PlayerCount << " " << this->data.OnMove->Index << "\n";
-	for (Player *plr: this->data.Players) {
+	saveFile << this->data->PlayerCount << " " << this->data->OnMove->Index << "\n";
+	for (Player *plr: this->data->Players) {
 		saveFile << plr->Number << " " << plr->points << " " << plr->Index << " " << plr->x() << " " << plr->y() << " " << plr->Cards.size() << " ";
 		for (Card &c : plr->Cards) {
 			saveFile << static_cast<int>(c.getType()) << " ";
@@ -299,8 +304,8 @@ void Game::saveGame()
 		saveFile << "\n";
 	}
 
-	saveFile << this->data.Treasures.size() << "\n";
-	for (Treasure &t: this->data.Treasures) {
+	saveFile << this->data->Treasures.size() << "\n";
+	for (Treasure &t: this->data->Treasures) {
 		saveFile << t.x() << " " << t.y() << " " << static_cast<int>(t.Type) << "\n";
 	}
 
@@ -310,9 +315,9 @@ void Game::saveGame()
 bool Game::pushBlock()
 {
 	// calculation of movement
-	auto movingBlock = this->data.MovingBlock;
+	auto movingBlock = this->data->MovingBlock;
 
-	if (*movingBlock == this->data.LockedPosition) {
+	if (*movingBlock == this->data->LockedPosition) {
 		return false;
 	}
 
@@ -325,7 +330,7 @@ bool Game::pushBlock()
 	} else if (movingBlock->getY() < 0) { // up
 		move.set(0, 1);
 		column = movingBlock->getX();
-	} else if (movingBlock->getX() == this->data.PlaygroundSize) { // right
+	} else if (movingBlock->getX() == this->data->PlaygroundSize) { // right
 		move.set(-1, 0);
 		row = movingBlock->getY();
 	} else { // down
@@ -338,21 +343,21 @@ bool Game::pushBlock()
 		int fragIndex = 0;
 		std::shared_ptr<Fragment> mov = nullptr;
 
-		for (unsigned long i = 0; i < this->data.Map.size(); ++i) {
-			auto frag = this->data.Map[i];
+		for (unsigned long i = 0; i < this->data->Map.size(); ++i) {
+			auto frag = this->data->Map[i];
 			if (frag->getX() == column || frag->getY() == row) {
 				this->movePlayersOnFragment(frag, move);
 				fragIndex++;
 
 				frag->move(move);
-				this->data.Map[i] = mov;
+				this->data->Map[i] = mov;
 
 				if (fragIndex == 1) {
-					this->data.Map[i] = movingBlock;
+					this->data->Map[i] = movingBlock;
 					movingBlock->move(move);
 				}
-				else if (fragIndex == data.PlaygroundSize) {
-					this->data.MovingBlock = frag;
+				else if (fragIndex == data->PlaygroundSize) {
+					this->data->MovingBlock = frag;
 				}
 
 				mov = frag;
@@ -362,20 +367,20 @@ bool Game::pushBlock()
 		int fragIndex = 0;
 		std::shared_ptr<Fragment> mov = nullptr;
 
-		for (unsigned long i = this->data.Map.size() -1; i > 0; --i) {
-			auto frag = this->data.Map[i];
+		for (unsigned long i = this->data->Map.size() -1; i > 0; --i) {
+			auto frag = this->data->Map[i];
 			if (frag->getX() == column || frag->getY() == row) {
 				this->movePlayersOnFragment(frag, move);
 				fragIndex++;
 
 				frag->move(move);
-				this->data.Map[i] = mov;
+				this->data->Map[i] = mov;
 
-				if (fragIndex == data.PlaygroundSize) {
-					this->data.MovingBlock = frag;
+				if (fragIndex == data->PlaygroundSize) {
+					this->data->MovingBlock = frag;
 				}
 				else if (fragIndex == 1) {
-					this->data.Map[i] = movingBlock;
+					this->data->Map[i] = movingBlock;
 					movingBlock->move(move);
 				}
 
@@ -384,16 +389,16 @@ bool Game::pushBlock()
 		}
 	}
 
-	this->data.LockedPosition.set(this->data.MovingBlock->x(), this->data.MovingBlock->y());
+	this->data->LockedPosition.set(this->data->MovingBlock->x(), this->data->MovingBlock->y());
 
 	// correction of iterator
 	for (std::vector<Vector2>::iterator it = this->movingBlockPositions.begin(); it != this->movingBlockPositions.end(); it++) {
-		if (*this->data.MovingBlock == *it) {
+		if (*this->data->MovingBlock == *it) {
 			this->movingBlockPosition = it;
 		}
 	}
 
-	for (Player *p : this->data.Players) {
+	for (Player *p : this->data->Players) {
 		p->Moved = false; // reset
 	}
 
@@ -402,48 +407,51 @@ bool Game::pushBlock()
 
 void Game::undo()
 {
-	this->data = undoData; // data from undo backup set as current game data
+
+}
+
+void Game::redo()
+{
+
 }
 
 void Game::onMove(Movement mov)
 {
-	this->undoData = data; // save data for undo
-
-	if (this->data.MovingPlayer) {
-		Player &p = *this->data.OnMove;
-		if ((p.y() + 1 == data.PlaygroundSize && mov == Movement::Down) ||
+	if (this->data->MovingPlayer) {
+		Player &p = *this->data->OnMove;
+		if ((p.y() + 1 == data->PlaygroundSize && mov == Movement::Down) ||
 				(p.y() == 0 && mov == Movement::Up) ||
 				(p.x() == 0 && mov == Movement::Left) ||
-				(p.x() + 1 == data.PlaygroundSize && mov == Movement::Right)) {
+				(p.x() + 1 == data->PlaygroundSize && mov == Movement::Right)) {
 			return;
 		}
 
 		// next fragment calculation
-		std::shared_ptr<Fragment> nextFragment = nullptr, thisFragment = this->data.Map[this->data.PlaygroundSize * p.y() + p.x()];
+		std::shared_ptr<Fragment> nextFragment = nullptr, thisFragment = this->data->Map[this->data->PlaygroundSize * p.y() + p.x()];
 		switch (mov) {
 			case Movement::Down:
-				nextFragment = this->data.Map[this->data.PlaygroundSize * (p.y() + 1) + p.x()];
+				nextFragment = this->data->Map[this->data->PlaygroundSize * (p.y() + 1) + p.x()];
 				if (!nextFragment->isOpenUp() || !thisFragment->isOpenDown()) {
 					return;
 				}
 				break;
 
 			case Movement::Up:
-				nextFragment = this->data.Map[this->data.PlaygroundSize * (p.y() - 1) + p.x()];
+				nextFragment = this->data->Map[this->data->PlaygroundSize * (p.y() - 1) + p.x()];
 				if (!nextFragment->isOpenDown() || !thisFragment->isOpenUp()) {
 					return;
 				}
 				break;
 
 			case Movement::Left:
-				nextFragment = this->data.Map[this->data.PlaygroundSize * p.y() + p.x() - 1];
+				nextFragment = this->data->Map[this->data->PlaygroundSize * p.y() + p.x() - 1];
 				if (!nextFragment->isOpenRight() || !thisFragment->isOpenLeft()) {
 					return;
 				}
 				break;
 
 			case Movement::Right:
-				nextFragment = this->data.Map[this->data.PlaygroundSize * p.y() + p.x() + 1];
+				nextFragment = this->data->Map[this->data->PlaygroundSize * p.y() + p.x() + 1];
 				if (!nextFragment->isOpenLeft() || !thisFragment->isOpenRight()) {
 					return;
 				}
@@ -452,19 +460,19 @@ void Game::onMove(Movement mov)
 
 		switch (mov) {
 			case Movement::Down:
-				this->data.OnMove->move(Movement::Down);
+				this->data->OnMove->move(Movement::Down);
 				break;
 
 			case Movement::Up:
-				this->data.OnMove->move(Movement::Up);
+				this->data->OnMove->move(Movement::Up);
 				break;
 
 			case Movement::Left:
-				this->data.OnMove->move(Movement::Left);
+				this->data->OnMove->move(Movement::Left);
 				break;
 
 			case Movement::Right:
-				this->data.OnMove->move(Movement::Right);
+				this->data->OnMove->move(Movement::Right);
 				break;
 		}
 	} else { // moving block
@@ -486,7 +494,7 @@ void Game::onMove(Movement mov)
 			}
 		}
 
-		this->data.MovingBlock->set(this->movingBlockPosition->x(), this->movingBlockPosition->y());
+		this->data->MovingBlock->set(this->movingBlockPosition->x(), this->movingBlockPosition->y());
 	}
 
 	this->calculateCollisions();
@@ -494,22 +502,20 @@ void Game::onMove(Movement mov)
 
 void Game::onMoveEnter()
 {
-	this->undoData = data; // save data for undo
-
 	// if block is on the move, switch player
-	if (this->data.MovingPlayer) {
+	if (this->data->MovingPlayer) {
 		// find currently moving player
-		std::vector<Player*>::iterator it = this->data.Players.begin();
-		for (; it != this->data.Players.end(); it++) {
-			if ((*it) == this->data.OnMove) {
+		std::vector<Player*>::iterator it = this->data->Players.begin();
+		for (; it != this->data->Players.end(); it++) {
+			if ((*it) == this->data->OnMove) {
 				break;
 			}
 		}
 
-		if (++it == this->data.Players.end()) {
-			this->data.OnMove = this->data.Players.front();
+		if (++it == this->data->Players.end()) {
+			this->data->OnMove = this->data->Players.front();
 		} else {
-			this->data.OnMove = *(it++);
+			this->data->OnMove = *(it++);
 		}
 	} else {
 		if (!this->pushBlock()) {
@@ -517,45 +523,40 @@ void Game::onMoveEnter()
 		}
 	}
 
-	this->data.MovingPlayer = !this->data.MovingPlayer;
+	this->data->MovingPlayer = !this->data->MovingPlayer;
 	this->calculateCollisions();
 }
 
 void Game::onRotate()
 {
-	this->undoData = data; // save data for undo
-
-	if (!this->data.MovingPlayer) {
-		int rotation = static_cast<int>(this->data.MovingBlock->getRotation()) + 1;
+	if (!this->data->MovingPlayer) {
+		int rotation = static_cast<int>(this->data->MovingBlock->getRotation()) + 1;
 		if (rotation > 3) {
 			rotation = 0;
 		}
 
-		this->data.MovingBlock->rotate(static_cast<FragmentRotation>(rotation));
+		this->data->MovingBlock->rotate(static_cast<FragmentRotation>(rotation));
 	}
 }
 
 void Game::onGameStart(std::string name, int players, int size, int cards)
 {
-	this->undoData = data; // save data for undo
-
 	if (name == "") {
 		name = "NewGame";
 	}
 
-	this->data.Name = name;
-	this->data.PlayerCount = players;
-	this->data.PlaygroundSize = size;
-	this->data.CardCount = cards;
+	this->data->Name = name;
+	this->data->PlayerCount = players;
+	this->data->PlaygroundSize = size;
+	this->data->CardCount = cards;
 	this->generateMap();
 	this->generatePlayers();
 	this->generateTreasures();
-	this->data.OnMove = *this->data.Players.begin();
-	this->data.running = true;
+	this->data->OnMove = *this->data->Players.begin();
+	this->data->running = true;
 }
 
 void Game::onLoadGame(std::string name) {
-	this->undoData = data; // save data for undo
 	this->loadGame(name);
 }
 
@@ -568,18 +569,23 @@ void Game::onUndo()
 	this->undo();
 }
 
+void Game::onRedo()
+{
+	this->redo();
+}
+
 void Game::movePlayersOnFragment(std::shared_ptr<Fragment> frag, Vector2 &mov)
 {
-	for (Player *p : this->data.Players) {
+	for (Player *p : this->data->Players) {
 		if (!p->Moved && *p == *frag) {
 			p->move(mov);
 			if (p->x() < 0) {
-				p->rx() = this->data.PlaygroundSize-1;
-			} else if (p->x() >= this->data.PlaygroundSize) {
+				p->rx() = this->data->PlaygroundSize-1;
+			} else if (p->x() >= this->data->PlaygroundSize) {
 				p->rx() = 0;
 			} else if (p->y() < 0) {
-				p->ry() = this->data.PlaygroundSize-1;
-			} else if (p->ry() >= this->data.PlaygroundSize) {
+				p->ry() = this->data->PlaygroundSize-1;
+			} else if (p->ry() >= this->data->PlaygroundSize) {
 				p->ry() = 0;
 			}
 
@@ -590,21 +596,21 @@ void Game::movePlayersOnFragment(std::shared_ptr<Fragment> frag, Vector2 &mov)
 
 void Game::calculateCollisions()
 {
-	for (Player *p: this->data.Players) {
-		std::vector<Treasure>::iterator tr = std::find_if(this->data.Treasures.begin(), this->data.Treasures.end(), [&](Treasure &t) {
+	for (Player *p: this->data->Players) {
+		std::vector<Treasure>::iterator tr = std::find_if(this->data->Treasures.begin(), this->data->Treasures.end(), [&](Treasure &t) {
 			return p->card().getType() == t.Type && *p == t;
 		});
 
-		if (tr != this->data.Treasures.end()) {
+		if (tr != this->data->Treasures.end()) {
 			CardType type = p->card().getType();
 			p->captureCard(); // adds points and draws new
 
-			for (Player *er: this->data.Players) {
+			for (Player *er: this->data->Players) {
 				er->eraseCard(type);
 			}
 
 			// remove from treasures on map
-			this->data.Treasures.erase(tr);
+			this->data->Treasures.erase(tr);
 		}
 	}
 
@@ -613,12 +619,12 @@ void Game::calculateCollisions()
 
 void Game::calculateMatchEndingConditions()
 {
-	int winCondition = this->data.CardCount / this->data.PlayerCount;
+	int winCondition = this->data->CardCount / this->data->PlayerCount;
 
-	for (Player *p: this->data.Players) {
+	for (Player *p: this->data->Players) {
 		if (p->getPoints() >= winCondition) {
-			this->data.Winner = p;
-			this->data.running = false;
+			this->data->Winner = p;
+			this->data->running = false;
 			break;
 		}
 	}

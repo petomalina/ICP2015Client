@@ -345,6 +345,10 @@ void GUIView::keyPressEvent(QKeyEvent *event)
 		this->onMove(Movement::Left);
 	} else if (event->key() == Qt::Key_D) {
 		this->onMove(Movement::Right);
+	} else if (event->key() == Qt::Key_Z) {
+		this->onUndo();
+	} else if (event->key() == Qt::Key_R) {
+		this->onRedo();
 	}
 
 	if (event->key() == Qt::Key_R) {
