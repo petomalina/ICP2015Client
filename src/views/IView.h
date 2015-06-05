@@ -36,6 +36,24 @@ struct GameData {
 	Vector2 LockedPosition;
 
 	bool MovingPlayer;
+
+	void clear() {
+		this->running = false;
+		this->initialized = false;
+
+		this->Name = "";
+		this->MovingBlock = nullptr;
+
+		for (Player *plr: this->Players) {
+			delete plr;
+		}
+		this->OnMove = nullptr;
+		this->Winner = nullptr;
+		this->MovingPlayer = false;
+		this->LockedPosition.set(0, 0);
+
+		this->Map.clear();
+	}
 };
 
 /**

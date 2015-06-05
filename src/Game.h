@@ -55,8 +55,6 @@ private:
 
 	/* Main utilities*/
 
-	void clearGameData();
-
 	void initGameData();
 
 	/**

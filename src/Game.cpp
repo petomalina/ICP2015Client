@@ -34,30 +34,9 @@ void Game::run()
 	this->view->show();
 }
 
-
-void Game::clearGameData()
-{
-	this->data.running = false;
-	this->data.initialized = false;
-
-	this->data.Name = "";
-	this->data.MovingBlock = nullptr;
-
-	for (Player *plr: this->data.Players) {
-		delete plr;
-	}
-	this->data.OnMove = nullptr;
-	this->data.Winner = nullptr;
-	this->data.MovingPlayer = false;
-	this->data.LockedPosition.set(0, 0);
-
-	this->data.Map.clear();
-}
-
 void Game::initGameData()
 {
-	this->clearGameData();
-
+	this->data.clear();
 	this->data.initialized = true;
 }
 
@@ -639,6 +618,7 @@ void Game::calculateMatchEndingConditions()
 	for (Player *p: this->data.Players) {
 		if (p->getPoints() >= winCondition) {
 			this->data.Winner = p;
+			this->data.running = false;
 			break;
 		}
 	}
