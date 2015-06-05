@@ -21,7 +21,6 @@ Game::Game(IView *view)
 	this->view->onLoad(std::bind(&Game::onLoadGame, this, _1));
 
 	this->view->onUndo(std::bind(&Game::onUndo, this));
-	this->view->onRedo(std::bind(&Game::onRedo, this));
 
 	this->initGameData();
 }
@@ -129,7 +128,6 @@ void Game::generateMap()
 	// index generation for moving block
 	this->generateMovingBlockPositions();
 }
-
 
 void Game::generateMovingBlockPositions()
 {
@@ -239,6 +237,8 @@ void Game::loadGame(std::string name)
 		return; // cant load game
 	}
 
+	this->data.Name = name; // save the new game name to data structure
+
 	saveFile >> this->data.PlaygroundSize >> this->data.CardCount >> this->data.MovingPlayer;
 	this->data.Map.clear();
 
@@ -262,8 +262,8 @@ void Game::loadGame(std::string name)
 	this->data.Players.clear();
 
 	for (int i = 0; i < this->data.PlayerCount; i++) {
-		int index, number, cards;
-		saveFile >> number >> index >> x >> y >> cards;
+		int index, number, cards, points;
+		saveFile >> number >> points >> index >> x >> y >> cards;
 		Player *plr = new Player(index, Vector2{x, y});
 		this->data.Players.push_back(plr);
 
@@ -273,11 +273,13 @@ void Game::loadGame(std::string name)
 			plr->Cards.push_back(static_cast<CardType>(card));
 		}
 
-		plr->points = static_cast<int>(this->data.CardCount - plr->Cards.size());
+		plr->points = points;
 	}
 
 	int treasures;
+
 	saveFile >> treasures;
+	this->data.Treasures.clear(); // Vector needed to be erased
 	for (int i = 0; i < treasures; i++) {
 		int cardType, tx, ty;
 		saveFile >> tx >> ty >> cardType;
@@ -311,7 +313,7 @@ void Game::saveGame()
 
 	saveFile << this->data.PlayerCount << " " << this->data.OnMove->Index << "\n";
 	for (Player *plr: this->data.Players) {
-		saveFile << plr->Number << " " << plr->Index << " " << plr->x() << " " << plr->y() << " " << plr->Cards.size() << " ";
+		saveFile << plr->Number << " " << plr->points << " " << plr->Index << " " << plr->x() << " " << plr->y() << " " << plr->Cards.size() << " ";
 		for (Card &c : plr->Cards) {
 			saveFile << static_cast<int>(c.getType()) << " ";
 		}
@@ -419,8 +421,15 @@ bool Game::pushBlock()
 	return true;
 }
 
+void Game::undo()
+{
+	this->data = undoData; // data from undo backup set as current game data
+}
+
 void Game::onMove(Movement mov)
 {
+	this->undoData = data; // save data for undo
+
 	if (this->data.MovingPlayer) {
 		Player &p = *this->data.OnMove;
 		if ((p.y() + 1 == data.PlaygroundSize && mov == Movement::Down) ||
@@ -506,6 +515,8 @@ void Game::onMove(Movement mov)
 
 void Game::onMoveEnter()
 {
+	this->undoData = data; // save data for undo
+
 	// if block is on the move, switch player
 	if (this->data.MovingPlayer) {
 		// find currently moving player
@@ -533,6 +544,8 @@ void Game::onMoveEnter()
 
 void Game::onRotate()
 {
+	this->undoData = data; // save data for undo
+
 	if (!this->data.MovingPlayer) {
 		int rotation = static_cast<int>(this->data.MovingBlock->getRotation()) + 1;
 		if (rotation > 3) {
@@ -545,6 +558,8 @@ void Game::onRotate()
 
 void Game::onGameStart(std::string name, int players, int size, int cards)
 {
+	this->undoData = data; // save data for undo
+
 	if (name == "") {
 		name = "NewGame";
 	}
@@ -561,6 +576,7 @@ void Game::onGameStart(std::string name, int players, int size, int cards)
 }
 
 void Game::onLoadGame(std::string name) {
+	this->undoData = data; // save data for undo
 	this->loadGame(name);
 }
 
@@ -570,12 +586,7 @@ void Game::onSaveGame() {
 
 void Game::onUndo()
 {
-
-}
-
-void Game::onRedo()
-{
-
+	this->undo();
 }
 
 void Game::movePlayersOnFragment(std::shared_ptr<Fragment> frag, Vector2 &mov)
@@ -598,7 +609,8 @@ void Game::movePlayersOnFragment(std::shared_ptr<Fragment> frag, Vector2 &mov)
 	}
 }
 
-void Game::calculateCollisions() {
+void Game::calculateCollisions()
+{
 	for (Player *p: this->data.Players) {
 		std::vector<Treasure>::iterator tr = std::find_if(this->data.Treasures.begin(), this->data.Treasures.end(), [&](Treasure &t) {
 			return p->card().getType() == t.Type && *p == t;

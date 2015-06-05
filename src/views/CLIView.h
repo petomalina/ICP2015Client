@@ -60,6 +60,8 @@ class CLIView: public IView {
 
 private:
 	std::vector<CLIBlock *> blocks;
+	std::string gameName = "NewGame";
+	int PlayerCount = 4, PlaygroundSize = 7, CardCount = 12;
 
 public:
 	CLIView();
