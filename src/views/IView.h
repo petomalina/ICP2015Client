@@ -54,6 +54,26 @@ struct GameData {
 
 		this->Map.clear();
 	}
+
+	GameData *deepCopy() {
+		GameData *data = new GameData();
+
+		data->running = this->running;
+		data->initialized = this->initialized;
+		data->Name = this->Name;
+		data->PlayerCount = this->PlayerCount;
+		data->PlaygroundSize = this->PlaygroundSize;
+		data->CardCount = this->CardCount;
+		data->Players = this->Players;
+		data->OnMove = this->OnMove;
+		data->Winner = this->Winner;
+		data->Map = this->Map;
+		data->Treasures = this->Treasures;
+		data->MovingBlock = this->MovingBlock;
+		data->LockedPosition = this->LockedPosition;
+
+		return data;
+	}
 };
 
 /**
