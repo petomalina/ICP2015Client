@@ -21,7 +21,6 @@ Game::Game(IView *view)
 	this->view->onLoad(std::bind(&Game::onLoadGame, this, _1));
 
 	this->view->onUndo(std::bind(&Game::onUndo, this));
-	this->view->onRedo(std::bind(&Game::onRedo, this));
 
 	this->initGameData();
 }
@@ -123,7 +122,6 @@ void Game::generateMap()
 	// index generation for moving block
 	this->generateMovingBlockPositions();
 }
-
 
 void Game::generateMovingBlockPositions()
 {
@@ -417,8 +415,15 @@ bool Game::pushBlock()
 	return true;
 }
 
+void Game::undo()
+{
+	this->data = undoData; // data from undo backup set as current game data
+}
+
 void Game::onMove(Movement mov)
 {
+	this->undoData = data; // save data for undo
+
 	if (this->data.MovingPlayer) {
 		Player &p = *this->data.OnMove;
 		if ((p.y() + 1 == data.PlaygroundSize && mov == Movement::Down) ||
@@ -504,6 +509,8 @@ void Game::onMove(Movement mov)
 
 void Game::onMoveEnter()
 {
+	this->undoData = data; // save data for undo
+
 	// if block is on the move, switch player
 	if (this->data.MovingPlayer) {
 		// find currently moving player
@@ -531,6 +538,8 @@ void Game::onMoveEnter()
 
 void Game::onRotate()
 {
+	this->undoData = data; // save data for undo
+
 	if (!this->data.MovingPlayer) {
 		int rotation = static_cast<int>(this->data.MovingBlock->getRotation()) + 1;
 		if (rotation > 3) {
@@ -543,6 +552,8 @@ void Game::onRotate()
 
 void Game::onGameStart(std::string name, int players, int size, int cards)
 {
+	this->undoData = data; // save data for undo
+
 	if (name == "") {
 		name = "NewGame";
 	}
@@ -559,6 +570,7 @@ void Game::onGameStart(std::string name, int players, int size, int cards)
 }
 
 void Game::onLoadGame(std::string name) {
+	this->undoData = data; // save data for undo
 	this->loadGame(name);
 }
 
@@ -568,12 +580,7 @@ void Game::onSaveGame() {
 
 void Game::onUndo()
 {
-
-}
-
-void Game::onRedo()
-{
-
+	this->undo();
 }
 
 void Game::movePlayersOnFragment(std::shared_ptr<Fragment> frag, Vector2 &mov)

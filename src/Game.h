@@ -39,6 +39,7 @@ protected:
 
 public:
 	GameData data; // this should be only for friends
+	GameData undoData; //backup of game data used when undoing change
 
 public:
 	Game(IView *view);
@@ -46,7 +47,7 @@ public:
 	~Game();
 
 	/**
-	 * Runs current game instance
+	 * @brief Runs current game instance
 	 */
 	void run();
 
@@ -59,57 +60,62 @@ private:
 	void initGameData();
 
 	/**
-	 * Generates map based on game data
+	 * @brief Generates map based on game data
 	 */
 	void generateMap();
 
 	void generateMovingBlockPositions();
 
 	/**
-	 * Gemerates players based on game data
+	 * @brief Gemerates players based on game data
 	 */
 	void generatePlayers();
 
 	void generateTreasures();
 
 	/**
-	 * Loads saved game
+	 * @brief Loads saved game
 	 * @param name [description]
 	 */
 	void loadGame(std::string name);
 
 	/**
-	 * Saves current game
+	 * @brief Saves current game
 	 */
 	void saveGame();
+
+	/**
+	 * @brief Handles request for undo last change
+	 */
+	void undo();
 
 	/* Game logic helpers */
 
 	/**
-	 * Pushes current moving block into the game
+	 * @brief Pushes current moving block into the game
 	 */
 	bool pushBlock();
 
 	/* Events */
 
 	/**
-	 * Event fired when player or block moves
+	 * @brief Event fired when player or block moves
 	 * @param mov rotation of fragment
 	 */
 	void onMove(Movement mov);
 
 	/**
-	 * Event fired when move is finished
+	 * @brief Event fired when move is finished
 	 */
 	void onMoveEnter();
 
 	/**
-	 * Event fired on fragment rotation
+	 * @brief Event fired on fragment rotation
 	 */
 	void onRotate();
 
 	/**
-	 * Event fired on game start
+	 * @brief Event fired on game start
 	 * @param players number of players in the Game
 	 * @param size    size of playground
 	 * @param cards   number of cards
@@ -117,18 +123,13 @@ private:
 	void onGameStart(std::string name, int players, int size, int cards);
 
 	/**
-	 * Event fired when undo is requested
+	 * @brief Event fired when undo is requested
 	 */
 	void onUndo();
 
 	void onSaveGame();
 
 	void onLoadGame(std::string name);
-
-	/**
-	 * Event fired when redo is requested
-	 */
-	void onRedo();
 
 	void movePlayersOnFragment(std::shared_ptr<Fragment> frag, Vector2 &mov);
 
