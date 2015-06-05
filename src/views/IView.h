@@ -35,6 +35,9 @@ struct GameData {
 	std::shared_ptr<Fragment> MovingBlock;
 	Vector2 LockedPosition;
 
+	std::vector<Vector2>::iterator MovingBlockPosition;
+
+
 	bool MovingPlayer;
 
 	void clear() {
@@ -45,7 +48,9 @@ struct GameData {
 		this->MovingBlock = nullptr;
 
 		for (Player *plr: this->Players) {
-			delete plr;
+			if (plr) {
+				delete plr;
+			}
 		}
 		this->OnMove = nullptr;
 		this->Winner = nullptr;
@@ -64,19 +69,25 @@ struct GameData {
 		data->PlayerCount = this->PlayerCount;
 		data->PlaygroundSize = this->PlaygroundSize;
 		data->CardCount = this->CardCount;
+		data->MovingBlockPosition = this->MovingBlockPosition;
 		for (Player *p: this->Players) {
 			Player *copy = new Player(p->Index, Vector2{p->x(), p->y()});
 			copy->points = p->points;
 			copy->Cards = p->Cards;
 
 			data->Players.push_back(copy);
+
+			// set player on move
+			if (this->OnMove->Number == copy->Number) {
+				data->OnMove = copy;
+			}
 		}
-		data->OnMove = this->OnMove;
 		data->Winner = this->Winner;
 		for (std::shared_ptr<Fragment> f: this->Map) {
 			std::shared_ptr<Fragment> nf{new Fragment{
 					f->x(), f->y(), f->Type, f->getRotation()
 			}};
+			data->Map.push_back(nf);
 		}
 		data->Treasures = this->Treasures;
 		data->MovingBlock = std::shared_ptr<Fragment>(new Fragment{

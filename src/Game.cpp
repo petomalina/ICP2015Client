@@ -31,6 +31,13 @@ Game::~Game()
 		this->data->clear();
 		delete this->data;
 	}
+
+	for (GameData *d: this->history) {
+		if (d) {
+			//d->clear();
+			//delete d;
+		}
+	}
 }
 
 void Game::run()
@@ -145,7 +152,7 @@ void Game::generateMovingBlockPositions()
 		}
 	}
 
-	this->movingBlockPosition = this->movingBlockPositions.begin();
+	this->data->MovingBlockPosition = this->movingBlockPositions.begin();
 }
 
 void Game::generatePlayers()
@@ -398,7 +405,7 @@ bool Game::pushBlock()
 	// correction of iterator
 	for (std::vector<Vector2>::iterator it = this->movingBlockPositions.begin(); it != this->movingBlockPositions.end(); it++) {
 		if (*this->data->MovingBlock == *it) {
-			this->movingBlockPosition = it;
+			this->data->MovingBlockPosition = it;
 		}
 	}
 
@@ -411,16 +418,20 @@ bool Game::pushBlock()
 
 void Game::undo()
 {
-	if (this->history.size() > 0 && this->historian != this->history.begin()) {
-		this->data = *std::prev(this->historian);
+	if (this->history.size() > 0) {
+		this->data->clear();
+		delete this->data;
+
+		this->view->game = this->data = this->history.back();
+
+
+		// delete last saved game
+		this->history.pop_back();
 	}
 }
 
 void Game::redo()
 {
-	if (this->history.size() > 0 && this->historian != std::prev(this->history.end())) {
-		this->data = *std::next(this->historian);
-	}
 }
 
 void Game::onMove(Movement mov)
@@ -490,21 +501,21 @@ void Game::onMove(Movement mov)
 			int direction = mov == Movement::Right ? 1 : -1;
 
 			if (direction == -1) {
-				if (this->movingBlockPosition == this->movingBlockPositions.begin()) {
-					this->movingBlockPosition = --this->movingBlockPositions.end();
+				if (this->data->MovingBlockPosition == this->movingBlockPositions.begin()) {
+					this->data->MovingBlockPosition = --this->movingBlockPositions.end();
 				} else {
-					this->movingBlockPosition--;
+					this->data->MovingBlockPosition--;
 				}
 			} else {
-				if (this->movingBlockPosition == --this->movingBlockPositions.end()) {
-					this->movingBlockPosition = this->movingBlockPositions.begin();
+				if (this->data->MovingBlockPosition == --this->movingBlockPositions.end()) {
+					this->data->MovingBlockPosition = this->movingBlockPositions.begin();
 				} else {
-					this->movingBlockPosition++;
+					this->data->MovingBlockPosition++;
 				}
 			}
 		}
 
-		this->data->MovingBlock->set(this->movingBlockPosition->x(), this->movingBlockPosition->y());
+		this->data->MovingBlock->set(this->data->MovingBlockPosition->x(), this->data->MovingBlockPosition->y());
 	}
 
 	this->calculateCollisions();
@@ -512,6 +523,7 @@ void Game::onMove(Movement mov)
 
 void Game::onMoveEnter()
 {
+	this->pushHistory();
 	// if block is on the move, switch player
 	if (this->data->MovingPlayer) {
 		// find currently moving player
@@ -528,7 +540,6 @@ void Game::onMoveEnter()
 			this->data->OnMove = *(it++);
 		}
 	} else {
-		this->pushHistory();
 		if (!this->pushBlock()) {
 			return; // skip collisions and moving when push was rejected
 		}
@@ -540,8 +551,9 @@ void Game::onMoveEnter()
 
 void Game::onRotate()
 {
-	this->pushHistory();
 	if (!this->data->MovingPlayer) {
+		this->pushHistory();
+
 		int rotation = static_cast<int>(this->data->MovingBlock->getRotation()) + 1;
 		if (rotation > 3) {
 			rotation = 0;
@@ -571,19 +583,7 @@ void Game::onGameStart(std::string name, int players, int size, int cards)
 
 void Game::pushHistory()
 {
-	if (history.size() > 1 && historian != std::prev(this->history.end())) {
-		// delete all history after historian
-		for (std::vector<GameData*>::iterator it = historian; it != this->history.end(); it++) {
-			(*it)->clear();
-			delete (*it);
-		}
-
-		// erase from vector
-		this->history.erase(std::next(this->historian), this->history.end());
-	}
-
 	this->history.push_back(this->data->deepCopy());
-	this->historian = std::prev(this->history.end());
 }
 
 void Game::onLoadGame(std::string name) {

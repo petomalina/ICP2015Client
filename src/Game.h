@@ -35,13 +35,11 @@ protected:
 #endif
 
 	std::vector<Vector2> movingBlockPositions;
-	std::vector<Vector2>::iterator movingBlockPosition;
 
 public:
 	GameData *data; // this should be only for friends
 
 	std::vector<GameData*> history;
-	std::vector<GameData*>::iterator historian;
 
 public:
 	Game(IView *view);
