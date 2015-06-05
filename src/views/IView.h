@@ -64,12 +64,24 @@ struct GameData {
 		data->PlayerCount = this->PlayerCount;
 		data->PlaygroundSize = this->PlaygroundSize;
 		data->CardCount = this->CardCount;
-		data->Players = this->Players;
+		for (Player *p: this->Players) {
+			Player *copy = new Player(p->Index, Vector2{p->x(), p->y()});
+			copy->points = p->points;
+			copy->Cards = p->Cards;
+
+			data->Players.push_back(copy);
+		}
 		data->OnMove = this->OnMove;
 		data->Winner = this->Winner;
-		data->Map = this->Map;
+		for (std::shared_ptr<Fragment> f: this->Map) {
+			std::shared_ptr<Fragment> nf{new Fragment{
+					f->x(), f->y(), f->Type, f->getRotation()
+			}};
+		}
 		data->Treasures = this->Treasures;
-		data->MovingBlock = this->MovingBlock;
+		data->MovingBlock = std::shared_ptr<Fragment>(new Fragment{
+				this->MovingBlock->x(), this->MovingBlock->y(), this->MovingBlock->Type, this->MovingBlock->getRotation()
+		});
 		data->LockedPosition = this->LockedPosition;
 
 		return data;
