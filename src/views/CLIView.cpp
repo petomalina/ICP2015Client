@@ -6,6 +6,7 @@
 
 #include "CLIView.h"
 #include <iostream>
+#include <fstream>
 
 CLIView::CLIView()
 {
@@ -121,13 +122,25 @@ void CLIView::showLoadDialog()
 {
 	std::cout << "Enter the name of the save to Load:\n";
 	std::cout << "(use format without extension [example: SaveGame])\n\n\n";
-	std::cin >> this->gameName;
 
-	this->onLoad(this->gameName);
+	bool cond = false;
+	do {
+		std::cin >> this->gameName;
 
-	//after correct loading run game
-	this->reflect(); // reflect fragments to view
-	this->showGame();
+		std::string saveName = "examples/" + this->gameName + ".save";
+		std::ifstream saveFile{saveName};
+		if (saveFile.fail()) {
+			std::cout << "\nSave: '" << saveName << "' does not exists. Please enter valid name:\n\n";
+			cond = true;
+		}
+		else {
+			this->onLoad(this->gameName);
+
+			//after correct loading run game
+			this->reflect(); // reflect fragments to view
+			this->showGame();
+		}
+	} while (cond);
 }
 
 void CLIView::showSetGameName()
@@ -237,7 +250,7 @@ void CLIView::showGame()
 				renew = true;
 				break;
 			case KeyBindings::keyZ:
-				//TODO: UNDO
+				this->onUndo();
 				renew = true;
 				break;
 			case KeyBindings::keyK:
