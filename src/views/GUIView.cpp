@@ -326,13 +326,14 @@ void GUIView::keyPressEvent(QKeyEvent *event)
 		if (!this->inGame && this->game->running) {
 			this->showGame();
 		} else {
+
 			this->showMenu();
 		}
 
 		return;
 	}
 
-	if (!this->game->running) {
+	if (!this->game->running || !this->inGame) {
 		return;
 	}
 
