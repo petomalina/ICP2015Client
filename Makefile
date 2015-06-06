@@ -44,5 +44,7 @@ pack:
 	@cp -r examples xmalin26-xmasek15
 	@cp -r src xmalin26-xmasek15
 	@cp -r graphics xmalin26-xmasek15
-	@zip -r xmalin26-xmasek15.zip xmalin26-xmasek15
+	@cd xmalin26-xmasek15
+	@zip -r xmalin26-xmasek15.zip *
+	@cd ..
 	@rm -rf xmalin26-xmasek15 2>/dev/null
