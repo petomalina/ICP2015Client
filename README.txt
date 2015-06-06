@@ -11,9 +11,19 @@ Project Makefile
 - `make doxygen` generate automatic documentation from source code
 - `make clean` clean all products of make
 
+Running game
+------------
 
-Project Makefile MERLIN 
-----------------
+**GUI mode**
+
+At first build project using `make` or `make gui` than run `./icp2015gui` and play game using *Qt* graphical view.
+
+**CLI mode**
+
+At first build project using `make` or `make cli` than run `./icp2015cli` and play game using basic command line preview.
+
+Project Makefile Merlin
+-----------------------
 - `make --makefile=Makefile_Merlin` this makefile should be ok on merlin school server
 
 
@@ -53,6 +63,10 @@ Saved file format
 	movingFragment x y fragmentType fragmentRotation
 	
 	playerCount playerIndexOnMove
-	player1 index number posx posy cards cards1 card2 ...
-	player2 index number posx posy cards cards1 card2 ...
+	player1 number points index pos_x pos_y cards cards1 card2 ...
+	player2 number points index pos_x pos_y cards cards1 card2 ...
+	
+	treasuresCount
+	pos_x pos_y treasureType
+	...
 
