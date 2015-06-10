@@ -125,6 +125,8 @@ private:
 
 	void pushHistory();
 
+	void clearHistory();
+
 	/**
 	 * @brief Event fired when undo is requested
 	 */

@@ -31,13 +31,6 @@ Game::~Game()
 		this->data->clear();
 		delete this->data;
 	}
-
-	for (GameData *d: this->history) {
-		if (d) {
-			//d->clear();
-			//delete d;
-		}
-	}
 }
 
 void Game::run()
@@ -224,7 +217,8 @@ void Game::generateTreasures()
 
 void Game::loadGame(std::string name)
 {
-	this->data->initialized = false;
+	this->data->clear();
+	this->clearHistory();
 
 	std::string savePath = "examples/" + name + ".save";
 	std::ifstream saveFile{savePath};
@@ -235,7 +229,6 @@ void Game::loadGame(std::string name)
 	this->data->Name = name; // save the new game name to data structure
 
 	saveFile >> this->data->PlaygroundSize >> this->data->CardCount >> this->data->MovingPlayer;
-	this->data->Map.clear();
 
 	int x, y, type, rotation;
 	for (int i = 0; i < this->data->PlaygroundSize * this->data->PlaygroundSize; i++) {
@@ -250,11 +243,6 @@ void Game::loadGame(std::string name)
 	// player counts
 	int playerOnMove;
 	saveFile >> this->data->PlayerCount >> playerOnMove;
-	// clear
-	for (Player *plr : this->data->Players) {
-		delete plr;
-	}
-	this->data->Players.clear();
 
 	for (int i = 0; i < this->data->PlayerCount; i++) {
 		int index, number, cards, points;
@@ -569,6 +557,8 @@ void Game::onGameStart(std::string name, int players, int size, int cards)
 		name = "NewGame";
 	}
 
+	this->clearHistory();
+
 	this->data->Name = name;
 	this->data->PlayerCount = players;
 	this->data->PlaygroundSize = size;
@@ -577,6 +567,8 @@ void Game::onGameStart(std::string name, int players, int size, int cards)
 	this->generatePlayers();
 	this->generateTreasures();
 	this->data->OnMove = *this->data->Players.begin();
+	this->data->MovingPlayer = false;
+	this->data->Winner = nullptr;
 	this->data->running = true;
 }
 
@@ -584,6 +576,14 @@ void Game::onGameStart(std::string name, int players, int size, int cards)
 void Game::pushHistory()
 {
 	this->history.push_back(this->data->deepCopy());
+}
+
+void Game::clearHistory()
+{
+	for (GameData *d: this->history) {
+		delete d;
+	}
+	this->history.clear();
 }
 
 void Game::onLoadGame(std::string name) {
